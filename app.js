@@ -118,6 +118,11 @@ const state = {
   cart: loadCart(),
   viewMode: loadViewMode(),
   tabCategory: loadTabCategory(),
+  vehicleFilters: {
+    year: 'all',
+    make: 'all',
+    model: 'all',
+  },
   productVideos: { products: {} },
   shorts: [],
 };
@@ -126,15 +131,18 @@ const ui = {
   search: document.getElementById('shop-search'),
   category: document.getElementById('shop-category'),
   source: document.getElementById('shop-source'),
-  make: document.getElementById('shop-make'),
-  model: document.getElementById('shop-model'),
+  vehicleYear: document.getElementById('vehicle-year'),
+  vehicleMake: document.getElementById('vehicle-make'),
+  vehicleModel: document.getElementById('vehicle-model'),
+  vehicleSearch: document.getElementById('vehicle-search'),
+  vehicleReset: document.getElementById('vehicle-reset'),
+  vehicleSelection: document.getElementById('vehicle-selection'),
   sort: document.getElementById('shop-sort'),
   viewGridBtn: document.getElementById('view-grid'),
   viewListBtn: document.getElementById('view-list'),
   viewRowsBtn: document.getElementById('view-rows'),
   tabButtons: Array.from(document.querySelectorAll('[data-shop-tab]')),
   categoryTriggers: Array.from(document.querySelectorAll('[data-cat-tab]')),
-  modelPills: document.getElementById('shop-model-pills'),
   grid: document.getElementById('shop-grid'),
   results: document.getElementById('shop-results'),
   loadMore: document.getElementById('shop-load-more'),
@@ -261,9 +269,10 @@ async function initShop() {
   }
 
   hydrateCategoryOptions();
-  hydrateMakeOptions();
-  hydrateModelOptions();
-  renderModelPills();
+  hydrateVehicleYearOptions();
+  hydrateVehicleMakeOptions();
+  hydrateVehicleModelOptions();
+  syncVehicleSelection();
   bindShopEvents();
   syncTabButtons();
 
@@ -283,47 +292,64 @@ async function fetchJsonSafe(url, fallback) {
 }
 
 function bindShopEvents() {
-  [ui.search, ui.category, ui.source, ui.model, ui.sort].forEach((el) => {
+  [ui.search, ui.category, ui.source, ui.sort].forEach((el) => {
     if (!el) return;
     el.addEventListener('input', () => {
       state.visibleCount = 12;
-      if (el === ui.model) renderModelPills();
       applyFilters();
     });
     el.addEventListener('change', () => {
       state.visibleCount = 12;
-      if (el === ui.model) renderModelPills();
       applyFilters();
     });
   });
 
-  if (ui.make) {
-    const onMakeChange = () => {
-      state.visibleCount = 12;
-      hydrateModelOptions();
-      renderModelPills();
-      applyFilters();
+  if (ui.vehicleYear) {
+    const onYearChange = () => {
+      hydrateVehicleMakeOptions();
+      hydrateVehicleModelOptions();
     };
-    ui.make.addEventListener('input', onMakeChange);
-    ui.make.addEventListener('change', onMakeChange);
+    ui.vehicleYear.addEventListener('input', onYearChange);
+    ui.vehicleYear.addEventListener('change', onYearChange);
+  }
+
+  if (ui.vehicleMake) {
+    const onMakeChange = () => {
+      hydrateVehicleModelOptions();
+    };
+    ui.vehicleMake.addEventListener('input', onMakeChange);
+    ui.vehicleMake.addEventListener('change', onMakeChange);
+  }
+
+  if (ui.vehicleSearch) {
+    ui.vehicleSearch.addEventListener('click', () => {
+      state.vehicleFilters.year = ui.vehicleYear?.value || 'all';
+      state.vehicleFilters.make = ui.vehicleMake?.value || 'all';
+      state.vehicleFilters.model = ui.vehicleModel?.value || 'all';
+      state.visibleCount = 12;
+      syncVehicleSelection();
+      applyFilters();
+    });
+  }
+
+  if (ui.vehicleReset) {
+    ui.vehicleReset.addEventListener('click', () => {
+      if (ui.vehicleYear) ui.vehicleYear.value = 'all';
+      hydrateVehicleMakeOptions();
+      if (ui.vehicleMake) ui.vehicleMake.value = 'all';
+      hydrateVehicleModelOptions();
+      if (ui.vehicleModel) ui.vehicleModel.value = 'all';
+      state.vehicleFilters = { year: 'all', make: 'all', model: 'all' };
+      state.visibleCount = 12;
+      syncVehicleSelection();
+      applyFilters();
+    });
   }
 
   if (ui.loadMore) {
     ui.loadMore.addEventListener('click', () => {
       state.visibleCount += 12;
       renderGrid();
-    });
-  }
-
-  if (ui.modelPills && ui.model) {
-    ui.modelPills.addEventListener('click', (event) => {
-      const trigger = event.target.closest('[data-model-pill]');
-      if (!trigger) return;
-      const model = trigger.dataset.modelPill || 'all';
-      ui.model.value = model;
-      state.visibleCount = 12;
-      renderModelPills();
-      applyFilters();
     });
   }
 
@@ -438,34 +464,72 @@ function hydrateCategoryOptions() {
   });
 }
 
-function hydrateMakeOptions() {
-  if (!ui.make) return;
+function hydrateVehicleYearOptions() {
+  if (!ui.vehicleYear) return;
 
-  const selected = ui.make.value || 'all';
-  const makes = Array.from(new Set(
-    state.products.flatMap((product) => getVehicleMeta(product).makes),
-  )).sort((a, b) => a.localeCompare(b, 'pl', { sensitivity: 'base', numeric: true }));
+  const selected = ui.vehicleYear.value || 'all';
+  const years = new Set();
+  state.products.forEach((product) => {
+    const vehicle = getVehicleMeta(product);
+    vehicle.years.forEach((year) => years.add(year));
+  });
 
-  ui.make.innerHTML = '<option value="all">Wszystkie marki</option>';
-  makes.forEach((make) => {
+  const sorted = Array.from(years)
+    .sort((a, b) => b - a);
+
+  ui.vehicleYear.innerHTML = '<option value="all">Select Year</option>';
+  sorted.forEach((year) => {
+    const option = document.createElement('option');
+    option.value = String(year);
+    option.textContent = String(year);
+    ui.vehicleYear.appendChild(option);
+  });
+
+  ui.vehicleYear.value = sorted.includes(Number(selected)) ? String(selected) : 'all';
+}
+
+function hydrateVehicleMakeOptions() {
+  if (!ui.vehicleMake) return;
+
+  const selected = ui.vehicleMake.value || 'all';
+  const selectedYear = ui.vehicleYear?.value || 'all';
+  const yearsFilter = selectedYear === 'all' ? null : Number(selectedYear);
+  const makes = new Set();
+
+  state.products.forEach((product) => {
+    const vehicle = getVehicleMeta(product);
+    if (yearsFilter !== null && !vehicle.years.includes(yearsFilter)) return;
+    vehicle.makes.forEach((make) => makes.add(make));
+  });
+
+  const sorted = Array.from(makes).sort((a, b) => a.localeCompare(b, 'pl', {
+    sensitivity: 'base',
+    numeric: true,
+  }));
+
+  ui.vehicleMake.innerHTML = '<option value="all">Select Make</option>';
+  sorted.forEach((make) => {
     const option = document.createElement('option');
     option.value = make;
     option.textContent = make;
-    ui.make.appendChild(option);
+    ui.vehicleMake.appendChild(option);
   });
 
-  ui.make.value = makes.includes(selected) ? selected : 'all';
+  ui.vehicleMake.value = sorted.includes(selected) ? selected : 'all';
 }
 
-function hydrateModelOptions() {
-  if (!ui.model) return;
+function hydrateVehicleModelOptions() {
+  if (!ui.vehicleModel) return;
 
-  const selected = ui.model.value || 'all';
-  const selectedMake = ui.make?.value || 'all';
+  const selected = ui.vehicleModel.value || 'all';
+  const selectedYear = ui.vehicleYear?.value || 'all';
+  const selectedMake = ui.vehicleMake?.value || 'all';
+  const yearsFilter = selectedYear === 'all' ? null : Number(selectedYear);
   const models = new Set();
 
   state.products.forEach((product) => {
     const vehicle = getVehicleMeta(product);
+    if (yearsFilter !== null && !vehicle.years.includes(yearsFilter)) return;
     if (selectedMake !== 'all' && !vehicle.makes.includes(selectedMake)) return;
     vehicle.models.forEach((model) => {
       if (model) models.add(model);
@@ -477,62 +541,42 @@ function hydrateModelOptions() {
     numeric: true,
   }));
 
-  ui.model.innerHTML = '<option value="all">Wszystkie modele</option>';
+  ui.vehicleModel.innerHTML = '<option value="all">Select Model</option>';
   sorted.forEach((model) => {
     const option = document.createElement('option');
     option.value = model;
     option.textContent = model;
-    ui.model.appendChild(option);
+    ui.vehicleModel.appendChild(option);
   });
 
-  ui.model.value = sorted.includes(selected) ? selected : 'all';
+  ui.vehicleModel.value = sorted.includes(selected) ? selected : 'all';
 }
 
-function renderModelPills() {
-  if (!ui.modelPills) return;
+function syncVehicleSelection() {
+  if (!ui.vehicleSelection) return;
+  const year = state.vehicleFilters.year;
+  const make = state.vehicleFilters.make;
+  const model = state.vehicleFilters.model;
 
-  const selectedMake = ui.make?.value || 'all';
-  const selectedModel = ui.model?.value || 'all';
-  const counts = new Map();
-
-  state.products.forEach((product) => {
-    const vehicle = getVehicleMeta(product);
-    if (selectedMake !== 'all' && !vehicle.makes.includes(selectedMake)) return;
-    vehicle.models.forEach((model) => {
-      if (!model) return;
-      counts.set(model, (counts.get(model) || 0) + 1);
-    });
-  });
-
-  const topModels = Array.from(counts.entries())
-    .sort((a, b) => {
-      if (b[1] !== a[1]) return b[1] - a[1];
-      return a[0].localeCompare(b[0], 'pl', { sensitivity: 'base', numeric: true });
-    })
-    .slice(0, 18);
-
-  if (!topModels.length) {
-    ui.modelPills.innerHTML = '';
+  if (year === 'all' && make === 'all' && model === 'all') {
+    ui.vehicleSelection.textContent = 'Wybrano: wszystkie pojazdy';
     return;
   }
 
-  ui.modelPills.innerHTML = topModels.map(([model, count]) => {
-    const isActive = selectedModel === model;
-    return `
-      <button class="model-pill ${isActive ? 'is-active' : ''}" type="button" data-model-pill="${escapeHtml(model)}" aria-pressed="${String(isActive)}">
-        <span class="model-pill-name">${escapeHtml(model)}</span>
-        <span class="model-pill-count">${count}</span>
-      </button>
-    `;
-  }).join('');
+  const parts = [];
+  if (year !== 'all') parts.push(year);
+  if (make !== 'all') parts.push(make);
+  if (model !== 'all') parts.push(model);
+  ui.vehicleSelection.textContent = `Wybrano: ${parts.join(' / ')}`;
 }
 
 function applyFilters() {
   const q = (ui.search?.value || '').trim().toLowerCase();
   const cat = ui.category?.value || 'all';
   const source = ui.source?.value || 'all';
-  const make = ui.make?.value || 'all';
-  const model = ui.model?.value || 'all';
+  const year = state.vehicleFilters.year || 'all';
+  const make = state.vehicleFilters.make || 'all';
+  const model = state.vehicleFilters.model || 'all';
   const sort = ui.sort?.value || 'relevance';
   const tab = state.tabCategory || 'all';
 
@@ -547,11 +591,12 @@ function applyFilters() {
 
     const inCategory = cat === 'all' || product.category === cat;
     const inSource = source === 'all' || product.source === source;
+    const inYear = year === 'all' || vehicle.years.includes(Number(year));
     const inMake = make === 'all' || vehicle.makes.includes(make);
     const inModel = model === 'all' || vehicle.models.includes(model);
     const inTab = matchesTabCategory(product, tab);
 
-    return inQuery && inCategory && inSource && inMake && inModel && inTab;
+    return inQuery && inCategory && inSource && inYear && inMake && inModel && inTab;
   });
 
   if (sort === 'priceAsc') list.sort((a, b) => a.priceFrom - b.priceFrom);
@@ -846,8 +891,13 @@ function normalizeProducts(products) {
 }
 
 function getVehicleMeta(product) {
-  if (!product) return { makes: [], models: [] };
-  if (product.vehicle && Array.isArray(product.vehicle.makes) && Array.isArray(product.vehicle.models)) {
+  if (!product) return { makes: [], models: [], years: [] };
+  if (
+    product.vehicle
+    && Array.isArray(product.vehicle.makes)
+    && Array.isArray(product.vehicle.models)
+    && Array.isArray(product.vehicle.years)
+  ) {
     return product.vehicle;
   }
   return extractVehicleMeta(product.title || '');
@@ -857,6 +907,7 @@ function extractVehicleMeta(title) {
   const text = String(title || '').replace(/[|,;()]/g, ' ');
   const makes = [];
   const models = [];
+  const years = extractYearsFromText(text);
 
   VEHICLE_MAKE_PATTERN.lastIndex = 0;
   let match;
@@ -878,7 +929,7 @@ function extractVehicleMeta(title) {
     }
   }
 
-  return { makes, models };
+  return { makes, models, years };
 }
 
 function extractModelFromTail(tail) {
@@ -925,6 +976,42 @@ function normalizeModelLabel(model) {
     })
     .filter(Boolean)
     .join(' ');
+}
+
+function extractYearsFromText(text) {
+  const source = String(text || '');
+  const years = new Set();
+
+  const rangeRegex = /\b(19\d{2}|20\d{2})\s*[-/]\s*(19\d{2}|20\d{2})\b/g;
+  let range;
+  while ((range = rangeRegex.exec(source)) !== null) {
+    const fromYear = Number(range[1]);
+    const toYear = Number(range[2]);
+    if (!isReasonableYear(fromYear) || !isReasonableYear(toYear)) continue;
+
+    const minYear = Math.min(fromYear, toYear);
+    const maxYear = Math.max(fromYear, toYear);
+    if (maxYear - minYear > 35) continue;
+
+    for (let year = minYear; year <= maxYear; year += 1) {
+      years.add(year);
+    }
+  }
+
+  const singleRegex = /\b(19\d{2}|20\d{2})\b/g;
+  let single;
+  while ((single = singleRegex.exec(source)) !== null) {
+    const year = Number(single[1]);
+    if (isReasonableYear(year)) {
+      years.add(year);
+    }
+  }
+
+  return Array.from(years).sort((a, b) => a - b);
+}
+
+function isReasonableYear(year) {
+  return Number.isInteger(year) && year >= 1960 && year <= 2030;
 }
 
 function localizeCategoryPL(category) {

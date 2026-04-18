@@ -255,6 +255,31 @@
       </div>
       <div class="shop-toolbar">
         <label>
+          SELECT YOUR VEHICLE
+          <select id="vehicle-year">
+            <option value="all">Select Year</option>
+          </select>
+        </label>
+        <label>
+          Marka
+          <select id="vehicle-make">
+            <option value="all">Select Make</option>
+          </select>
+        </label>
+        <label>
+          Model
+          <select id="vehicle-model">
+            <option value="all">Select Model</option>
+          </select>
+        </label>
+        <div class="vehicle-actions">
+          <button class="btn btn-primary" type="button" id="vehicle-search">Search</button>
+          <button class="btn btn-ghost" type="button" id="vehicle-reset">Reset</button>
+        </div>
+      </div>
+      <p class="vehicle-selection" id="vehicle-selection">Wybrano: wszystkie pojazdy</p>
+      <div class="shop-toolbar">
+        <label>
           Szukaj produktu
           <input id="shop-search" type="search" placeholder="Np. BMW E46 coilover, turbo, lift kit..." />
         </label>
@@ -273,18 +298,6 @@
           </select>
         </label>
         <label>
-          Marka
-          <select id="shop-make">
-            <option value="all">Wszystkie marki</option>
-          </select>
-        </label>
-        <label>
-          Model
-          <select id="shop-model">
-            <option value="all">Wszystkie modele</option>
-          </select>
-        </label>
-        <label>
           Sortowanie
           <select id="shop-sort">
             <option value="relevance">Najlepiej dopasowane</option>
@@ -298,10 +311,6 @@
           <button type="button" id="view-list" aria-pressed="false" aria-label="Widok listy" title="Widok listy">☰</button>
           <button type="button" id="view-rows" aria-pressed="false" aria-label="Lista bez zdjęć" title="Lista bez zdjęć">≣</button>
         </div>
-      </div>
-      <div class="shop-model-strip">
-        <p>Popularne modele</p>
-        <div class="shop-model-pills" id="shop-model-pills"></div>
       </div>
       <div class="shop-meta">
         <p id="shop-results">Ładowanie produktów...</p>
