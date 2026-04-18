@@ -11,6 +11,90 @@ const observer = new IntersectionObserver((entries) => {
 
 reveals.forEach((el) => observer.observe(el));
 
+initHeroStats();
+
+function initHeroStats() {
+  const statsWrap = document.querySelector('.automotive-stats');
+  if (!statsWrap) return;
+
+  const cards = Array.from(statsWrap.querySelectorAll('.stat-card'));
+  const counters = Array.from(statsWrap.querySelectorAll('[data-count-to]'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const startStats = () => {
+    cards.forEach((card, index) => {
+      const delay = reduceMotion ? 0 : index * 120;
+      setTimeout(() => {
+        card.classList.add('is-live');
+      }, delay);
+    });
+
+    counters.forEach((counter, index) => {
+      const delay = reduceMotion ? 0 : index * 120;
+      setTimeout(() => {
+        animateStatCounter(counter, reduceMotion);
+      }, delay);
+    });
+  };
+
+  if (reduceMotion) {
+    startStats();
+    return;
+  }
+
+  let started = false;
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!started && entry.isIntersecting) {
+        started = true;
+        startStats();
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  statsObserver.observe(statsWrap);
+}
+
+function animateStatCounter(element, instant = false) {
+  const target = Number(element.dataset.countTo || 0);
+  const suffix = element.dataset.suffix || '';
+  const prefix = element.dataset.prefix || '';
+  const decimals = Number(element.dataset.decimals || 0);
+  const duration = Number(element.dataset.duration || 1400);
+
+  const formatValue = (value) => Number(value).toLocaleString('pl-PL', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+
+  if (instant) {
+    element.textContent = `${prefix}${formatValue(target)}${suffix}`;
+    return;
+  }
+
+  const startTime = performance.now();
+
+  const tick = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - (1 - progress) ** 3;
+    const nextValue = target * eased;
+    const rounded = decimals > 0
+      ? Number(nextValue.toFixed(decimals))
+      : Math.round(nextValue);
+
+    element.textContent = `${prefix}${formatValue(rounded)}${suffix}`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      element.textContent = `${prefix}${formatValue(target)}${suffix}`;
+    }
+  };
+
+  requestAnimationFrame(tick);
+}
+
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (event) => {
@@ -34,6 +118,8 @@ const state = {
   cart: loadCart(),
   viewMode: loadViewMode(),
   tabCategory: loadTabCategory(),
+  productVideos: { products: {} },
+  shorts: [],
 };
 
 const ui = {
@@ -57,6 +143,16 @@ const ui = {
   cartItems: document.getElementById('cart-items'),
   cartTotal: document.getElementById('cart-total'),
   checkoutForm: document.getElementById('checkout-form'),
+  shortsGrid: document.getElementById('shorts-grid'),
+  shortsCount: document.getElementById('shorts-count'),
+  shortsPrev: document.getElementById('shorts-prev'),
+  shortsNext: document.getElementById('shorts-next'),
+  shortsModal: document.getElementById('shorts-modal'),
+  shortsModalBackdrop: document.getElementById('shorts-modal-backdrop'),
+  shortsModalClose: document.getElementById('shorts-modal-close'),
+  shortsModalVideo: document.getElementById('shorts-modal-video'),
+  shortsModalTitle: document.getElementById('shorts-modal-title'),
+  shortsModalLink: document.getElementById('shorts-modal-link'),
 };
 
 initShop().catch(() => {
@@ -68,8 +164,17 @@ initShop().catch(() => {
 async function initShop() {
   if (!ui.grid) return;
 
-  const res = await fetch('assets/data/products.json');
-  state.products = await res.json();
+  const [products, productVideosData, shortsData] = await Promise.all([
+    fetchJsonSafe('assets/data/products.json', []),
+    fetchJsonSafe('assets/data/product-videos.json', { products: {} }),
+    fetchJsonSafe('assets/data/youtube-shorts.json', { videos: [] }),
+  ]);
+
+  state.products = Array.isArray(products) ? products : [];
+  state.productVideos = productVideosData && typeof productVideosData === 'object'
+    ? productVideosData
+    : { products: {} };
+  state.shorts = Array.isArray(shortsData?.videos) ? shortsData.videos : [];
 
   const initialTab = readTabFromLocation();
   if (initialTab) {
@@ -83,6 +188,17 @@ async function initShop() {
 
   applyFilters();
   renderCart();
+  renderShortsZone();
+}
+
+async function fetchJsonSafe(url, fallback) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return fallback;
+    return await res.json();
+  } catch {
+    return fallback;
+  }
 }
 
 function bindShopEvents() {
@@ -103,6 +219,30 @@ function bindShopEvents() {
       state.visibleCount += 12;
       renderGrid();
     });
+  }
+
+  if (ui.shortsPrev) {
+    ui.shortsPrev.addEventListener('click', () => {
+      scrollShortsBy(-1);
+    });
+  }
+
+  if (ui.shortsNext) {
+    ui.shortsNext.addEventListener('click', () => {
+      scrollShortsBy(1);
+    });
+  }
+
+  if (ui.shortsGrid) {
+    ui.shortsGrid.addEventListener('click', (event) => {
+      const trigger = event.target.closest('[data-open-short]');
+      if (!trigger) return;
+      openShortModalById(trigger.dataset.openShort || '');
+    });
+
+    ui.shortsGrid.addEventListener('scroll', () => {
+      updateShortsNavState();
+    }, { passive: true });
   }
 
   if (ui.viewGridBtn) {
@@ -166,6 +306,19 @@ function bindShopEvents() {
   if (ui.checkoutForm) {
     ui.checkoutForm.addEventListener('submit', onCheckoutSubmit);
   }
+
+  if (ui.shortsModalClose) ui.shortsModalClose.addEventListener('click', closeShortModal);
+  if (ui.shortsModalBackdrop) ui.shortsModalBackdrop.addEventListener('click', closeShortModal);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeShortModal();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    updateShortsNavState();
+  });
 }
 
 function hydrateCategoryOptions() {
@@ -291,6 +444,125 @@ function renderGrid() {
   }
 }
 
+function renderShortsZone() {
+  if (!ui.shortsGrid) return;
+
+  const allShorts = Array.isArray(state.shorts) ? state.shorts : [];
+  ui.shortsGrid.innerHTML = allShorts.map(renderShortCard).join('');
+
+  if (ui.shortsCount) {
+    ui.shortsCount.textContent = `Shorts: ${allShorts.length}`;
+  }
+
+  requestAnimationFrame(updateShortsNavState);
+}
+
+function renderShortCard(video) {
+  const rawId = video.id || '';
+  const title = escapeHtml(video.title || 'Short FAPO');
+  const poster = escapeHtml(video.thumbnail || '');
+  const duration = formatDuration(video.duration || 0);
+
+  if (!video.local_file) return '';
+
+  return `
+    <article class="short-card" role="listitem">
+      <button class="short-card-open" type="button" data-open-short="${escapeHtml(rawId)}" aria-label="Otwórz film: ${title}">
+        <span class="short-thumb-wrap">
+          ${poster ? `<img class="short-media" loading="lazy" src="${poster}" alt="${title}" />` : '<span class="short-media short-media-fallback"></span>'}
+          <span class="short-play" aria-hidden="true">▶</span>
+          <span class="short-duration">${duration}</span>
+        </span>
+        <span class="short-card-body">
+          <span class="short-title">${title}</span>
+          <span class="short-meta">Kliknij, aby odtworzyć</span>
+        </span>
+      </button>
+    </article>
+  `;
+}
+
+function formatDuration(seconds) {
+  const total = Math.max(0, Number(seconds || 0));
+  const m = Math.floor(total / 60);
+  const s = Math.floor(total % 60);
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function scrollShortsBy(direction) {
+  if (!ui.shortsGrid) return;
+  const step = Math.max(220, Math.floor(ui.shortsGrid.clientWidth * 0.72));
+  ui.shortsGrid.scrollBy({
+    left: step * direction,
+    behavior: 'smooth',
+  });
+}
+
+function updateShortsNavState() {
+  if (!ui.shortsGrid) return;
+
+  const maxScroll = Math.max(0, ui.shortsGrid.scrollWidth - ui.shortsGrid.clientWidth);
+  const current = Math.max(0, ui.shortsGrid.scrollLeft);
+  const hasScrollable = maxScroll > 4;
+  const atStart = current <= 2;
+  const atEnd = current >= maxScroll - 2;
+
+  if (ui.shortsPrev) {
+    ui.shortsPrev.disabled = !hasScrollable || atStart;
+    ui.shortsPrev.hidden = !hasScrollable;
+  }
+  if (ui.shortsNext) {
+    ui.shortsNext.disabled = !hasScrollable || atEnd;
+    ui.shortsNext.hidden = !hasScrollable;
+  }
+}
+
+function openShortModalById(shortId) {
+  const id = String(shortId || '').trim();
+  if (!id || !ui.shortsModal || !ui.shortsModalVideo) return;
+
+  const short = state.shorts.find((video) => String(video.id) === id);
+  if (!short || !short.local_file) return;
+
+  const title = short.title || 'Short FAPO';
+  const link = short.youtube_short_url || `https://www.youtube.com/shorts/${id}`;
+
+  ui.shortsModalVideo.pause();
+  ui.shortsModalVideo.removeAttribute('src');
+  if (short.thumbnail) {
+    ui.shortsModalVideo.setAttribute('poster', short.thumbnail);
+  } else {
+    ui.shortsModalVideo.removeAttribute('poster');
+  }
+  ui.shortsModalVideo.src = short.local_file;
+  ui.shortsModalVideo.load();
+
+  if (ui.shortsModalTitle) {
+    ui.shortsModalTitle.textContent = title;
+  }
+  if (ui.shortsModalLink) {
+    ui.shortsModalLink.href = link;
+  }
+
+  ui.shortsModal.hidden = false;
+  ui.shortsModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('shorts-modal-open');
+}
+
+function closeShortModal() {
+  if (!ui.shortsModal || ui.shortsModal.hidden) return;
+
+  if (ui.shortsModalVideo) {
+    ui.shortsModalVideo.pause();
+    ui.shortsModalVideo.removeAttribute('src');
+    ui.shortsModalVideo.load();
+  }
+
+  ui.shortsModal.hidden = true;
+  ui.shortsModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('shorts-modal-open');
+}
+
 function setViewMode(mode) {
   state.viewMode = ['grid', 'list', 'rows'].includes(mode) ? mode : 'grid';
   saveViewMode();
@@ -318,6 +590,13 @@ function applyViewMode() {
   }
 }
 
+function getProductVideos(productId) {
+  const map = state.productVideos?.products;
+  if (!map || typeof map !== 'object') return [];
+  const list = map[productId];
+  return Array.isArray(list) ? list : [];
+}
+
 function renderProductCard(product) {
   const image = escapeHtml(product.image || '');
   const localizedTitle = localizeProductTitlePL(product.title || 'Brak nazwy');
@@ -327,6 +606,12 @@ function renderProductCard(product) {
   const source = product.source === 'fapomoto' ? 'FAPOMOTO' : 'ALIBABA';
   const price = formatPriceRange(product.priceFrom, product.priceTo);
   const productUrl = escapeHtml(product.url || '#');
+  const videos = getProductVideos(product.id);
+  const firstVideo = videos[0];
+  const videoTag = videos.length ? `<span class="tag tag-video">Filmy: ${videos.length}</span>` : '';
+  const videoButton = firstVideo
+    ? `<a class="btn btn-ghost" href="${escapeHtml(firstVideo.local_file || '#')}" target="_blank" rel="noopener noreferrer">Film</a>`
+    : '';
 
   return `
     <article class="product-card">
@@ -339,10 +624,12 @@ function renderProductCard(product) {
           <span class="tag">${category}</span>
           <span class="tag">${sku}</span>
           <span class="tag">${source}</span>
+          ${videoTag}
         </div>
         <p class="price">${price}</p>
         <div class="product-actions">
           <button class="btn btn-primary" type="button" data-add-id="${product.id}">Dodaj do koszyka</button>
+          ${videoButton}
           <a class="btn btn-ghost" href="${productUrl}" target="_blank" rel="noopener noreferrer">Szczegoly</a>
         </div>
       </div>

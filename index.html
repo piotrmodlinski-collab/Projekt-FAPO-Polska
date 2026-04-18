@@ -43,25 +43,40 @@
         Kompleksowa oferta: zawieszenie gwintowane, systemy off-road, układy wydechowe i komponenty turbo.
       </p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="#b2b">Warunki współpracy</a>
-        <a class="btn btn-ghost" href="#oferta">Zobacz portfolio</a>
+        <a class="btn btn-primary" href="sklep.html">Przejdź do sklepu</a>
+        <a class="btn btn-ghost" href="#kontakt">Kontakt B2B</a>
       </div>
-      <div class="hero-stats">
-        <article>
-          <h3>500+</h3>
-          <p>SKU performance</p>
+      <div class="hero-banner">
+        <img src="assets/media/hero-15-years.avif" alt="FAPO - 15 lat doświadczenia w automotive performance parts" loading="lazy" />
+        <div class="hero-banner-note">
+          <strong>15+ lat doświadczenia</strong>
+          <span>Komponenty performance, R&amp;D i produkcja pod wymagające zastosowania.</span>
+        </div>
+      </div>
+      <div class="hero-stats automotive-stats">
+        <article class="stat-card">
+          <p class="stat-kicker">Licznik katalogu</p>
+          <h3 class="stat-value" data-count-to="500" data-suffix="+">0</h3>
+          <p class="stat-caption">SKU performance</p>
+          <div class="stat-revline" aria-hidden="true"><span style="--fill: 88%;"></span></div>
         </article>
-        <article>
-          <h3>24h</h3>
-          <p>czas odpowiedzi wsparcia</p>
+        <article class="stat-card">
+          <p class="stat-kicker">Aleja wsparcia</p>
+          <h3 class="stat-value" data-count-to="24" data-suffix="h">0</h3>
+          <p class="stat-caption">Czas odpowiedzi wsparcia</p>
+          <div class="stat-revline" aria-hidden="true"><span style="--fill: 76%;"></span></div>
         </article>
-        <article>
-          <h3>2 lata</h3>
-          <p>ochrony gwarancyjnej</p>
+        <article class="stat-card">
+          <p class="stat-kicker">Tarcza gwarancji</p>
+          <h3 class="stat-value" data-count-to="2" data-suffix=" lata">0</h3>
+          <p class="stat-caption">Ochrony gwarancyjnej</p>
+          <div class="stat-revline" aria-hidden="true"><span style="--fill: 67%;"></span></div>
         </article>
-        <article>
-          <h3>Polska / UE</h3>
-          <p>obsługa dystrybucji</p>
+        <article class="stat-card stat-card-route">
+          <p class="stat-kicker">Trasa dystrybucji</p>
+          <h3 class="stat-value stat-static">PL / UE</h3>
+          <p class="stat-caption">Obsługa dystrybucji</p>
+          <div class="stat-route" aria-hidden="true"><span></span></div>
         </article>
       </div>
     </section>
@@ -131,14 +146,61 @@
         <article class="media-card">
           <h3>Strefa Video</h3>
           <div class="video-grid">
-            <iframe src="https://www.youtube.com/embed?listType=search&list=FAPO+coilover" title="FAPO coilover videos" loading="lazy" allowfullscreen></iframe>
-            <iframe src="https://www.youtube.com/embed?listType=search&list=FAPOMOTO+suspension" title="FAPOMOTO suspension videos" loading="lazy" allowfullscreen></iframe>
+            <video controls preload="metadata" playsinline poster="assets/media/ridershox-recommendations-poster.jpg" title="Ridershox Recommendations Product Display">
+              <source src="assets/media/ridershox-recommendations.mp4" type="video/mp4" />
+              Twoja przeglądarka nie obsługuje odtwarzania wideo.
+            </video>
+            <video controls preload="metadata" playsinline title="Instagram FAPOMOTO - DSmbqVajBb4">
+              <source src="assets/media/instagram-DSmbqVajBb4.mp4" type="video/mp4" />
+              Twoja przeglądarka nie obsługuje odtwarzania wideo.
+            </video>
+            <video controls preload="metadata" playsinline title="Instagram FAPOMOTO - DJToX-auFRf">
+              <source src="assets/media/instagram-DJToX-auFRf.mp4" type="video/mp4" />
+              Twoja przeglądarka nie obsługuje odtwarzania wideo.
+            </video>
             <iframe src="https://www.youtube.com/embed?listType=search&list=FAPO+offroad+shock" title="FAPO offroad shock videos" loading="lazy" allowfullscreen></iframe>
           </div>
-          <div class="media-links">
-            <a class="btn btn-ghost" href="https://www.youtube.com/@fapocoilover" target="_blank" rel="noopener noreferrer">YouTube</a>
-            <a class="btn btn-ghost" href="https://www.tiktok.com/@fapomotousa" target="_blank" rel="noopener noreferrer">TikTok</a>
-            <a class="btn btn-ghost" href="https://www.instagram.com/fapomoto" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <div class="shorts-head">
+            <h4>Shorts</h4>
+            <p id="shorts-count">Shorts: 0</p>
+          </div>
+          <div class="shorts-rail-wrap">
+            <button class="shorts-nav" type="button" id="shorts-prev" aria-label="Przewiń Shorts w lewo">‹</button>
+            <div class="shorts-rail" id="shorts-grid" role="list"></div>
+            <button class="shorts-nav" type="button" id="shorts-next" aria-label="Przewiń Shorts w prawo">›</button>
+          </div>
+          <p class="shorts-tip">Kliknij miniaturę, aby otworzyć film.</p>
+          <div class="media-links social-links">
+            <a class="social-link social-link--youtube" href="https://www.youtube.com/@fapocoilover" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+              <svg viewBox="0 0 100 70" aria-hidden="true" focusable="false">
+                <path d="M98 11c2 7.7 2 24 2 24s0 16.3-2 24a12.5 12.5 0 0 1-9 9c-7.7 2-39 2-39 2S18.7 70 11 68a12.5 12.5 0 0 1-9-9c-2-7.7-2-24-2-24s0-16.3 2-24a12.5 12.5 0 0 1 9-9C18.7 0 50 0 50 0s31.3 0 39 2a12.5 12.5 0 0 1 9 9zM40 50l26-15-26-15z" />
+              </svg>
+              <span class="sr-only">YouTube</span>
+            </a>
+            <a class="social-link social-link--tiktok" href="https://www.tiktok.com/@fapomotousa" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+              <svg viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+                <path d="m475.074 0h-438.148c-20.395 0-36.926 16.531-36.926 36.926v438.148c0 20.395 16.531 36.926 36.926 36.926h438.148c20.395 0 36.926-16.531 36.926-36.926v-438.148c0-20.395-16.531-36.926-36.926-36.926zm-90.827 195.959v34.613c-16.322.006-32.181-3.192-47.137-9.503-9.617-4.06-18.577-9.292-26.772-15.613l.246 106.542c-.103 23.991-9.594 46.532-26.772 63.51-13.98 13.82-31.695 22.609-50.895 25.453-4.512.668-9.103 1.011-13.746 1.011-20.553 0-40.067-6.659-56.029-18.943-3.004-2.313-5.876-4.82-8.612-7.521-18.617-18.4-28.217-43.34-26.601-69.575 1.234-19.971 9.229-39.017 22.558-53.945 17.635-19.754 42.306-30.719 68.684-30.719 4.643 0 9.234.348 13.746 1.017v12.798 35.601c-4.277-1.411-8.846-2.187-13.603-2.187-24.1 0-43.597 19.662-43.237 43.779.228 15.431 8.658 28.92 21.09 36.355 5.842 3.495 12.564 5.659 19.737 6.053 5.62.308 11.016-.474 16.013-2.124 17.218-5.688 29.639-21.861 29.639-40.935l.057-71.346v-130.252h47.668c.046 4.723.525 9.332 1.416 13.797 3.598 18.075 13.786 33.757 27.966 44.448 12.364 9.326 27.76 14.854 44.448 14.854.011 0 .148 0 .137-.011v12.843z" />
+              </svg>
+              <span class="sr-only">TikTok</span>
+            </a>
+            <a class="social-link social-link--instagram" href="https://www.instagram.com/fapomoto" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
+              <svg viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+                <path d="M437 0H75C33.6 0 0 33.6 0 75v362c0 41.4 33.6 75 75 75h362c41.4 0 75-33.6 75-75V75c0-41.4-33.6-75-75-75zM256 392c-74.4 0-135-60.6-135-135s60.6-135 135-135 135 60.6 135 135-60.6 135-135 135zm165-270c-16.5 0-30-13.5-30-30s13.5-30 30-30 30 13.5 30 30-13.5 30-30 30zM256 152c-57.9 0-105 47.1-105 105s47.1 105 105 105 105-47.1 105-105-47.1-105-105-105z" />
+              </svg>
+              <span class="sr-only">Instagram</span>
+            </a>
+            <a class="social-link social-link--linkedin" href="https://www.linkedin.com/company/fapomoto" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+              <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
+                <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8A53.79 53.79 0 0 1 53.79 0a53.79 53.79 0 0 1 53.79 53.8c0 29.7-24.09 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.7-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z" />
+              </svg>
+              <span class="sr-only">LinkedIn</span>
+            </a>
+            <a class="social-link social-link--facebook" href="https://www.facebook.com/fapomoto" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
+              <svg viewBox="0 0 320 512" aria-hidden="true" focusable="false">
+                <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06H297V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
+              </svg>
+              <span class="sr-only">Facebook</span>
+            </a>
           </div>
         </article>
 
@@ -154,6 +216,16 @@
           </div>
         </article>
       </div>
+
+      <div class="shorts-modal" id="shorts-modal" hidden aria-hidden="true">
+        <div class="shorts-modal-backdrop" id="shorts-modal-backdrop"></div>
+        <div class="shorts-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="shorts-modal-title">
+          <button class="shorts-modal-close" type="button" id="shorts-modal-close" aria-label="Zamknij film">×</button>
+          <video id="shorts-modal-video" controls preload="metadata" playsinline></video>
+          <p class="shorts-modal-title" id="shorts-modal-title"></p>
+          <a class="btn btn-ghost shorts-modal-link" id="shorts-modal-link" href="#" target="_blank" rel="noopener noreferrer">Otwórz w YouTube Shorts</a>
+        </div>
+      </div>
     </section>
 
     <section id="sklep" class="section reveal shop">
@@ -166,19 +238,19 @@
           <span class="shop-tab-label">Wszystkie produkty</span>
         </button>
         <button class="shop-tab" type="button" data-shop-tab="coilover" aria-pressed="false">
-          <img src="assets/media/tabs/coilover.avif" alt="Zawieszenie gwintowane" loading="lazy" />
+          <img src="assets/images/categories/coilover.jpg" alt="Zawieszenie gwintowane" loading="lazy" />
           <span class="shop-tab-label">Zawieszenie gwintowane</span>
         </button>
         <button class="shop-tab" type="button" data-shop-tab="offroad" aria-pressed="false">
-          <img src="assets/media/tabs/offroad-lift-kits.avif" alt="Lift kity off-road" loading="lazy" />
+          <img src="assets/images/categories/offroad-lift-kits.jpg" alt="Lift kity off-road" loading="lazy" />
           <span class="shop-tab-label">Lift kity off-road</span>
         </button>
         <button class="shop-tab" type="button" data-shop-tab="arm" aria-pressed="false">
-          <img src="assets/media/tabs/arm.avif" alt="Wahacze i podwozie" loading="lazy" />
+          <img src="assets/images/categories/control-arm-camber-arm.jpg" alt="Wahacze i podwozie" loading="lazy" />
           <span class="shop-tab-label">Wahacze i podwozie</span>
         </button>
         <button class="shop-tab" type="button" data-shop-tab="shock" aria-pressed="false">
-          <img src="assets/media/tabs/shock.avif" alt="Amortyzatory" loading="lazy" />
+          <img src="assets/images/categories/offroad-shock.jpg" alt="Amortyzatory" loading="lazy" />
           <span class="shop-tab-label">Amortyzatory</span>
         </button>
       </div>
@@ -229,6 +301,9 @@
       <div class="section-head">
         <p class="eyebrow">O marce</p>
         <h2>Zaplecze produkcyjne + orientacja na wynik</h2>
+      </div>
+      <div class="about-banner">
+        <img src="assets/media/about-factory.avif" alt="Zaplecze produkcyjne FAPO i zespół techniczny" loading="lazy" />
       </div>
       <div class="split">
         <article>
