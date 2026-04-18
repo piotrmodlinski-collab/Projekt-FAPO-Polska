@@ -1339,6 +1339,7 @@ body {
   margin: 0.52rem 0 0;
   color: #9db3c8;
   font-size: 0.78rem;
+  text-align: center;
 }
 
 .shorts-modal {
@@ -1415,6 +1416,8 @@ body.shorts-modal-open {
 
 .social-links {
   gap: 0.7rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .social-link {
