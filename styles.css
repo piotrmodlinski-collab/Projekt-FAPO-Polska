@@ -612,6 +612,35 @@ body {
   gap: 0.7rem;
 }
 
+.vehicle-finder {
+  margin-top: 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  padding: 0.82rem;
+}
+
+.vehicle-finder-title {
+  margin: 0 0 0.58rem;
+  font-family: "Teko", sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  color: #f4b89f;
+}
+
+.vehicle-finder-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 0.65rem;
+}
+
+.vehicle-finder-row label {
+  display: grid;
+  gap: 0.32rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .shop-tabs {
   margin-top: 1.3rem;
   display: grid;
@@ -803,12 +832,6 @@ body {
   border-radius: 10px;
   padding: 0.66rem 0.74rem;
   font: inherit;
-}
-
-.vehicle-selection {
-  margin: 0.58rem 0 0;
-  color: #a9bbcd;
-  font-size: 0.85rem;
 }
 
 .shop-meta {
@@ -1541,6 +1564,13 @@ body.shorts-modal-open {
   .shop-toolbar {
     grid-template-columns: 1fr 1fr;
   }
+  .vehicle-finder-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .vehicle-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
   .shop-tabs {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1572,6 +1602,9 @@ body.shorts-modal-open {
 
   .shop-toolbar,
   .shop-grid {
+    grid-template-columns: 1fr;
+  }
+  .vehicle-finder-row {
     grid-template-columns: 1fr;
   }
   .shop-tabs {

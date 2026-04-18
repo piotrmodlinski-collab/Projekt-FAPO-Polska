@@ -62,31 +62,33 @@
           <span class="shop-tab-label">Amortyzatory</span>
         </button>
       </div>
-      <div class="shop-toolbar">
-        <label>
-          SELECT YOUR VEHICLE
-          <select id="vehicle-year">
-            <option value="all">Select Year</option>
-          </select>
-        </label>
-        <label>
-          Marka
-          <select id="vehicle-make">
-            <option value="all">Select Make</option>
-          </select>
-        </label>
-        <label>
-          Model
-          <select id="vehicle-model">
-            <option value="all">Select Model</option>
-          </select>
-        </label>
-        <div class="vehicle-actions">
-          <button class="btn btn-primary" type="button" id="vehicle-search">Search</button>
-          <button class="btn btn-ghost" type="button" id="vehicle-reset">Reset</button>
+      <div class="vehicle-finder">
+        <p class="vehicle-finder-title">SELECT YOUR VEHICLE</p>
+        <div class="vehicle-finder-row">
+          <label>
+            Year
+            <select id="vehicle-year">
+              <option value="all">Select Year</option>
+            </select>
+          </label>
+          <label>
+            Make
+            <select id="vehicle-make">
+              <option value="all">Select Make</option>
+            </select>
+          </label>
+          <label>
+            Model
+            <select id="vehicle-model">
+              <option value="all">Select Model</option>
+            </select>
+          </label>
+          <div class="vehicle-actions">
+            <button class="btn btn-primary" type="button" id="vehicle-search">Search</button>
+            <button class="btn btn-ghost" type="button" id="vehicle-reset">Reset</button>
+          </div>
         </div>
       </div>
-      <p class="vehicle-selection" id="vehicle-selection">Wybrano: wszystkie pojazdy</p>
       <div class="shop-toolbar">
         <label>
           Szukaj produktu

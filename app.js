@@ -136,7 +136,6 @@ const ui = {
   vehicleModel: document.getElementById('vehicle-model'),
   vehicleSearch: document.getElementById('vehicle-search'),
   vehicleReset: document.getElementById('vehicle-reset'),
-  vehicleSelection: document.getElementById('vehicle-selection'),
   sort: document.getElementById('shop-sort'),
   viewGridBtn: document.getElementById('view-grid'),
   viewListBtn: document.getElementById('view-list'),
@@ -272,7 +271,6 @@ async function initShop() {
   hydrateVehicleYearOptions();
   hydrateVehicleMakeOptions();
   hydrateVehicleModelOptions();
-  syncVehicleSelection();
   bindShopEvents();
   syncTabButtons();
 
@@ -327,7 +325,6 @@ function bindShopEvents() {
       state.vehicleFilters.make = ui.vehicleMake?.value || 'all';
       state.vehicleFilters.model = ui.vehicleModel?.value || 'all';
       state.visibleCount = 12;
-      syncVehicleSelection();
       applyFilters();
     });
   }
@@ -341,7 +338,6 @@ function bindShopEvents() {
       if (ui.vehicleModel) ui.vehicleModel.value = 'all';
       state.vehicleFilters = { year: 'all', make: 'all', model: 'all' };
       state.visibleCount = 12;
-      syncVehicleSelection();
       applyFilters();
     });
   }
@@ -550,24 +546,6 @@ function hydrateVehicleModelOptions() {
   });
 
   ui.vehicleModel.value = sorted.includes(selected) ? selected : 'all';
-}
-
-function syncVehicleSelection() {
-  if (!ui.vehicleSelection) return;
-  const year = state.vehicleFilters.year;
-  const make = state.vehicleFilters.make;
-  const model = state.vehicleFilters.model;
-
-  if (year === 'all' && make === 'all' && model === 'all') {
-    ui.vehicleSelection.textContent = 'Wybrano: wszystkie pojazdy';
-    return;
-  }
-
-  const parts = [];
-  if (year !== 'all') parts.push(year);
-  if (make !== 'all') parts.push(make);
-  if (model !== 'all') parts.push(model);
-  ui.vehicleSelection.textContent = `Wybrano: ${parts.join(' / ')}`;
 }
 
 function applyFilters() {
