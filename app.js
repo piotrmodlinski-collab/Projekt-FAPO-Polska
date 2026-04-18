@@ -150,7 +150,7 @@ const ui = {
   shortsModal: document.getElementById('shorts-modal'),
   shortsModalBackdrop: document.getElementById('shorts-modal-backdrop'),
   shortsModalClose: document.getElementById('shorts-modal-close'),
-  shortsModalVideo: document.getElementById('shorts-modal-video'),
+  shortsModalFrame: document.getElementById('shorts-modal-frame'),
   shortsModalTitle: document.getElementById('shorts-modal-title'),
   shortsModalLink: document.getElementById('shorts-modal-link'),
 };
@@ -462,8 +462,8 @@ function renderShortCard(video) {
   const title = escapeHtml(video.title || 'Short FAPO');
   const poster = escapeHtml(video.thumbnail || '');
   const duration = formatDuration(video.duration || 0);
-
-  if (!video.local_file) return '';
+  const hasPlayableSource = Boolean(video.embed_url || video.youtube_short_url || rawId);
+  if (!hasPlayableSource) return '';
 
   return `
     <article class="short-card" role="listitem">
@@ -519,23 +519,20 @@ function updateShortsNavState() {
 
 function openShortModalById(shortId) {
   const id = String(shortId || '').trim();
-  if (!id || !ui.shortsModal || !ui.shortsModalVideo) return;
+  if (!id || !ui.shortsModal || !ui.shortsModalFrame) return;
 
   const short = state.shorts.find((video) => String(video.id) === id);
-  if (!short || !short.local_file) return;
+  if (!short) return;
 
   const title = short.title || 'Short FAPO';
-  const link = short.youtube_short_url || `https://www.youtube.com/shorts/${id}`;
+  const link = short.youtube_short_url || short.webpage_url || `https://www.youtube.com/shorts/${id}`;
+  const baseEmbedUrl = short.embed_url || `https://www.youtube.com/embed/${id}`;
+  const separator = baseEmbedUrl.includes('?') ? '&' : '?';
+  const embedUrl = `${baseEmbedUrl}${separator}autoplay=1&rel=0&modestbranding=1`;
 
-  ui.shortsModalVideo.pause();
-  ui.shortsModalVideo.removeAttribute('src');
-  if (short.thumbnail) {
-    ui.shortsModalVideo.setAttribute('poster', short.thumbnail);
-  } else {
-    ui.shortsModalVideo.removeAttribute('poster');
-  }
-  ui.shortsModalVideo.src = short.local_file;
-  ui.shortsModalVideo.load();
+  ui.shortsModalFrame.removeAttribute('src');
+  ui.shortsModalFrame.src = embedUrl;
+  ui.shortsModalFrame.title = title;
 
   if (ui.shortsModalTitle) {
     ui.shortsModalTitle.textContent = title;
@@ -552,10 +549,9 @@ function openShortModalById(shortId) {
 function closeShortModal() {
   if (!ui.shortsModal || ui.shortsModal.hidden) return;
 
-  if (ui.shortsModalVideo) {
-    ui.shortsModalVideo.pause();
-    ui.shortsModalVideo.removeAttribute('src');
-    ui.shortsModalVideo.load();
+  if (ui.shortsModalFrame) {
+    ui.shortsModalFrame.removeAttribute('src');
+    ui.shortsModalFrame.src = 'about:blank';
   }
 
   ui.shortsModal.hidden = true;
@@ -609,8 +605,11 @@ function renderProductCard(product) {
   const videos = getProductVideos(product.id);
   const firstVideo = videos[0];
   const videoTag = videos.length ? `<span class="tag tag-video">Filmy: ${videos.length}</span>` : '';
+  const firstVideoUrl = firstVideo
+    ? (firstVideo.youtube_short_url || firstVideo.webpage_url || firstVideo.embed_url || firstVideo.local_file || '#')
+    : '#';
   const videoButton = firstVideo
-    ? `<a class="btn btn-ghost" href="${escapeHtml(firstVideo.local_file || '#')}" target="_blank" rel="noopener noreferrer">Film</a>`
+    ? `<a class="btn btn-ghost" href="${escapeHtml(firstVideoUrl)}" target="_blank" rel="noopener noreferrer">Film</a>`
     : '';
 
   return `
