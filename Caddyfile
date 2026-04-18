@@ -1,0 +1,12 @@
+﻿:{$PORT}
+
+root * /srv
+encode gzip zstd
+
+@pl path /pl
+redir @pl /index.html 302
+
+@en path /en
+redir @en /en.html 302
+
+file_server

@@ -1,0 +1,138 @@
+{
+  "shop_total": 618,
+  "catalogue_price_rows": [
+    {
+      "row": 4,
+      "group": "",
+      "series_or_subgroup": "",
+      "model_or_brand": "Toyota",
+      "usd_price": 275.0
+    },
+    {
+      "row": 17,
+      "group": "",
+      "series_or_subgroup": "",
+      "model_or_brand": "Toyota",
+      "usd_price": 309.0
+    },
+    {
+      "row": 21,
+      "group": "",
+      "series_or_subgroup": "",
+      "model_or_brand": "Toyota",
+      "usd_price": 400.0
+    },
+    {
+      "row": 38,
+      "group": "",
+      "series_or_subgroup": "P1 SERIES",
+      "model_or_brand": "Front+Rear",
+      "usd_price": 320.0
+    },
+    {
+      "row": 39,
+      "group": "",
+      "series_or_subgroup": "P3 SERIES",
+      "model_or_brand": "",
+      "usd_price": 420.0
+    },
+    {
+      "row": 40,
+      "group": "",
+      "series_or_subgroup": "P5 SERIES",
+      "model_or_brand": "",
+      "usd_price": 650.0
+    },
+    {
+      "row": 41,
+      "group": "",
+      "series_or_subgroup": "P7 SERIES",
+      "model_or_brand": "",
+      "usd_price": 700.0
+    },
+    {
+      "row": 53,
+      "group": "",
+      "series_or_subgroup": "P3 SERIES KITS",
+      "model_or_brand": "Front+Rear",
+      "usd_price": 420.0
+    },
+    {
+      "row": 54,
+      "group": "",
+      "series_or_subgroup": "P5 SERIES KITS",
+      "model_or_brand": "",
+      "usd_price": 650.0
+    },
+    {
+      "row": 55,
+      "group": "",
+      "series_or_subgroup": "P7 SERIES KITS",
+      "model_or_brand": "",
+      "usd_price": 700.0
+    },
+    {
+      "row": 57,
+      "group": "",
+      "series_or_subgroup": "",
+      "model_or_brand": "P5 SERIES",
+      "usd_price": 650.0
+    },
+    {
+      "row": 58,
+      "group": "",
+      "series_or_subgroup": "",
+      "model_or_brand": "P3 SERIES",
+      "usd_price": 350.0
+    }
+  ],
+  "ps_series_urls_unique": 31,
+  "ps_skus_unique": [
+    "PS000410",
+    "PS000810",
+    "PS025410",
+    "PS025710",
+    "PS035810",
+    "PS065610"
+  ],
+  "ps_sku_status": [
+    {
+      "sku": "PS000410",
+      "present_in_shop": false
+    },
+    {
+      "sku": "PS000810",
+      "present_in_shop": true
+    },
+    {
+      "sku": "PS025410",
+      "present_in_shop": true
+    },
+    {
+      "sku": "PS025710",
+      "present_in_shop": true
+    },
+    {
+      "sku": "PS035810",
+      "present_in_shop": false
+    },
+    {
+      "sku": "PS065610",
+      "present_in_shop": false
+    }
+  ],
+  "ps_skus_missing": [
+    "PS000410",
+    "PS035810",
+    "PS065610"
+  ],
+  "series_counts_in_shop": {
+    "PS": 168,
+    "PF": 142,
+    "P1": 24,
+    "P3": 10,
+    "P5": 0,
+    "P7": 0,
+    "PS+": 0
+  }
+}

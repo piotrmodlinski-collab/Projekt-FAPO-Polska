@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/pl"
+  to = "/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/en"
+  to = "/en.html"
+  status = 301
+

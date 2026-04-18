@@ -1,0 +1,256 @@
+{
+  "id": 9051502444795,
+  "title": "FAPO Turbo for 07-12 Acura RDX K23A1 2.3L 2300DO-VT.T Mitsubishi TD04HL 49389",
+  "handle": "fapo-turbo-for-07-12-acura-rdx-k23a1-2-3l-2300do-vt-t-mitsubishi-td04hl-49389",
+  "description": "<div id=\"product-detail\">\n<h4>Application:</h4>\n<ul>\n<li>2007-2012 Acura RDX with 2.3L K23A1 2300DO-VT.T Turbocharged Engine</li>\n</ul>\n<h4>Features:</h4>\n<ul>\n<li>High quality replacements for factory parts; excellent quality, durability, optimizing vehicle performance</li>\n<li>OE design; simple replacement for factory part</li>\n<li>Dual valve assembly with nozzle ring inside</li>\n<li>Center rotating bearing housing designed to work with factory oil and coolant lines</li>\n<li>Component dynamically balanced using state-of-the-art balancing machine (avg 0.5 mg or less)</li>\n<li>Turbine housing made of ductile iron QT450-10; withstands temperatures up to 700°C</li>\n<li>Steel turbine wheel made from K418 alloy; high oxidation resistance, stable under temperatures up to 900°C</li>\n<li>Cast aluminum blades with good air tightness and corrosion resistance</li>\n<li>Accessories included</li>\n<li>1 year warranty for manufacturing defects</li>\n<li><em>Professional installation is highly recommended</em></li>\n<li><em>Before installation, ensure the cause of turbo failure is analyzed and eliminated (e.g., insufficient oil supply, foreign objects in intake, crankcase ventilation issues)</em></li>\n</ul>\n<h4>Technical Specifications:</h4>\n<ul>\n<li>Durable Compressor Wheel: 12(6+6) blades, Size: 56*42 mm</li>\n<li>Turbine Wheel: 12 blades, Size: 45.6*52 mm</li>\n</ul>\n<h4>Turbo Part Numbers:</h4>\n<ul>\n<li>49389-01020, 49389-01030, 49389-01031, 49189-01040</li>\n<li>49389-01041, 49389-01042, 49389-01043, 49189-08215</li>\n</ul>\n<h4>O.E.M Numbers:</h4>\n<ul>\n<li>18900RWCA01, 18900-RWC-A01, 18900-RWC-A062-M3</li>\n<li>18900RWCA010M3, 18900-RWC-A010-M3</li>\n<li>18900RWCA012M3, 18900-RWC-A012-M3</li>\n<li>18900RWCA013M3, 18900-RWC-A013-M3</li>\n<li>18900RWCA014M3, 18900-RWC-A014-M3</li>\n</ul>\n</div>",
+  "published_at": "2025-07-02T13:45:53+08:00",
+  "created_at": "2025-07-02T13:46:06+08:00",
+  "vendor": "FAPO",
+  "type": "Turbo",
+  "tags": [],
+  "price": 72900,
+  "price_min": 72900,
+  "price_max": 72900,
+  "available": true,
+  "price_varies": false,
+  "compare_at_price": null,
+  "compare_at_price_min": 0,
+  "compare_at_price_max": 0,
+  "compare_at_price_varies": false,
+  "variants": [
+    {
+      "id": 47303620231419,
+      "title": "Default Title",
+      "option1": "Default Title",
+      "option2": null,
+      "option3": null,
+      "sku": "FT029910",
+      "requires_shipping": true,
+      "taxable": false,
+      "featured_image": null,
+      "available": true,
+      "name": "FAPO Turbo for 07-12 Acura RDX K23A1 2.3L 2300DO-VT.T Mitsubishi TD04HL 49389",
+      "public_title": null,
+      "options": [
+        "Default Title"
+      ],
+      "price": 72900,
+      "weight": 11000,
+      "compare_at_price": null,
+      "inventory_management": "shopify",
+      "barcode": null,
+      "quantity_rule": {
+        "min": 1,
+        "max": null,
+        "increment": 1
+      },
+      "quantity_price_breaks": [],
+      "requires_selling_plan": false,
+      "selling_plan_allocations": []
+    }
+  ],
+  "images": [
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a1b1fdb973d1e3c6.jpg?v=1755251441",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/8b250277e0d730b8.jpg?v=1755251441",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/d9897bcb07742815.jpg?v=1755251441",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/5f4f42e6eea2aaba.jpg?v=1755251441",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a4230f601d66ae5f.jpg?v=1755251441",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/16f607ccef52a4a7.jpg?v=1755251442",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/079bd1bb394c8919.jpg?v=1755251442",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/2f80ca28e1a93378.jpg?v=1755251442",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a021067caab27dd9.jpg?v=1755251442",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/c5915f9b22f966ab.jpg?v=1755251442",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/9d9cda44ad7b8f1f.jpg?v=1755251442"
+  ],
+  "featured_image": "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a1b1fdb973d1e3c6.jpg?v=1755251441",
+  "options": [
+    {
+      "name": "Title",
+      "position": 1,
+      "values": [
+        "Default Title"
+      ]
+    }
+  ],
+  "url": "/products/fapo-turbo-for-07-12-acura-rdx-k23a1-2-3l-2300do-vt-t-mitsubishi-td04hl-49389",
+  "media": [
+    {
+      "alt": "FAPO Turbo for 07-12 Acura RDX K23A1 2.3L 2300DO-VT.T Mitsubishi TD04HL 49389",
+      "id": 39213543424251,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a1b1fdb973d1e3c6.jpg?v=1755251441"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a1b1fdb973d1e3c6.jpg?v=1755251441",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543522555,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/8b250277e0d730b8.jpg?v=1755251441"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/8b250277e0d730b8.jpg?v=1755251441",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543555323,
+      "position": 3,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d9897bcb07742815.jpg?v=1755251441"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d9897bcb07742815.jpg?v=1755251441",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543588091,
+      "position": 4,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/5f4f42e6eea2aaba.jpg?v=1755251441"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/5f4f42e6eea2aaba.jpg?v=1755251441",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543620859,
+      "position": 5,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a4230f601d66ae5f.jpg?v=1755251441"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a4230f601d66ae5f.jpg?v=1755251441",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543653627,
+      "position": 6,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/16f607ccef52a4a7.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/16f607ccef52a4a7.jpg?v=1755251442",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543686395,
+      "position": 7,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/079bd1bb394c8919.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/079bd1bb394c8919.jpg?v=1755251442",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543719163,
+      "position": 8,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/2f80ca28e1a93378.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/2f80ca28e1a93378.jpg?v=1755251442",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543751931,
+      "position": 9,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a021067caab27dd9.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a021067caab27dd9.jpg?v=1755251442",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543784699,
+      "position": 10,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/c5915f9b22f966ab.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/c5915f9b22f966ab.jpg?v=1755251442",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213543817467,
+      "position": 11,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9d9cda44ad7b8f1f.jpg?v=1755251442"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9d9cda44ad7b8f1f.jpg?v=1755251442",
+      "width": 1500
+    }
+  ],
+  "requires_selling_plan": false,
+  "selling_plan_groups": []
+}

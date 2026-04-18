@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-04-18T09:00:52",
+  "source_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json",
+  "backup_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.backup.before-pricing.json",
+  "usd_pln_rate": 3.5912,
+  "markup_percent": 30.0,
+  "multiplier": 4.66856,
+  "series_usd": {
+    "PS": 275,
+    "PS+": 309,
+    "PF": 400,
+    "P1": 320,
+    "P3": 420,
+    "P5": 650,
+    "P7": 700,
+    "JEEP_P3": 350,
+    "JEEP_P5": 650
+  },
+  "total_products": 618,
+  "updated_products": 343,
+  "unchanged_products": 275,
+  "updated_by_series": {
+    "PS": 168,
+    "PF": 142,
+    "P3": 7,
+    "P1": 24,
+    "JEEP_P3": 2
+  },
+  "examples": {
+    "PS": {
+      "title": "Coilover for Honda Accord 1998-2002 Acura TL 2001-2003 CL PS012110",
+      "sku": "PS012110",
+      "oldPriceFrom": 1299,
+      "oldPriceTo": 2399,
+      "newPricePLN": 1284
+    },
+    "PF": {
+      "title": "32-Level Damping Coilover for 2006-2011 Honda Civic Si EX LX Sedan PF002030",
+      "sku": "PF002030",
+      "oldPriceFrom": 1299,
+      "oldPriceTo": 2399,
+      "newPricePLN": 1867
+    },
+    "P3": {
+      "title": "P3 Off-road Rear Shock For Toyota Tundar 2007-2021, 4-8 in Lift PA095731",
+      "sku": "PA095731",
+      "oldPriceFrom": 899,
+      "oldPriceTo": 2299,
+      "newPricePLN": 1961
+    },
+    "P1": {
+      "title": "P1 Off-road Front Shock for JEEP WRANGLER JK two doors 2007-2018  3-4.5 in lift PA360610",
+      "sku": "PA360610",
+      "oldPriceFrom": 899,
+      "oldPriceTo": 2299,
+      "newPricePLN": 1494
+    },
+    "JEEP_P3": {
+      "title": "FAPO P3 2.0 Steering Stabilizer For Jeep Wrangler TJ 1997-2006 PJ064410",
+      "sku": "PJ064410",
+      "oldPriceFrom": 899,
+      "oldPriceTo": 2299,
+      "newPricePLN": 1634
+    }
+  }
+}

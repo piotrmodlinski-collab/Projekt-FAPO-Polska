@@ -1,0 +1,171 @@
+{
+  "id": 9051519058171,
+  "title": "Fapo E36 Angle Kit Drift Front Lower Control Arm for BMW E36 PZ006210",
+  "handle": "pz006210-front-lower-control-arm-for-bmw-e36",
+  "description": "<div data-module=\"productDetail\" class=\"tab-body-pane show\" id=\"block-tab-product\">\n<div class=\"widget-detail-overview\">\n<h4>Reviews:</h4>\n<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/h-s8hq4MMcA?si=rnp9Tx5_cKf_vHzx\" title=\"YouTube video player\"></iframe>\n<h4>Application:</h4>\n<p>BMW 3 Series 3rd Gen E36</p>\n<h4>Features:</h4>\n<ul>\n<li>Built from heavy-duty tubular alloy steel</li>\n<li>Performance proprietary dual-layer coating to protect against rust &amp; corrosion</li>\n<li>Perfect combination of performance and durability</li>\n<li>Improved suspension geometry to reduce bump steer</li>\n<li>Accessories in the photos are included</li>\n<li>1-year warranty for any manufacturing defect</li>\n</ul>\n<h4>Kit Includes:</h4>\n<ul>\n<li>L+R Control Arms with Pillow Ball Bearings and Sway Bar Link Mounts</li>\n<li>Adjustable Rose Joint Lower Control Arm Bushings</li>\n<li>Extended Tie Rods with Pillow Ball Bearings</li>\n<li>Lock Adapter with Adjustable Ackerman (For Drift or Grip)</li>\n<li>All bolts and nuts included for installation</li>\n</ul>\n<h4>Warranty:</h4>\n<p>All items carry a standard 1-year warranty from the date of purchase. Proof of purchase is required (order number is recommended). To speed up warranty claims, please provide images and detailed information. In most cases, pictures and videos are sufficient, and the defective items do not need to be returned. Occasionally, we may ask for more data to confirm the issue, which helps us improve and resolve problems faster.</p>\n</div>\n</div>",
+  "published_at": "2025-07-02T14:08:14+08:00",
+  "created_at": "2025-07-02T14:08:20+08:00",
+  "vendor": "FAPO",
+  "type": "Control arm",
+  "tags": [],
+  "price": 48900,
+  "price_min": 48900,
+  "price_max": 48900,
+  "available": true,
+  "price_varies": false,
+  "compare_at_price": 52900,
+  "compare_at_price_min": 52900,
+  "compare_at_price_max": 52900,
+  "compare_at_price_varies": false,
+  "variants": [
+    {
+      "id": 47303668498683,
+      "title": "Default Title",
+      "option1": "Default Title",
+      "option2": null,
+      "option3": null,
+      "sku": "PZ006210",
+      "requires_shipping": true,
+      "taxable": false,
+      "featured_image": null,
+      "available": true,
+      "name": "Fapo E36 Angle Kit Drift Front Lower Control Arm for BMW E36 PZ006210",
+      "public_title": null,
+      "options": [
+        "Default Title"
+      ],
+      "price": 48900,
+      "weight": 0,
+      "compare_at_price": 52900,
+      "inventory_management": "shopify",
+      "barcode": "",
+      "quantity_rule": {
+        "min": 1,
+        "max": null,
+        "increment": 1
+      },
+      "quantity_price_breaks": [],
+      "requires_selling_plan": false,
+      "selling_plan_allocations": []
+    }
+  ],
+  "images": [
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a765d0a8cfa7b0db.jpg?v=1751436500",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/d783dc5775791b93.jpg?v=1751436500",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/7611ced4a13b8033.jpg?v=1751436500",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/9452495554e835bf.jpg?v=1751436500",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/7164d060ed5b23ff.jpg?v=1751436500",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/c48e2faa3ba01c1c.jpg?v=1751436500"
+  ],
+  "featured_image": "//cdn.shopify.com/s/files/1/0764/7258/2395/files/a765d0a8cfa7b0db.jpg?v=1751436500",
+  "options": [
+    {
+      "name": "Title",
+      "position": 1,
+      "values": [
+        "Default Title"
+      ]
+    }
+  ],
+  "url": "/products/pz006210-front-lower-control-arm-for-bmw-e36",
+  "media": [
+    {
+      "alt": "PZ006210 Front Lower Control Arm For BMW E36",
+      "id": 39213659095291,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a765d0a8cfa7b0db.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/a765d0a8cfa7b0db.jpg?v=1751436500",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213659128059,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d783dc5775791b93.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d783dc5775791b93.jpg?v=1751436500",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213659160827,
+      "position": 3,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/7611ced4a13b8033.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/7611ced4a13b8033.jpg?v=1751436500",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213659193595,
+      "position": 4,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9452495554e835bf.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9452495554e835bf.jpg?v=1751436500",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213659226363,
+      "position": 5,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/7164d060ed5b23ff.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/7164d060ed5b23ff.jpg?v=1751436500",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213659259131,
+      "position": 6,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/c48e2faa3ba01c1c.jpg?v=1751436500"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/c48e2faa3ba01c1c.jpg?v=1751436500",
+      "width": 1500
+    }
+  ],
+  "requires_selling_plan": false,
+  "selling_plan_groups": []
+}

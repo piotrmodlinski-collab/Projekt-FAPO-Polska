@@ -1,0 +1,120 @@
+{
+  "id": 9051518894331,
+  "title": "Rear Extended Stainless Steel Brake Line For Ford F-150 XLT Bronco 1980-1996",
+  "handle": "rear-extended-stainless-steel-brake-line-for-ford-f-150-xlt-bronco-1980-1996",
+  "description": "<h4>Item Specifics:</h4>\n<ul>\n  <li>Condition: New</li>\n  <li>Brand: FAPO</li>\n  <li>Manufacturer Warranty: 1 Year</li>\n  <li>Fitment Type: Performance/Custom</li>\n  <li>Manufacturer Part Number: FZ033010</li>\n  <li>Mounting Hardware Included: Yes</li>\n  <li>Placement on Vehicle: Rear</li>\n</ul>\n\n<h4>Application:</h4>\n<ul>\n  <li>Compatible with 1980-1996 Ford F150 with 4-6 Inch Lift</li>\n  <li>Compatible with 1980-1996 Ford Bronco with 4-6 Inch Lift</li>\n</ul>\n\n<h4>Package Includes:</h4>\n<ul>\n  <li>1 × Rear Brake Line</li>\n</ul>\n\n<h4>Features:</h4>\n<ul>\n  <li>Front Length: 18.3\"</li>\n  <li>Fully DOT Approved and Meets the Highest DOT and ISO Standards</li>\n  <li>Complete with Copper Banjo Washers and Line Retention Brackets</li>\n  <li>Strong woven stainless steel outer shell protects the rubber and Kevlar casing housing that encases the Teflon inner hose</li>\n  <li>Braided stainless steel exterior keeps lines safe from debris, rocks, and mud</li>\n  <li>Durable outer layer prevents expansion of the internal Teflon layer</li>\n  <li>High quality hollow fasteners at both ends ensure a leak-free flow path</li>\n  <li>100% Brand New, Never Used or Installed</li>\n  <li>The accessories shown in the photos are included</li>\n  <li>1 year warranty for any manufacturing defect</li>\n</ul>\n",
+  "published_at": "2025-07-02T14:08:10+08:00",
+  "created_at": "2025-07-02T14:08:13+08:00",
+  "vendor": "FAPO",
+  "type": "Brake line",
+  "tags": [],
+  "price": 3900,
+  "price_min": 3900,
+  "price_max": 3900,
+  "available": true,
+  "price_varies": false,
+  "compare_at_price": null,
+  "compare_at_price_min": 0,
+  "compare_at_price_max": 0,
+  "compare_at_price_varies": false,
+  "variants": [
+    {
+      "id": 47303667450107,
+      "title": "Default Title",
+      "option1": "Default Title",
+      "option2": null,
+      "option3": null,
+      "sku": "FZ033010",
+      "requires_shipping": true,
+      "taxable": false,
+      "featured_image": null,
+      "available": true,
+      "name": "Rear Extended Stainless Steel Brake Line For Ford F-150 XLT Bronco 1980-1996",
+      "public_title": null,
+      "options": [
+        "Default Title"
+      ],
+      "price": 3900,
+      "weight": 170,
+      "compare_at_price": null,
+      "inventory_management": "shopify",
+      "barcode": "",
+      "quantity_rule": {
+        "min": 1,
+        "max": null,
+        "increment": 1
+      },
+      "quantity_price_breaks": [],
+      "requires_selling_plan": false,
+      "selling_plan_allocations": []
+    }
+  ],
+  "images": [
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/49c3b012df6f1e4d.jpg?v=1751436493",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/033525337888e9a6.jpg?v=1751436493",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/848ad241fda6943c.jpg?v=1751436493"
+  ],
+  "featured_image": "//cdn.shopify.com/s/files/1/0764/7258/2395/files/49c3b012df6f1e4d.jpg?v=1751436493",
+  "options": [
+    {
+      "name": "Title",
+      "position": 1,
+      "values": [
+        "Default Title"
+      ]
+    }
+  ],
+  "url": "/products/rear-extended-stainless-steel-brake-line-for-ford-f-150-xlt-bronco-1980-1996",
+  "media": [
+    {
+      "alt": "Rear Extended Stainless Steel Brake Line For Ford F-150 XLT Bronco 1980-1996",
+      "id": 39213658571003,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/49c3b012df6f1e4d.jpg?v=1751436493"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/49c3b012df6f1e4d.jpg?v=1751436493",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213658603771,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/033525337888e9a6.jpg?v=1751436493"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/033525337888e9a6.jpg?v=1751436493",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213658636539,
+      "position": 3,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/848ad241fda6943c.jpg?v=1751436493"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/848ad241fda6943c.jpg?v=1751436493",
+      "width": 1500
+    }
+  ],
+  "requires_selling_plan": false,
+  "selling_plan_groups": []
+}

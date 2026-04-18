@@ -1,0 +1,11 @@
+{
+  "product_sitemaps": [
+    "https://www.fapomoto.com/sitemap_products_1.xml?from=9050249232635&to=9288443134203"
+  ],
+  "products_found": 604,
+  "products_exported": 54,
+  "images_downloaded": 0,
+  "products_csv": "D:\\\\Projekty\\\\Projekt FAPO Polska\\\\import\\\\fapomoto\\products.csv",
+  "images_manifest_csv": "D:\\\\Projekty\\\\Projekt FAPO Polska\\\\import\\\\fapomoto\\images_manifest.csv",
+  "images_dir": "D:\\\\Projekty\\\\Projekt FAPO Polska\\\\import\\\\fapomoto\\images"
+}

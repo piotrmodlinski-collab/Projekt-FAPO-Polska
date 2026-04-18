@@ -1,0 +1,188 @@
+{
+  "id": 9051536163067,
+  "title": "50mm Tial BOV Turbo Blow Off Valve V Band Mild Steel Weld On FLANGE Charge Pipe Q QR FE455820",
+  "handle": "fe455820-50mm-tial-bov-turbo-blow-off-valve-v-band-mild-steel-weld-on-flange-charge-pipe-q-qr",
+  "description": "Mild Steel<br>\nFit our selling 50mm BOV &amp; Tial Blow-off Valves: BV50, Q , QR<br>\n<br>\nTial Sport 50mm Weld Blow Off Valve BOV Aluminum Flange. THIS FLANGE WILL WORK WITH TIAL STYLE 50MM BLOW OFF VALVES. THIS FLANGE IS MADE OF THE HIGHEST QUALITY Mild Steel FOR BEST DURABILITY. THIS FLANGE MUST BE WELDED TO YOUR INTAKE PIPING.<br>",
+  "published_at": "2025-07-02T14:38:19+08:00",
+  "created_at": "2025-07-02T14:38:26+08:00",
+  "vendor": "FAPO MOTO",
+  "type": "BOV",
+  "tags": [],
+  "price": 2900,
+  "price_min": 2900,
+  "price_max": 2900,
+  "available": true,
+  "price_varies": false,
+  "compare_at_price": null,
+  "compare_at_price_min": 0,
+  "compare_at_price_max": 0,
+  "compare_at_price_varies": false,
+  "variants": [
+    {
+      "id": 47303750615291,
+      "title": "Default Title",
+      "option1": "Default Title",
+      "option2": null,
+      "option3": null,
+      "sku": "FE455820",
+      "requires_shipping": true,
+      "taxable": false,
+      "featured_image": null,
+      "available": true,
+      "name": "50mm Tial BOV Turbo Blow Off Valve V Band Mild Steel Weld On FLANGE Charge Pipe Q QR FE455820",
+      "public_title": null,
+      "options": [
+        "Default Title"
+      ],
+      "price": 2900,
+      "weight": 30,
+      "compare_at_price": null,
+      "inventory_management": "shopify",
+      "barcode": null,
+      "quantity_rule": {
+        "min": 1,
+        "max": null,
+        "increment": 1
+      },
+      "quantity_price_breaks": [],
+      "requires_selling_plan": false,
+      "selling_plan_allocations": []
+    }
+  ],
+  "images": [
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/70bdfa87be53a8cf.jpg?v=1761628543",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/1f8a99fb25e95659.jpg?v=1755251366",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/9ca00e6da42d2ed3.jpg?v=1755251366",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/5f45910ed1526fb6.jpg?v=1755251366",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/0bcd3a98ac05d8cd.jpg?v=1755251366",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/78e3a059bde0c558.jpg?v=1755251367",
+    "//cdn.shopify.com/s/files/1/0764/7258/2395/files/d913eecb100307e6.jpg?v=1755251367"
+  ],
+  "featured_image": "//cdn.shopify.com/s/files/1/0764/7258/2395/files/70bdfa87be53a8cf.jpg?v=1761628543",
+  "options": [
+    {
+      "name": "Title",
+      "position": 1,
+      "values": [
+        "Default Title"
+      ]
+    }
+  ],
+  "url": "/products/fe455820-50mm-tial-bov-turbo-blow-off-valve-v-band-mild-steel-weld-on-flange-charge-pipe-q-qr",
+  "media": [
+    {
+      "alt": "FE455820 50mm Tial BOV Turbo Blow Off Valve V Band Mild Steel Weld On FLANGE Charge Pipe Q QR",
+      "id": 39213785121019,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1500,
+        "width": 1500,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/70bdfa87be53a8cf.jpg?v=1761628543"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1500,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/70bdfa87be53a8cf.jpg?v=1761628543",
+      "width": 1500
+    },
+    {
+      "alt": null,
+      "id": 39213785153787,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/1f8a99fb25e95659.jpg?v=1755251366"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/1f8a99fb25e95659.jpg?v=1755251366",
+      "width": 1000
+    },
+    {
+      "alt": null,
+      "id": 39213785186555,
+      "position": 3,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9ca00e6da42d2ed3.jpg?v=1755251366"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/9ca00e6da42d2ed3.jpg?v=1755251366",
+      "width": 1000
+    },
+    {
+      "alt": null,
+      "id": 39213785219323,
+      "position": 4,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/5f45910ed1526fb6.jpg?v=1755251366"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/5f45910ed1526fb6.jpg?v=1755251366",
+      "width": 1000
+    },
+    {
+      "alt": null,
+      "id": 39213785252091,
+      "position": 5,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/0bcd3a98ac05d8cd.jpg?v=1755251366"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/0bcd3a98ac05d8cd.jpg?v=1755251366",
+      "width": 1000
+    },
+    {
+      "alt": null,
+      "id": 39213785284859,
+      "position": 6,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/78e3a059bde0c558.jpg?v=1755251367"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/78e3a059bde0c558.jpg?v=1755251367",
+      "width": 1000
+    },
+    {
+      "alt": null,
+      "id": 39213785317627,
+      "position": 7,
+      "preview_image": {
+        "aspect_ratio": 1.0,
+        "height": 1000,
+        "width": 1000,
+        "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d913eecb100307e6.jpg?v=1755251367"
+      },
+      "aspect_ratio": 1.0,
+      "height": 1000,
+      "media_type": "image",
+      "src": "https://cdn.shopify.com/s/files/1/0764/7258/2395/files/d913eecb100307e6.jpg?v=1755251367",
+      "width": 1000
+    }
+  ],
+  "requires_selling_plan": false,
+  "selling_plan_groups": []
+}
