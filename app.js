@@ -126,12 +126,15 @@ const ui = {
   search: document.getElementById('shop-search'),
   category: document.getElementById('shop-category'),
   source: document.getElementById('shop-source'),
+  make: document.getElementById('shop-make'),
+  model: document.getElementById('shop-model'),
   sort: document.getElementById('shop-sort'),
   viewGridBtn: document.getElementById('view-grid'),
   viewListBtn: document.getElementById('view-list'),
   viewRowsBtn: document.getElementById('view-rows'),
   tabButtons: Array.from(document.querySelectorAll('[data-shop-tab]')),
   categoryTriggers: Array.from(document.querySelectorAll('[data-cat-tab]')),
+  modelPills: document.getElementById('shop-model-pills'),
   grid: document.getElementById('shop-grid'),
   results: document.getElementById('shop-results'),
   loadMore: document.getElementById('shop-load-more'),
@@ -155,6 +158,81 @@ const ui = {
   shortsModalLink: document.getElementById('shorts-modal-link'),
 };
 
+const VEHICLE_MAKE_ALIASES = [
+  { canonical: 'Acura', aliases: ['Acura'] },
+  { canonical: 'Alfa Romeo', aliases: ['Alfa Romeo'] },
+  { canonical: 'Audi', aliases: ['Audi'] },
+  { canonical: 'BMW', aliases: ['BMW'] },
+  { canonical: 'Buick', aliases: ['Buick'] },
+  { canonical: 'Cadillac', aliases: ['Cadillac'] },
+  { canonical: 'Chevrolet', aliases: ['Chevrolet', 'Chevy'] },
+  { canonical: 'Chrysler', aliases: ['Chrysler'] },
+  { canonical: 'Dodge', aliases: ['Dodge', 'RAM', 'Ram'] },
+  { canonical: 'Ford', aliases: ['Ford'] },
+  { canonical: 'GMC', aliases: ['GMC'] },
+  { canonical: 'Honda', aliases: ['Honda'] },
+  { canonical: 'Hyundai', aliases: ['Hyundai'] },
+  { canonical: 'Infiniti', aliases: ['Infiniti'] },
+  { canonical: 'Jaguar', aliases: ['Jaguar'] },
+  { canonical: 'Jeep', aliases: ['Jeep'] },
+  { canonical: 'Kia', aliases: ['Kia'] },
+  { canonical: 'Lexus', aliases: ['Lexus'] },
+  { canonical: 'Lincoln', aliases: ['Lincoln'] },
+  { canonical: 'Mazda', aliases: ['Mazda'] },
+  { canonical: 'Mercedes-Benz', aliases: ['Mercedes-Benz', 'Mercedes Benz', 'Mercedes'] },
+  { canonical: 'Mini', aliases: ['Mini'] },
+  { canonical: 'Mitsubishi', aliases: ['Mitsubishi'] },
+  { canonical: 'Nissan', aliases: ['Nissan'] },
+  { canonical: 'Pontiac', aliases: ['Pontiac'] },
+  { canonical: 'Porsche', aliases: ['Porsche'] },
+  { canonical: 'Scion', aliases: ['Scion'] },
+  { canonical: 'Subaru', aliases: ['Subaru'] },
+  { canonical: 'Suzuki', aliases: ['Suzuki'] },
+  { canonical: 'Tesla', aliases: ['Tesla'] },
+  { canonical: 'Toyota', aliases: ['Toyota'] },
+  { canonical: 'Volkswagen', aliases: ['Volkswagen', 'VW'] },
+  { canonical: 'Volvo', aliases: ['Volvo'] },
+];
+
+const VEHICLE_ALIAS_TO_MAKE = new Map();
+const vehicleAliasList = [];
+VEHICLE_MAKE_ALIASES.forEach((entry) => {
+  entry.aliases.forEach((alias) => {
+    VEHICLE_ALIAS_TO_MAKE.set(alias.toLowerCase(), entry.canonical);
+    vehicleAliasList.push(alias);
+  });
+});
+
+const VEHICLE_MAKE_PATTERN = new RegExp(
+  `\\b(${vehicleAliasList
+    .sort((a, b) => b.length - a.length)
+    .map((alias) => escapeRegExp(alias))
+    .join('|')})\\b`,
+  'gi',
+);
+
+const MODEL_SKIP_TOKENS = new Set([
+  'for', 'and', 'or', 'with', 'without', 'fit', 'fits', 'compatible', 'suitable',
+  'the', 'new', 'old', 'road', 'off', 'off-road', 'front', 'rear', 'left', 'right',
+  'upper', 'lower', 'fronts', 'rears', 'series', 'gen', 'generation', 'stage',
+  'level', 'levels', 'damping', 'adj', 'adjustable', 'height', 'in', 'inch', 'inches',
+  'lift', 'lifts', 'set', 'full', 'shock', 'shocks', 'strut', 'struts', 'coilover',
+  'coilovers', 'suspension', 'arm', 'arms', 'control', 'link', 'links', 'bar',
+  'stabilizer', 'fapo', 'p1', 'p3', 'p5', 'p7', '2wd', '4wd', 'awd', 'fwd', 'rwd',
+  'sedan', 'coupe', 'hatchback', 'hatch', 'wagon', 'convertible', 'pickup', 'truck',
+  '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th',
+  '12th', '13th', '14th', '15th',
+]);
+
+const MODEL_BREAK_TOKENS = new Set([
+  'for', 'and', 'or', 'with', 'without', 'compatible', 'fit', 'fits',
+]);
+
+const MODEL_TRIM_TOKENS = new Set([
+  'si', 'ex', 'lx', 'dx', 'se', 'le', 'xle', 'xse', 'gt', 'gti', 'type-r', 'type',
+  'sport', 'touring', 'limited', 'premium', 'srt', 'srt-8', 'st', 'rs',
+]);
+
 initShop().catch(() => {
   if (ui.results) {
     ui.results.textContent = 'Nie udalo sie zaladowac katalogu produktow.';
@@ -170,7 +248,7 @@ async function initShop() {
     fetchJsonSafe('assets/data/youtube-shorts.json', { videos: [] }),
   ]);
 
-  state.products = Array.isArray(products) ? products : [];
+  state.products = normalizeProducts(Array.isArray(products) ? products : []);
   state.productVideos = productVideosData && typeof productVideosData === 'object'
     ? productVideosData
     : { products: {} };
@@ -183,6 +261,9 @@ async function initShop() {
   }
 
   hydrateCategoryOptions();
+  hydrateMakeOptions();
+  hydrateModelOptions();
+  renderModelPills();
   bindShopEvents();
   syncTabButtons();
 
@@ -202,22 +283,47 @@ async function fetchJsonSafe(url, fallback) {
 }
 
 function bindShopEvents() {
-  [ui.search, ui.category, ui.source, ui.sort].forEach((el) => {
+  [ui.search, ui.category, ui.source, ui.model, ui.sort].forEach((el) => {
     if (!el) return;
     el.addEventListener('input', () => {
       state.visibleCount = 12;
+      if (el === ui.model) renderModelPills();
       applyFilters();
     });
     el.addEventListener('change', () => {
       state.visibleCount = 12;
+      if (el === ui.model) renderModelPills();
       applyFilters();
     });
   });
+
+  if (ui.make) {
+    const onMakeChange = () => {
+      state.visibleCount = 12;
+      hydrateModelOptions();
+      renderModelPills();
+      applyFilters();
+    };
+    ui.make.addEventListener('input', onMakeChange);
+    ui.make.addEventListener('change', onMakeChange);
+  }
 
   if (ui.loadMore) {
     ui.loadMore.addEventListener('click', () => {
       state.visibleCount += 12;
       renderGrid();
+    });
+  }
+
+  if (ui.modelPills && ui.model) {
+    ui.modelPills.addEventListener('click', (event) => {
+      const trigger = event.target.closest('[data-model-pill]');
+      if (!trigger) return;
+      const model = trigger.dataset.modelPill || 'all';
+      ui.model.value = model;
+      state.visibleCount = 12;
+      renderModelPills();
+      applyFilters();
     });
   }
 
@@ -332,24 +438,120 @@ function hydrateCategoryOptions() {
   });
 }
 
+function hydrateMakeOptions() {
+  if (!ui.make) return;
+
+  const selected = ui.make.value || 'all';
+  const makes = Array.from(new Set(
+    state.products.flatMap((product) => getVehicleMeta(product).makes),
+  )).sort((a, b) => a.localeCompare(b, 'pl', { sensitivity: 'base', numeric: true }));
+
+  ui.make.innerHTML = '<option value="all">Wszystkie marki</option>';
+  makes.forEach((make) => {
+    const option = document.createElement('option');
+    option.value = make;
+    option.textContent = make;
+    ui.make.appendChild(option);
+  });
+
+  ui.make.value = makes.includes(selected) ? selected : 'all';
+}
+
+function hydrateModelOptions() {
+  if (!ui.model) return;
+
+  const selected = ui.model.value || 'all';
+  const selectedMake = ui.make?.value || 'all';
+  const models = new Set();
+
+  state.products.forEach((product) => {
+    const vehicle = getVehicleMeta(product);
+    if (selectedMake !== 'all' && !vehicle.makes.includes(selectedMake)) return;
+    vehicle.models.forEach((model) => {
+      if (model) models.add(model);
+    });
+  });
+
+  const sorted = Array.from(models).sort((a, b) => a.localeCompare(b, 'pl', {
+    sensitivity: 'base',
+    numeric: true,
+  }));
+
+  ui.model.innerHTML = '<option value="all">Wszystkie modele</option>';
+  sorted.forEach((model) => {
+    const option = document.createElement('option');
+    option.value = model;
+    option.textContent = model;
+    ui.model.appendChild(option);
+  });
+
+  ui.model.value = sorted.includes(selected) ? selected : 'all';
+}
+
+function renderModelPills() {
+  if (!ui.modelPills) return;
+
+  const selectedMake = ui.make?.value || 'all';
+  const selectedModel = ui.model?.value || 'all';
+  const counts = new Map();
+
+  state.products.forEach((product) => {
+    const vehicle = getVehicleMeta(product);
+    if (selectedMake !== 'all' && !vehicle.makes.includes(selectedMake)) return;
+    vehicle.models.forEach((model) => {
+      if (!model) return;
+      counts.set(model, (counts.get(model) || 0) + 1);
+    });
+  });
+
+  const topModels = Array.from(counts.entries())
+    .sort((a, b) => {
+      if (b[1] !== a[1]) return b[1] - a[1];
+      return a[0].localeCompare(b[0], 'pl', { sensitivity: 'base', numeric: true });
+    })
+    .slice(0, 18);
+
+  if (!topModels.length) {
+    ui.modelPills.innerHTML = '';
+    return;
+  }
+
+  ui.modelPills.innerHTML = topModels.map(([model, count]) => {
+    const isActive = selectedModel === model;
+    return `
+      <button class="model-pill ${isActive ? 'is-active' : ''}" type="button" data-model-pill="${escapeHtml(model)}" aria-pressed="${String(isActive)}">
+        <span class="model-pill-name">${escapeHtml(model)}</span>
+        <span class="model-pill-count">${count}</span>
+      </button>
+    `;
+  }).join('');
+}
+
 function applyFilters() {
   const q = (ui.search?.value || '').trim().toLowerCase();
   const cat = ui.category?.value || 'all';
   const source = ui.source?.value || 'all';
+  const make = ui.make?.value || 'all';
+  const model = ui.model?.value || 'all';
   const sort = ui.sort?.value || 'relevance';
   const tab = state.tabCategory || 'all';
 
   let list = state.products.filter((product) => {
+    const vehicle = getVehicleMeta(product);
     const inQuery = !q
       || product.title.toLowerCase().includes(q)
       || (product.sku || '').toLowerCase().includes(q)
-      || product.category.toLowerCase().includes(q);
+      || product.category.toLowerCase().includes(q)
+      || vehicle.makes.some((item) => item.toLowerCase().includes(q))
+      || vehicle.models.some((item) => item.toLowerCase().includes(q));
 
     const inCategory = cat === 'all' || product.category === cat;
     const inSource = source === 'all' || product.source === source;
+    const inMake = make === 'all' || vehicle.makes.includes(make);
+    const inModel = model === 'all' || vehicle.models.includes(model);
     const inTab = matchesTabCategory(product, tab);
 
-    return inQuery && inCategory && inSource && inTab;
+    return inQuery && inCategory && inSource && inMake && inModel && inTab;
   });
 
   if (sort === 'priceAsc') list.sort((a, b) => a.priceFrom - b.priceFrom);
@@ -636,6 +838,95 @@ function renderProductCard(product) {
   `;
 }
 
+function normalizeProducts(products) {
+  return products.map((product) => ({
+    ...product,
+    vehicle: extractVehicleMeta(product.title || ''),
+  }));
+}
+
+function getVehicleMeta(product) {
+  if (!product) return { makes: [], models: [] };
+  if (product.vehicle && Array.isArray(product.vehicle.makes) && Array.isArray(product.vehicle.models)) {
+    return product.vehicle;
+  }
+  return extractVehicleMeta(product.title || '');
+}
+
+function extractVehicleMeta(title) {
+  const text = String(title || '').replace(/[|,;()]/g, ' ');
+  const makes = [];
+  const models = [];
+
+  VEHICLE_MAKE_PATTERN.lastIndex = 0;
+  let match;
+  while ((match = VEHICLE_MAKE_PATTERN.exec(text)) !== null) {
+    const alias = String(match[1] || '').toLowerCase();
+    const canonicalMake = VEHICLE_ALIAS_TO_MAKE.get(alias);
+    if (!canonicalMake) continue;
+
+    if (!makes.includes(canonicalMake)) {
+      makes.push(canonicalMake);
+    }
+
+    const tail = text.slice(match.index + match[0].length);
+    const model = extractModelFromTail(tail);
+    if (!model) continue;
+    if (model.toLowerCase() === canonicalMake.toLowerCase()) continue;
+    if (!models.includes(model)) {
+      models.push(model);
+    }
+  }
+
+  return { makes, models };
+}
+
+function extractModelFromTail(tail) {
+  const tokens = String(tail || '').match(/[A-Za-z0-9][A-Za-z0-9+./-]*/g) || [];
+  if (!tokens.length) return '';
+
+  const modelTokens = [];
+  for (const rawToken of tokens.slice(0, 14)) {
+    const token = rawToken.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '');
+    if (!token) continue;
+
+    const lower = token.toLowerCase();
+    if (/^(19|20)\d{2}$/.test(token)) break;
+    if (/^[A-Z]{2,}\d{3,}$/.test(token)) break;
+
+    if (MODEL_BREAK_TOKENS.has(lower) && modelTokens.length) break;
+    if (MODEL_SKIP_TOKENS.has(lower)) continue;
+    if (MODEL_TRIM_TOKENS.has(lower) && modelTokens.length) break;
+
+    modelTokens.push(token);
+    if (modelTokens.length >= 3) break;
+  }
+
+  while (modelTokens.length && MODEL_SKIP_TOKENS.has(modelTokens[modelTokens.length - 1].toLowerCase())) {
+    modelTokens.pop();
+  }
+
+  if (!modelTokens.length) return '';
+  return normalizeModelLabel(modelTokens.join(' '));
+}
+
+function normalizeModelLabel(model) {
+  return String(model || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => {
+      if (/^\d+$/.test(token)) return token;
+      if (/^\d+(st|nd|rd|th)$/i.test(token)) return '';
+      if (/^[A-Za-z0-9-]*\d+[A-Za-z0-9-]*$/.test(token) || token.includes('/') || token.includes('-')) {
+        return token.toUpperCase();
+      }
+      if (token.length <= 3) return token.toUpperCase();
+      return `${token.charAt(0).toUpperCase()}${token.slice(1).toLowerCase()}`;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
+
 function localizeCategoryPL(category) {
   const map = {
     Coilovers: 'Zawieszenie gwintowane',
@@ -869,6 +1160,10 @@ function formatPriceRange(min, max) {
   const a = formatMoney(min);
   const b = formatMoney(max);
   return min === max ? a : `${a} - ${b}`;
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function escapeHtml(value) {
