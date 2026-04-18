@@ -344,6 +344,10 @@ function bindShopEvents() {
 
   if (ui.loadMore) {
     ui.loadMore.addEventListener('click', () => {
+      if (!isStandaloneShopPage()) {
+        goToShopPage();
+        return;
+      }
       state.visibleCount += 12;
       renderGrid();
     });
@@ -611,6 +615,20 @@ function syncTabButtons() {
     button.classList.toggle('is-active', isActive);
     button.setAttribute('aria-pressed', String(isActive));
   });
+}
+
+function isStandaloneShopPage() {
+  const path = String(window.location.pathname || '').toLowerCase();
+  return path.endsWith('/sklep.html') || path.endsWith('sklep.html');
+}
+
+function goToShopPage() {
+  const targetUrl = new URL('sklep.html', window.location.href);
+  const activeTab = normalizeTab(state.tabCategory);
+  if (activeTab !== 'all') {
+    targetUrl.searchParams.set('tab', activeTab);
+  }
+  window.location.href = targetUrl.toString();
 }
 
 function matchesTabCategory(product, tab) {
