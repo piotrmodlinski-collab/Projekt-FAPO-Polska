@@ -514,6 +514,64 @@ body {
   font-size: 0.94rem;
 }
 
+.warranty-policy {
+  margin-top: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  padding: 1.15rem;
+}
+
+.warranty-policy h3 {
+  margin: 0;
+  font-family: "Teko", sans-serif;
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.warranty-policy p,
+.warranty-policy li {
+  color: var(--muted);
+}
+
+.warranty-policy > p {
+  margin: 0.6rem 0 0;
+}
+
+.warranty-columns {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.warranty-columns > div {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem 0.9rem;
+  background: rgba(8, 13, 20, 0.42);
+}
+
+.warranty-policy h4 {
+  margin: 0;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: #ffd6c3;
+}
+
+.warranty-policy ul,
+.warranty-policy ol {
+  margin: 0.55rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.warranty-note {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  color: #ced9e8;
+}
+
 .card h3,
 .policy-grid h3,
 .split h3,
@@ -1584,6 +1642,21 @@ body.shorts-modal-open {
   object-position: center top;
 }
 
+.about-gallery {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.about-gallery img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .automotive-stats .stat-card,
   .automotive-stats .stat-card::after,
@@ -1615,6 +1688,9 @@ body.shorts-modal-open {
   .photo-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .about-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .short-card {
     flex-basis: 158px;
   }
@@ -1642,6 +1718,7 @@ body.shorts-modal-open {
   .split,
   .cards,
   .policy-grid,
+  .warranty-columns,
   .contact,
   .site-footer {
     grid-template-columns: 1fr;
@@ -1688,6 +1765,9 @@ body.shorts-modal-open {
     grid-template-columns: 1fr;
   }
   .photo-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-gallery {
     grid-template-columns: 1fr;
   }
   .shorts-rail-wrap {
