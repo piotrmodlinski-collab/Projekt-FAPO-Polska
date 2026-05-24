@@ -131,8 +131,21 @@ function normalizeProducts(products) {
 }
 
 function productDescription(product, title, category, fitment) {
+  if (product.descriptionTextPl) {
+    return product.descriptionTextPl;
+  }
+
   const sku = product.sku ? ` SKU ${product.sku}.` : '';
   return `${title}. ${category}, ${fitment}. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep.${sku}`;
+}
+
+function safeProductDescriptionHtml(product, fallbackDescription) {
+  const html = String(product.descriptionHtmlPl || '').trim();
+  if (!html) {
+    return `<p>${escapeHtml(fallbackDescription)}</p>`;
+  }
+
+  return html;
 }
 
 function productJsonLd(product, title, description) {
@@ -210,6 +223,7 @@ function renderProductPage(product) {
   const category = normalizeCategory(product.category);
   const fitment = fitmentLabel(product);
   const description = productDescription(product, title, category, fitment);
+  const richDescription = safeProductDescriptionHtml(product, description);
   const price = formatPriceRange(product);
   const image = product.image || '../assets/media/fapo-recommendations-poster.jpg';
   const makes = (product.vehicle?.makes || []).join(', ') || 'Dobór po kontakcie';
@@ -288,6 +302,10 @@ function renderProductPage(product) {
             <a class="btn btn-ghost" href="../sklep.html">Zobacz katalog</a>
           </div>
         </div>
+      </div>
+      <div class="product-description">
+        <h2>Opis produktu</h2>
+        ${richDescription}
       </div>
       <div class="product-detail-specs">
         <article>

@@ -1167,6 +1167,55 @@ body {
   max-width: 68ch;
 }
 
+.product-description {
+  margin-top: 1.35rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.25rem;
+  max-width: 980px;
+  color: #dfe6ee;
+}
+
+.product-description h2,
+.product-description h3,
+.product-description h4 {
+  margin: 1rem 0 0.55rem;
+  font-family: "Teko", sans-serif;
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.product-description h2:first-child,
+.product-description h3:first-child,
+.product-description h4:first-child {
+  margin-top: 0;
+}
+
+.product-description p,
+.product-description li {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.product-description ul,
+.product-description ol {
+  margin: 0.4rem 0 1rem;
+  padding-left: 1.25rem;
+}
+
+.product-description table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0 1rem;
+}
+
+.product-description th,
+.product-description td {
+  border: 1px solid var(--line);
+  padding: 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+
 .product-detail-specs {
   margin-top: 1.35rem;
   display: grid;
