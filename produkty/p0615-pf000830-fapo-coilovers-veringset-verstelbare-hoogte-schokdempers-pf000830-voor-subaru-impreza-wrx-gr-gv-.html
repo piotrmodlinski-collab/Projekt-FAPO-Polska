@@ -66,6 +66,10 @@
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
+    <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
+      <a href="p0615-pf000830-fapo-coilovers-veringset-verstelbare-hoogte-schokdempers-pf000830-voor-subaru-impreza-wrx-gr-gv-.html" class="active" data-product-lang-link="pl" aria-current="page">PL</a>
+      <a href="p0615-pf000830-fapo-coilovers-veringset-verstelbare-hoogte-schokdempers-pf000830-voor-subaru-impreza-wrx-gr-gv-.html?lang=en" data-product-lang-link="en">EN</a>
+    </div>
     <button class="cart-toggle" type="button" id="cart-toggle" aria-label="Otwórz koszyk">
       Koszyk <span id="cart-count">0</span>
     </button>
@@ -92,8 +96,9 @@
             <span class="tag">Dobór po kontakcie</span>
             <span class="tag">FAPO Polska</span>
           </div>
-          <h1>FAPO zawieszenie gwintowane Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot</h1>
-          <p class="product-detail-lead">FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+          <h1 data-lang-text data-lang-pl="FAPO zawieszenie gwintowane Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot" data-lang-en="FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot">FAPO zawieszenie gwintowane Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot</h1>
+          <p class="product-detail-lead" data-lang-panel="pl">FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+          <p class="product-detail-lead" data-lang-panel="en" hidden>FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830.</p>
           <p class="price">1867 PLN</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="p0615">Dodaj do koszyka</button>
@@ -102,8 +107,9 @@
         </div>
       </div>
       <div class="product-description">
-        <h2>Opis produktu</h2>
-        <p>FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+        <h2 data-lang-text data-lang-pl="Opis produktu" data-lang-en="Product description">Opis produktu</h2>
+        <div data-lang-panel="pl"><p>FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p></div>
+        <div data-lang-panel="en" hidden><p>FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830.</p></div>
       </div>
       <div class="product-detail-specs">
         <article>
@@ -183,6 +189,41 @@
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
   <script>window.FAPO_ASSET_BASE = '../';</script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const language = params.get('lang') === 'en' ? 'en' : 'pl';
+      const titles = {"pl":"FAPO zawieszenie gwintowane Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot | FAPO Polska","en":"FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot | FAPO Poland"};
+      const descriptions = {"pl":"FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.","en":"FAPO Coilovers Veringset Verstelbare Hoogte Schokdempers PF000830 voor Subaru Impreza WRX GR/GV 2008-2014 Veer en Veerpoot. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830."};
+
+      document.documentElement.lang = language;
+      document.title = titles[language] || titles.pl;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
+      }
+
+      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+        element.hidden = element.dataset.langPanel !== language;
+      });
+
+      document.querySelectorAll('[data-lang-text]').forEach((element) => {
+        const value = element.getAttribute('data-lang-' + language);
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+        const active = link.dataset.productLangLink === language;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
 </body>
 </html>

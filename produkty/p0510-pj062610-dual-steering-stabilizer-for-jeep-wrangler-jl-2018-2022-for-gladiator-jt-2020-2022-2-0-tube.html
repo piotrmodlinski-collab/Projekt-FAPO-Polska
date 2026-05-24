@@ -66,6 +66,10 @@
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
+    <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
+      <a href="p0510-pj062610-dual-steering-stabilizer-for-jeep-wrangler-jl-2018-2022-for-gladiator-jt-2020-2022-2-0-tube.html" class="active" data-product-lang-link="pl" aria-current="page">PL</a>
+      <a href="p0510-pj062610-dual-steering-stabilizer-for-jeep-wrangler-jl-2018-2022-for-gladiator-jt-2020-2022-2-0-tube.html?lang=en" data-product-lang-link="en">EN</a>
+    </div>
     <button class="cart-toggle" type="button" id="cart-toggle" aria-label="Otwórz koszyk">
       Koszyk <span id="cart-count">0</span>
     </button>
@@ -92,8 +96,9 @@
             <span class="tag">Dobór po kontakcie</span>
             <span class="tag">FAPO Polska</span>
           </div>
-          <h1>Dual Steering Stabilizer Do Jeep Wrangler JL 2018-2022 Do Gladiator JT 2020-2022 2.0 Tube</h1>
-          <p class="product-detail-lead">Technical Data: Extended Length: 20.31 cala Collapsed Length: 13.03 cala Zawartość zestawu: 2 x Steering Stabilizer 3 x Mounting Brackets 6 x U-Bolt Clamps Gwarancja: 1 year manufacturer&#39;s Gwarancja</p>
+          <h1 data-lang-text data-lang-pl="Dual Steering Stabilizer Do Jeep Wrangler JL 2018-2022 Do Gladiator JT 2020-2022 2.0 Tube" data-lang-en="Dual Steering Stabilizer for Jeep Wrangler JL 2018-2022 for Gladiator JT 2020-2022 2.0 Tube">Dual Steering Stabilizer Do Jeep Wrangler JL 2018-2022 Do Gladiator JT 2020-2022 2.0 Tube</h1>
+          <p class="product-detail-lead" data-lang-panel="pl">Technical Data: Extended Length: 20.31 cala Collapsed Length: 13.03 cala Zawartość zestawu: 2 x Steering Stabilizer 3 x Mounting Brackets 6 x U-Bolt Clamps Gwarancja: 1 year manufacturer&#39;s Gwarancja</p>
+          <p class="product-detail-lead" data-lang-panel="en" hidden>Technical Data: Extended Length: 20.31 inch Collapsed Length: 13.03 inch Package Includes: 2 x Steering Stabilizer 3 x Mounting Brackets 6 x U-Bolt Clamps Warranty: 1 year manufacturer&#39;s warranty</p>
           <p class="price">899 PLN - 2299 PLN</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="p0510">Dodaj do koszyka</button>
@@ -102,8 +107,21 @@
         </div>
       </div>
       <div class="product-description">
-        <h2>Opis produktu</h2>
-        <h3>Technical Data:</h3><ul><li>Extended Length: 20.31 cala</li><li>Collapsed Length: 13.03 cala</li></ul><h3>Zawartość zestawu:</h3><ul><li>2 x Steering Stabilizer</li><li>3 x Mounting Brackets</li><li>6 x U-Bolt Clamps</li></ul><h3>Gwarancja:</h3><p>1 year manufacturer&#39;s Gwarancja</p>
+        <h2 data-lang-text data-lang-pl="Opis produktu" data-lang-en="Product description">Opis produktu</h2>
+        <div data-lang-panel="pl"><h3>Technical Data:</h3><ul><li>Extended Length: 20.31 cala</li><li>Collapsed Length: 13.03 cala</li></ul><h3>Zawartość zestawu:</h3><ul><li>2 x Steering Stabilizer</li><li>3 x Mounting Brackets</li><li>6 x U-Bolt Clamps</li></ul><h3>Gwarancja:</h3><p>1 year manufacturer&#39;s Gwarancja</p></div>
+        <div data-lang-panel="en" hidden><h3>Technical Data:</h3>
+<ul>
+<li>Extended Length: 20.31 inch</li>
+<li>Collapsed Length: 13.03 inch</li>
+</ul>
+<h3>Package Includes:</h3>
+<ul>
+<li>2 x Steering Stabilizer</li>
+<li>3 x Mounting Brackets</li>
+<li>6 x U-Bolt Clamps</li>
+</ul>
+<h3>Warranty:</h3>
+<p>1 year manufacturer&#39;s warranty</p></div>
       </div>
       <div class="product-detail-specs">
         <article>
@@ -183,6 +201,41 @@
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
   <script>window.FAPO_ASSET_BASE = '../';</script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const language = params.get('lang') === 'en' ? 'en' : 'pl';
+      const titles = {"pl":"Dual Steering Stabilizer Do Jeep Wrangler JL 2018-2022 Do Gladiator JT 2020-2022 2.0 Tube | FAPO Polska","en":"Dual Steering Stabilizer for Jeep Wrangler JL 2018-2022 for Gladiator JT 2020-2022 2.0 Tube | FAPO Poland"};
+      const descriptions = {"pl":"Technical Data: Extended Length: 20.31 cala Collapsed Length: 13.03 cala Zawartość zestawu: 2 x Steering Stabilizer 3 x Mounting Brackets 6 x U-Bolt Clamps Gwarancja: 1 year manufacturer's Gwarancja","en":"Technical Data: Extended Length: 20.31 inch Collapsed Length: 13.03 inch Package Includes: 2 x Steering Stabilizer 3 x Mounting Brackets 6 x U-Bolt Clamps Warranty: 1 year manufacturer's warranty"};
+
+      document.documentElement.lang = language;
+      document.title = titles[language] || titles.pl;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
+      }
+
+      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+        element.hidden = element.dataset.langPanel !== language;
+      });
+
+      document.querySelectorAll('[data-lang-text]').forEach((element) => {
+        const value = element.getAttribute('data-lang-' + language);
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+        const active = link.dataset.productLangLink === language;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
 </body>
 </html>

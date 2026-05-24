@@ -66,6 +66,10 @@
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
+    <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
+      <a href="p0614-pf000830-high-performance-coilover-veringset-pf000830-voor-subaru-impreza-gj-gp-2012-2016-schokdempers-ve.html" class="active" data-product-lang-link="pl" aria-current="page">PL</a>
+      <a href="p0614-pf000830-high-performance-coilover-veringset-pf000830-voor-subaru-impreza-gj-gp-2012-2016-schokdempers-ve.html?lang=en" data-product-lang-link="en">EN</a>
+    </div>
     <button class="cart-toggle" type="button" id="cart-toggle" aria-label="Otwórz koszyk">
       Koszyk <span id="cart-count">0</span>
     </button>
@@ -92,8 +96,9 @@
             <span class="tag">Dobór po kontakcie</span>
             <span class="tag">FAPO Polska</span>
           </div>
-          <h1>High Performance zawieszenie gwintowane Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer</h1>
-          <p class="product-detail-lead">High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+          <h1 data-lang-text data-lang-pl="High Performance zawieszenie gwintowane Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer" data-lang-en="High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer">High Performance zawieszenie gwintowane Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer</h1>
+          <p class="product-detail-lead" data-lang-panel="pl">High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+          <p class="product-detail-lead" data-lang-panel="en" hidden>High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830.</p>
           <p class="price">1867 PLN</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="p0614">Dodaj do koszyka</button>
@@ -102,8 +107,9 @@
         </div>
       </div>
       <div class="product-description">
-        <h2>Opis produktu</h2>
-        <p>High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p>
+        <h2 data-lang-text data-lang-pl="Opis produktu" data-lang-en="Product description">Opis produktu</h2>
+        <div data-lang-panel="pl"><p>High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.</p></div>
+        <div data-lang-panel="en" hidden><p>High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830.</p></div>
       </div>
       <div class="product-detail-specs">
         <article>
@@ -183,6 +189,41 @@
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
   <script>window.FAPO_ASSET_BASE = '../';</script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const language = params.get('lang') === 'en' ? 'en' : 'pl';
+      const titles = {"pl":"High Performance zawieszenie gwintowane Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer | FAPO Polska","en":"High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer | FAPO Poland"};
+      const descriptions = {"pl":"High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.","en":"High Performance Coilover Veringset PF000830 voor Subaru Impreza GJ/GP 2012-2016 Schokdempers Veer. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830."};
+
+      document.documentElement.lang = language;
+      document.title = titles[language] || titles.pl;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
+      }
+
+      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+        element.hidden = element.dataset.langPanel !== language;
+      });
+
+      document.querySelectorAll('[data-lang-text]').forEach((element) => {
+        const value = element.getAttribute('data-lang-' + language);
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+        const active = link.dataset.productLangLink === language;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
 </body>
 </html>

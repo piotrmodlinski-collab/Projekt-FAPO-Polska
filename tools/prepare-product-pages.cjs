@@ -17,6 +17,33 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function jsonForInlineScript(value) {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
+function stripHtml(value) {
+  const text = String(value ?? '')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return decodeHtmlEntities(text);
+}
+
+function decodeHtmlEntities(value) {
+  return String(value ?? '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&apos;|&#39;/gi, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(parseInt(code, 10)));
+}
+
 function slugify(value) {
   return String(value || '')
     .normalize('NFD')
@@ -37,6 +64,10 @@ function normalizeCategory(category) {
     Performance: 'Performance',
   };
   return map[category] || category || 'Performance';
+}
+
+function normalizeCategoryEn(category) {
+  return category || 'Performance';
 }
 
 function localizeProductTitlePL(title) {
@@ -110,6 +141,26 @@ function fitmentLabel(product) {
   return makes.slice(0, 2).join(' / ') || 'Dobór po kontakcie';
 }
 
+function fitmentLabelEn(product) {
+  const labels = {
+    universal: 'Universal',
+    swap: 'Swap/custom',
+    engine: 'Engine',
+  };
+  if (product.fitmentType && labels[product.fitmentType]) return labels[product.fitmentType];
+
+  const years = Array.isArray(product.vehicle?.years) ? product.vehicle.years : [];
+  if (years.length) {
+    const sorted = Array.from(new Set(years.map(Number))).sort((a, b) => a - b);
+    return sorted[0] === sorted[sorted.length - 1]
+      ? String(sorted[0])
+      : `${sorted[0]}-${sorted[sorted.length - 1]}`;
+  }
+
+  const makes = Array.isArray(product.vehicle?.makes) ? product.vehicle.makes : [];
+  return makes.slice(0, 2).join(' / ') || 'Fitment by contact';
+}
+
 function productFileName(product) {
   const sku = slugify(product.sku || product.id || 'produkt');
   const title = slugify(product.title || product.id || 'fapo');
@@ -139,8 +190,19 @@ function productDescription(product, title, category, fitment) {
   return `${title}. ${category}, ${fitment}. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep.${sku}`;
 }
 
-function safeProductDescriptionHtml(product, fallbackDescription) {
-  const html = String(product.descriptionHtmlPl || '').trim();
+function productDescriptionEn(product, title, category, fitment) {
+  const imported = stripHtml(product.descriptionHtmlEn);
+  if (imported) {
+    return imported;
+  }
+
+  const sku = product.sku ? ` SKU ${product.sku}.` : '';
+  return `${title}. ${category}, ${fitment}. Product available in the FAPO Poland catalogue with order support through our store.${sku}`;
+}
+
+function safeProductDescriptionHtml(product, fallbackDescription, language = 'pl') {
+  const source = language === 'en' ? product.descriptionHtmlEn : product.descriptionHtmlPl;
+  const html = String(source || '').trim();
   if (!html) {
     return `<p>${escapeHtml(fallbackDescription)}</p>`;
   }
@@ -220,14 +282,20 @@ function renderCartDrawer() {
 
 function renderProductPage(product) {
   const title = localizeProductTitlePL(product.title || 'Produkt FAPO');
+  const titleEn = product.title || title;
   const category = normalizeCategory(product.category);
+  const categoryEn = normalizeCategoryEn(product.category);
   const fitment = fitmentLabel(product);
+  const fitmentEn = fitmentLabelEn(product);
   const description = productDescription(product, title, category, fitment);
-  const richDescription = safeProductDescriptionHtml(product, description);
+  const descriptionEn = productDescriptionEn(product, titleEn, categoryEn, fitmentEn);
+  const richDescription = safeProductDescriptionHtml(product, description, 'pl');
+  const richDescriptionEn = safeProductDescriptionHtml(product, descriptionEn, 'en');
   const price = formatPriceRange(product);
   const image = product.image || '../assets/media/fapo-recommendations-poster.jpg';
   const makes = (product.vehicle?.makes || []).join(', ') || 'Dobór po kontakcie';
   const models = (product.vehicle?.models || []).join(', ') || 'Dobór po kontakcie';
+  const productPageFileName = String(product.url || productFileName(product)).split('/').pop();
 
   return `<!DOCTYPE html>
 <html lang="pl">
@@ -268,6 +336,10 @@ function renderProductPage(product) {
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
+    <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
+      <a href="${escapeHtml(productPageFileName)}" class="active" data-product-lang-link="pl" aria-current="page">PL</a>
+      <a href="${escapeHtml(productPageFileName)}?lang=en" data-product-lang-link="en">EN</a>
+    </div>
     <button class="cart-toggle" type="button" id="cart-toggle" aria-label="Otwórz koszyk">
       Koszyk <span id="cart-count">0</span>
     </button>
@@ -294,8 +366,9 @@ function renderProductPage(product) {
             <span class="tag">${escapeHtml(fitment)}</span>
             <span class="tag">FAPO Polska</span>
           </div>
-          <h1>${escapeHtml(title)}</h1>
-          <p class="product-detail-lead">${escapeHtml(description)}</p>
+          <h1 data-lang-text data-lang-pl="${escapeHtml(title)}" data-lang-en="${escapeHtml(titleEn)}">${escapeHtml(title)}</h1>
+          <p class="product-detail-lead" data-lang-panel="pl">${escapeHtml(description)}</p>
+          <p class="product-detail-lead" data-lang-panel="en" hidden>${escapeHtml(descriptionEn)}</p>
           <p class="price">${escapeHtml(price)}</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="${escapeHtml(product.id)}">Dodaj do koszyka</button>
@@ -304,8 +377,9 @@ function renderProductPage(product) {
         </div>
       </div>
       <div class="product-description">
-        <h2>Opis produktu</h2>
-        ${richDescription}
+        <h2 data-lang-text data-lang-pl="Opis produktu" data-lang-en="Product description">Opis produktu</h2>
+        <div data-lang-panel="pl">${richDescription}</div>
+        <div data-lang-panel="en" hidden>${richDescriptionEn}</div>
       </div>
       <div class="product-detail-specs">
         <article>
@@ -353,6 +427,47 @@ function renderProductPage(product) {
 
 ${renderCartDrawer()}
   <script>window.FAPO_ASSET_BASE = '../';</script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const language = params.get('lang') === 'en' ? 'en' : 'pl';
+      const titles = ${jsonForInlineScript({
+        pl: `${title} | FAPO Polska`,
+        en: `${titleEn} | FAPO Poland`,
+      })};
+      const descriptions = ${jsonForInlineScript({
+        pl: description,
+        en: descriptionEn,
+      })};
+
+      document.documentElement.lang = language;
+      document.title = titles[language] || titles.pl;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
+      }
+
+      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+        element.hidden = element.dataset.langPanel !== language;
+      });
+
+      document.querySelectorAll('[data-lang-text]').forEach((element) => {
+        const value = element.getAttribute('data-lang-' + language);
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+        const active = link.dataset.productLangLink === language;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
 </body>
 </html>

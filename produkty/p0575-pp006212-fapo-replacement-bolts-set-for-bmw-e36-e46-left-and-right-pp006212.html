@@ -66,6 +66,10 @@
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
+    <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
+      <a href="p0575-pp006212-fapo-replacement-bolts-set-for-bmw-e36-e46-left-and-right-pp006212.html" class="active" data-product-lang-link="pl" aria-current="page">PL</a>
+      <a href="p0575-pp006212-fapo-replacement-bolts-set-for-bmw-e36-e46-left-and-right-pp006212.html?lang=en" data-product-lang-link="en">EN</a>
+    </div>
     <button class="cart-toggle" type="button" id="cart-toggle" aria-label="Otwórz koszyk">
       Koszyk <span id="cart-count">0</span>
     </button>
@@ -92,8 +96,9 @@
             <span class="tag">1992-2006</span>
             <span class="tag">FAPO Polska</span>
           </div>
-          <h1>FAPO Replacement Bolts Set Do BMW E36 E46 Left And Right PP006212</h1>
-          <p class="product-detail-lead">Zastosowanie: Replacement for FAPO Przód Steering Drift Lower wahacze Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006) Zawartość zestawu: 1 x Para Outer Joint Stud for BMW E36/E46 1 x Para Tie Rod Bolt for BMW E36/E46 1 x Para Knuckle Adapter Bolt for BMW E36/E46</p>
+          <h1 data-lang-text data-lang-pl="FAPO Replacement Bolts Set Do BMW E36 E46 Left And Right PP006212" data-lang-en="FAPO Replacement Bolts Set for BMW E36 E46 Left And Right PP006212">FAPO Replacement Bolts Set Do BMW E36 E46 Left And Right PP006212</h1>
+          <p class="product-detail-lead" data-lang-panel="pl">Zastosowanie: Replacement for FAPO Przód Steering Drift Lower wahacze Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006) Zawartość zestawu: 1 x Para Outer Joint Stud for BMW E36/E46 1 x Para Tie Rod Bolt for BMW E36/E46 1 x Para Knuckle Adapter Bolt for BMW E36/E46</p>
+          <p class="product-detail-lead" data-lang-panel="en" hidden>Application: Replacement for FAPO Front Steering Drift Lower Control Arm Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006) Package Includes: 1 x Pair Outer Joint Stud for BMW E36/E46 1 x Pair Tie Rod Bolt for BMW E36/E46 1 x Pair Knuckle Adapter Bolt for BMW E36/E46</p>
           <p class="price">499 PLN - 1999 PLN</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="p0575">Dodaj do koszyka</button>
@@ -102,8 +107,22 @@
         </div>
       </div>
       <div class="product-description">
-        <h2>Opis produktu</h2>
-        <h4>Zastosowanie:</h4><ul><li>Replacement for FAPO Przód Steering Drift Lower wahacze Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006)<br /></li></ul><h4>Zawartość zestawu:</h4><ul><li>1 x Para Outer Joint Stud for BMW E36/E46<br /></li><li>1 x Para Tie Rod Bolt for BMW E36/E46<br /></li><li>1 x Para Knuckle Adapter Bolt for BMW E36/E46<br /></li></ul>
+        <h2 data-lang-text data-lang-pl="Opis produktu" data-lang-en="Product description">Opis produktu</h2>
+        <div data-lang-panel="pl"><h4>Zastosowanie:</h4><ul><li>Replacement for FAPO Przód Steering Drift Lower wahacze Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006)<br /></li></ul><h4>Zawartość zestawu:</h4><ul><li>1 x Para Outer Joint Stud for BMW E36/E46<br /></li><li>1 x Para Tie Rod Bolt for BMW E36/E46<br /></li><li>1 x Para Knuckle Adapter Bolt for BMW E36/E46<br /></li></ul></div>
+        <div data-lang-panel="en" hidden><h4>Application:</h4>
+<ul>
+<li>Replacement for FAPO Front Steering Drift Lower Control Arm Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006)<br />
+</li>
+</ul>
+<h4>Package Includes:</h4>
+<ul>
+<li>1 x Pair Outer Joint Stud for BMW E36/E46<br />
+</li>
+<li>1 x Pair Tie Rod Bolt for BMW E36/E46<br />
+</li>
+<li>1 x Pair Knuckle Adapter Bolt for BMW E36/E46<br />
+</li>
+</ul></div>
       </div>
       <div class="product-detail-specs">
         <article>
@@ -183,6 +202,41 @@
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
   <script>window.FAPO_ASSET_BASE = '../';</script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const language = params.get('lang') === 'en' ? 'en' : 'pl';
+      const titles = {"pl":"FAPO Replacement Bolts Set Do BMW E36 E46 Left And Right PP006212 | FAPO Polska","en":"FAPO Replacement Bolts Set for BMW E36 E46 Left And Right PP006212 | FAPO Poland"};
+      const descriptions = {"pl":"Zastosowanie: Replacement for FAPO Przód Steering Drift Lower wahacze Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006) Zawartość zestawu: 1 x Para Outer Joint Stud for BMW E36/E46 1 x Para Tie Rod Bolt for BMW E36/E46 1 x Para Knuckle Adapter Bolt for BMW E36/E46","en":"Application: Replacement for FAPO Front Steering Drift Lower Control Arm Wide Angle Kit for BMW E36 (1992-1998), E46 (1998-2006) Package Includes: 1 x Pair Outer Joint Stud for BMW E36/E46 1 x Pair Tie Rod Bolt for BMW E36/E46 1 x Pair Knuckle Adapter Bolt for BMW E36/E46"};
+
+      document.documentElement.lang = language;
+      document.title = titles[language] || titles.pl;
+
+      const descriptionMeta = document.querySelector('meta[name="description"]');
+      if (descriptionMeta) {
+        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
+      }
+
+      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+        element.hidden = element.dataset.langPanel !== language;
+      });
+
+      document.querySelectorAll('[data-lang-text]').forEach((element) => {
+        const value = element.getAttribute('data-lang-' + language);
+        if (value) element.textContent = value;
+      });
+
+      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+        const active = link.dataset.productLangLink === language;
+        link.classList.toggle('active', active);
+        if (active) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    })();
+  </script>
   <script src="../app.js"></script>
 </body>
 </html>
