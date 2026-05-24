@@ -3,7 +3,7 @@
   "source_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json",
   "backup_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.backup.before-pricing.json",
   "usd_pln_rate": 3.5912,
-  "markup_percent": 30.0,
+  "markup_percent": 30,
   "multiplier": 4.66856,
   "series_usd": {
     "PS": 275,
@@ -16,14 +16,17 @@
     "JEEP_P3": 350,
     "JEEP_P5": 650
   },
-  "total_products": 618,
-  "updated_products": 343,
+  "total_products": 622,
+  "updated_products": 347,
   "unchanged_products": 275,
   "updated_by_series": {
-    "PS": 168,
+    "PS": 169,
+    "PS+": 1,
     "PF": 142,
-    "P3": 7,
     "P1": 24,
+    "P3": 7,
+    "P5": 1,
+    "P7": 1,
     "JEEP_P3": 2
   },
   "examples": {
@@ -61,6 +64,58 @@
       "oldPriceFrom": 899,
       "oldPriceTo": 2299,
       "newPricePLN": 1634
+    },
+    "PS+": {
+      "title": "PS+ Series Coilover Offer (Catalogue)",
+      "sku": "PSPLUS-CATALOG",
+      "oldPriceFrom": null,
+      "oldPriceTo": null,
+      "newPricePLN": 1443
+    },
+    "P5": {
+      "title": "P5 Series Off-Road Suspension Offer (Catalogue)",
+      "sku": "P5-CATALOG",
+      "oldPriceFrom": null,
+      "oldPriceTo": null,
+      "newPricePLN": 3035
+    },
+    "P7": {
+      "title": "P7 Series Off-Road Suspension Offer (Catalogue)",
+      "sku": "P7-CATALOG",
+      "oldPriceFrom": null,
+      "oldPriceTo": null,
+      "newPricePLN": 3268
     }
-  }
+  },
+  "runtime_source_counts": {
+    "fapomoto": 603,
+    "ridershox_alibaba": 15,
+    "catalogue": 4
+  },
+  "new_products_since_backup": [
+    {
+      "id": "p0619",
+      "source": "catalogue",
+      "sku": "PS035810",
+      "title": "Coilover for Toyota Camry/Avalon XV40 2006-2012 PS035810"
+    },
+    {
+      "id": "p0620",
+      "source": "catalogue",
+      "sku": "PSPLUS-CATALOG",
+      "title": "PS+ Series Coilover Offer (Catalogue)"
+    },
+    {
+      "id": "p0621",
+      "source": "catalogue",
+      "sku": "P5-CATALOG",
+      "title": "P5 Series Off-Road Suspension Offer (Catalogue)"
+    },
+    {
+      "id": "p0622",
+      "source": "catalogue",
+      "sku": "P7-CATALOG",
+      "title": "P7 Series Off-Road Suspension Offer (Catalogue)"
+    }
+  ]
 }

@@ -1,5 +1,12 @@
 [build]
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/contact"
+  status = 200
 
 [[redirects]]
   from = "/pl"
@@ -10,4 +17,3 @@
   from = "/en"
   to = "/en.html"
   status = 301
-

@@ -1,0 +1,7 @@
+assets/media/shorts/
+.tmp-media/
+dist/
+node_modules/
+.env
+.env.local
+*.log

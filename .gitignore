@@ -1,2 +1,8 @@
 import/
 assets/media/shorts/
+node_modules/
+dist/
+.tmp-media/
+.env
+.env.local
+*.log

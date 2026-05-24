@@ -1,0 +1,16 @@
+{
+  "name": "fapo-polska-static",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node tools/prepare-product-pages.cjs && node tools/build-static.cjs",
+    "products:prepare": "node tools/prepare-product-pages.cjs",
+    "catalog:audit": "node tools/audit-catalog.cjs",
+    "catalog:enrich": "node tools/enrich-catalog.cjs",
+    "import:sync-reports": "node tools/sync-import-reports.cjs",
+    "check": "node --check app.js && node --check api/contact.js && node --check netlify/functions/contact.js && node --check server/mail-handler.cjs && node --check tools/build-static.cjs && node --check tools/enrich-catalog.cjs && node --check tools/audit-catalog.cjs && node --check tools/sync-import-reports.cjs && node --check tools/prepare-product-pages.cjs && node tools/prepare-product-pages.cjs --check && node tools/sync-import-reports.cjs --check"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.8"
+  }
+}

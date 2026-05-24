@@ -96,19 +96,157 @@ function animateStatCounter(element, instant = false) {
 }
 
 const contactForm = document.querySelector('.contact-form');
+const contactEndpoint = '/api/contact';
+const fallbackRecipients = ['office@fapomoto.pl', 'piotr.modlinski@gmail.com'];
+const assetBase = window.FAPO_ASSET_BASE || '';
+
 if (contactForm) {
-  contactForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const button = contactForm.querySelector('button');
-    const original = button.textContent;
-    button.textContent = 'Wyslano';
-    button.disabled = true;
-    setTimeout(() => {
-      button.textContent = original;
-      button.disabled = false;
-      contactForm.reset();
-    }, 1800);
-  });
+  contactForm.addEventListener('submit', handleContactSubmit);
+}
+
+async function handleContactSubmit(event) {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalLabel = submitButton?.textContent || '';
+  const language = document.documentElement.lang === 'en' ? 'en' : 'pl';
+  const labels = getContactLabels(language);
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const payload = buildContactPayload(form, language);
+  if (!payload.message) {
+    setFormStatus(form, labels.missingMessage, 'error');
+    return;
+  }
+
+  setSubmitState(submitButton, true, labels.sending);
+  setFormStatus(form, labels.sendingLong, 'info');
+
+  try {
+    await sendContactPayload(payload);
+    form.reset();
+    setFormStatus(form, labels.success, 'success');
+  } catch (error) {
+    console.error('Contact form send failed', error);
+    openContactMailFallback(payload, language);
+    setFormStatus(form, labels.fallback, 'warning');
+  } finally {
+    setSubmitState(submitButton, false, originalLabel);
+  }
+}
+
+function buildContactPayload(form, language) {
+  const data = new FormData(form);
+  return {
+    kind: 'contact',
+    language,
+    page: window.location.href,
+    name: String(data.get('name') || '').trim(),
+    email: String(data.get('email') || '').trim(),
+    type: String(data.get('type') || '').trim(),
+    message: String(data.get('message') || '').trim(),
+  };
+}
+
+async function sendContactPayload(payload) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 12000);
+
+  try {
+    const response = await fetch(contactEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Contact endpoint returned ${response.status}`);
+    }
+
+    const result = await response.json().catch(() => ({}));
+    if (result.ok === false) {
+      throw new Error(result.message || 'Contact endpoint rejected the message');
+    }
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function openContactMailFallback(payload, language) {
+  const subject = language === 'en'
+    ? `FAPO Poland inquiry - ${payload.name || payload.email}`
+    : `Zapytanie FAPO Polska - ${payload.name || payload.email}`;
+  const body = [
+    language === 'en' ? 'New FAPO Poland inquiry' : 'Nowe zapytanie FAPO Polska',
+    '',
+    `${language === 'en' ? 'Company / name' : 'Firma / imię'}: ${payload.name}`,
+    `E-mail: ${payload.email}`,
+    `${language === 'en' ? 'Partnership profile' : 'Profil współpracy'}: ${payload.type}`,
+    `${language === 'en' ? 'Page' : 'Strona'}: ${payload.page}`,
+    '',
+    language === 'en' ? 'Message:' : 'Wiadomość:',
+    payload.message,
+  ].join('\n');
+
+  window.location.href = `mailto:${fallbackRecipients.join(',')}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function setSubmitState(button, disabled, label) {
+  if (!button) return;
+  button.disabled = disabled;
+  if (label) button.textContent = label;
+}
+
+function setFormStatus(form, message, type) {
+  const status = getFormStatusElement(form);
+  status.textContent = message;
+  status.dataset.status = type;
+}
+
+function getFormStatusElement(form) {
+  let status = form.querySelector('[data-form-status]');
+  if (status) return status;
+
+  status = document.createElement('p');
+  status.className = 'form-status';
+  status.dataset.formStatus = '';
+  status.setAttribute('role', 'status');
+  status.setAttribute('aria-live', 'polite');
+  form.append(status);
+  return status;
+}
+
+function getContactLabels(language) {
+  if (language === 'en') {
+    return {
+      sending: 'Sending...',
+      sendingLong: 'Sending your inquiry...',
+      success: 'Message sent. Thank you for your inquiry.',
+      missingMessage: 'Add a message before sending.',
+      fallback: 'Automatic sending is unavailable. Your e-mail client has been opened with a prepared message.',
+    };
+  }
+
+  return {
+    sending: 'Wysyłanie...',
+    sendingLong: 'Wysyłamy Twoje zapytanie...',
+    success: 'Wiadomość wysłana. Dziękujemy za kontakt.',
+    missingMessage: 'Dodaj treść wiadomości przed wysłaniem.',
+    fallback: 'Automatyczna wysyłka jest niedostępna. Otworzyliśmy program pocztowy z przygotowaną wiadomością.',
+  };
+}
+
+function assetPath(path) {
+  return `${assetBase}${path}`;
 }
 
 const state = {
@@ -153,6 +291,7 @@ const ui = {
   cartItems: document.getElementById('cart-items'),
   cartTotal: document.getElementById('cart-total'),
   checkoutForm: document.getElementById('checkout-form'),
+  productDetail: document.getElementById('product-detail'),
   shortsGrid: document.getElementById('shorts-grid'),
   shortsCount: document.getElementById('shorts-count'),
   shortsPrev: document.getElementById('shorts-prev'),
@@ -174,7 +313,7 @@ const VEHICLE_MAKE_ALIASES = [
   { canonical: 'Cadillac', aliases: ['Cadillac'] },
   { canonical: 'Chevrolet', aliases: ['Chevrolet', 'Chevy'] },
   { canonical: 'Chrysler', aliases: ['Chrysler'] },
-  { canonical: 'Dodge', aliases: ['Dodge', 'RAM', 'Ram'] },
+  { canonical: 'Dodge', aliases: ['Dodge'] },
   { canonical: 'Ford', aliases: ['Ford'] },
   { canonical: 'GMC', aliases: ['GMC'] },
   { canonical: 'Honda', aliases: ['Honda'] },
@@ -183,15 +322,22 @@ const VEHICLE_MAKE_ALIASES = [
   { canonical: 'Jaguar', aliases: ['Jaguar'] },
   { canonical: 'Jeep', aliases: ['Jeep'] },
   { canonical: 'Kia', aliases: ['Kia'] },
+  { canonical: 'Land Rover', aliases: ['Land Rover'] },
   { canonical: 'Lexus', aliases: ['Lexus'] },
   { canonical: 'Lincoln', aliases: ['Lincoln'] },
-  { canonical: 'Mazda', aliases: ['Mazda'] },
+  { canonical: 'Mazda', aliases: ['Mazda', 'Mazdaspeed'] },
   { canonical: 'Mercedes-Benz', aliases: ['Mercedes-Benz', 'Mercedes Benz', 'Mercedes'] },
+  { canonical: 'Mercury', aliases: ['Mercury'] },
+  { canonical: 'Merkur', aliases: ['Merkur'] },
   { canonical: 'Mini', aliases: ['Mini'] },
   { canonical: 'Mitsubishi', aliases: ['Mitsubishi'] },
   { canonical: 'Nissan', aliases: ['Nissan'] },
+  { canonical: 'Oldsmobile', aliases: ['Oldsmobile', 'Olds'] },
+  { canonical: 'Opel', aliases: ['Opel'] },
   { canonical: 'Pontiac', aliases: ['Pontiac'] },
   { canonical: 'Porsche', aliases: ['Porsche'] },
+  { canonical: 'Saab', aliases: ['Saab'] },
+  { canonical: 'Saturn', aliases: ['Saturn'] },
   { canonical: 'Scion', aliases: ['Scion'] },
   { canonical: 'Subaru', aliases: ['Subaru'] },
   { canonical: 'Suzuki', aliases: ['Suzuki'] },
@@ -247,12 +393,12 @@ initShop().catch(() => {
 });
 
 async function initShop() {
-  if (!ui.grid) return;
+  if (!ui.grid && !ui.productDetail && !ui.cartDrawer) return;
 
   const [products, productVideosData, shortsData] = await Promise.all([
-    fetchJsonSafe('assets/data/products.json', []),
-    fetchJsonSafe('assets/data/product-videos.json', { products: {} }),
-    fetchJsonSafe('assets/data/youtube-shorts.json', { videos: [] }),
+    fetchJsonSafe(assetPath('assets/data/products.json'), []),
+    fetchJsonSafe(assetPath('assets/data/product-videos.json'), { products: {} }),
+    fetchJsonSafe(assetPath('assets/data/youtube-shorts.json'), { videos: [] }),
   ]);
 
   state.products = normalizeProducts(Array.isArray(products) ? products : []);
@@ -261,20 +407,28 @@ async function initShop() {
     : { products: {} };
   state.shorts = Array.isArray(shortsData?.videos) ? shortsData.videos : [];
 
-  const initialTab = readTabFromLocation();
-  if (initialTab) {
-    state.tabCategory = initialTab;
-    saveTabCategory();
+  if (ui.grid) {
+    const initialTab = readTabFromLocation();
+    if (initialTab) {
+      state.tabCategory = initialTab;
+      saveTabCategory();
+    }
+
+    hydrateCategoryOptions();
+    hydrateVehicleYearOptions();
+    hydrateVehicleMakeOptions();
+    hydrateVehicleModelOptions();
+    syncTabButtons();
+
+    applyFilters();
   }
 
-  hydrateCategoryOptions();
-  hydrateVehicleYearOptions();
-  hydrateVehicleMakeOptions();
-  hydrateVehicleModelOptions();
   bindShopEvents();
-  syncTabButtons();
 
-  applyFilters();
+  if (ui.productDetail) {
+    hydrateProductDetail();
+  }
+
   renderCart();
   renderShortsZone();
 }
@@ -413,6 +567,15 @@ function bindShopEvents() {
 
   if (ui.grid) {
     ui.grid.addEventListener('click', (event) => {
+      const addBtn = event.target.closest('[data-add-id]');
+      if (addBtn) {
+        addToCart(addBtn.dataset.addId);
+      }
+    });
+  }
+
+  if (ui.productDetail) {
+    ui.productDetail.addEventListener('click', (event) => {
       const addBtn = event.target.closest('[data-add-id]');
       if (addBtn) {
         addToCart(addBtn.dataset.addId);
@@ -842,9 +1005,11 @@ function renderProductCard(product) {
   const title = escapeHtml(localizedTitle);
   const sku = escapeHtml(product.sku || 'BRAK SKU');
   const category = escapeHtml(localizeCategoryPL(product.category || 'Performance'));
-  const source = product.source === 'fapomoto' ? 'FAPOMOTO' : 'ALIBABA';
+  const source = escapeHtml(getProductAvailabilityLabel(product));
   const price = formatPriceRange(product.priceFrom, product.priceTo);
-  const productUrl = escapeHtml(product.url || '#');
+  const productUrl = escapeHtml(getProductPageUrl(product));
+  const vehicle = getVehicleMeta(product);
+  const fitmentTag = formatFitmentTag(product, vehicle);
   const videos = getProductVideos(product.id);
   const firstVideo = videos[0];
   const videoTag = videos.length ? `<span class="tag tag-video">Filmy: ${videos.length}</span>` : '';
@@ -860,11 +1025,12 @@ function renderProductCard(product) {
       <img class="product-media" loading="lazy" src="${image}" alt="${title}" />
       <div class="product-body">
         <h3 class="product-title">
-          <a href="${productUrl}" target="_blank" rel="noopener noreferrer">${title}</a>
+          <a href="${productUrl}">${title}</a>
         </h3>
         <div class="product-meta-line">
           <span class="tag">${category}</span>
           <span class="tag">${sku}</span>
+          ${fitmentTag}
           <span class="tag">${source}</span>
           ${videoTag}
         </div>
@@ -872,17 +1038,57 @@ function renderProductCard(product) {
         <div class="product-actions">
           <button class="btn btn-primary" type="button" data-add-id="${product.id}">Dodaj do koszyka</button>
           ${videoButton}
-          <a class="btn btn-ghost" href="${productUrl}" target="_blank" rel="noopener noreferrer">Szczegoly</a>
+          <a class="btn btn-ghost" href="${productUrl}">Szczegoly</a>
         </div>
       </div>
     </article>
   `;
 }
 
+function getProductPageUrl(product) {
+  const url = String(product?.url || '').trim();
+  if (url) return url;
+
+  const sku = String(product?.sku || product?.id || 'produkt').trim();
+  const slug = slugify(`${product?.id || ''}-${sku}-${product?.title || ''}`);
+  return `produkty/${slug || product?.id || 'produkt'}.html`;
+}
+
+function getProductSourceUrl(product) {
+  return String(product?.sourceUrl || product?.url || '').trim();
+}
+
+function getProductAvailabilityLabel(product) {
+  if (product?.source === 'fapomoto') return 'Oferta FAPO Polska';
+  return 'Na zamówienie';
+}
+
+function slugify(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 120);
+}
+
+function hydrateProductDetail() {
+  const productId = ui.productDetail?.dataset.productId || '';
+  if (!productId) return;
+
+  const product = state.products.find((item) => item.id === productId);
+  if (!product) return;
+
+  ui.productDetail.querySelectorAll('[data-add-id]').forEach((button) => {
+    button.dataset.addId = product.id;
+  });
+}
+
 function normalizeProducts(products) {
   return products.map((product) => ({
     ...product,
-    vehicle: extractVehicleMeta(product.title || ''),
+    vehicle: getVehicleMeta(product),
   }));
 }
 
@@ -896,7 +1102,64 @@ function getVehicleMeta(product) {
   ) {
     return product.vehicle;
   }
-  return extractVehicleMeta(product.title || '');
+  return extractVehicleMetaFromProduct(product);
+}
+
+function extractVehicleMetaFromProduct(product) {
+  const vehicle = extractVehicleMeta(product?.title || '');
+  const sourceUrl = getProductSourceUrl(product);
+  return {
+    ...vehicle,
+    years: Array.from(new Set([
+      ...vehicle.years,
+      ...extractYearsFromText(sourceUrl),
+    ])).sort((a, b) => a - b),
+  };
+}
+
+function formatFitmentTag(product, vehicle) {
+  const fitmentLabels = {
+    universal: 'Uniwersalny',
+    swap: 'Swap/custom',
+    engine: 'Silnik',
+  };
+
+  if (product?.fitmentType && fitmentLabels[product.fitmentType]) {
+    return `<span class="tag">${fitmentLabels[product.fitmentType]}</span>`;
+  }
+
+  const yearLabel = formatVehicleYears(vehicle?.years || []);
+  if (yearLabel) {
+    return `<span class="tag">${escapeHtml(yearLabel)}</span>`;
+  }
+
+  const makeLabel = (vehicle?.makes || []).slice(0, 2).join(' / ');
+  return makeLabel ? `<span class="tag">${escapeHtml(makeLabel)}</span>` : '';
+}
+
+function formatVehicleYears(years) {
+  const sorted = Array.from(new Set((years || [])
+    .map((year) => Number(year))
+    .filter(isReasonableYear)))
+    .sort((a, b) => a - b);
+  if (!sorted.length) return '';
+
+  const ranges = [];
+  let start = sorted[0];
+  let end = sorted[0];
+
+  for (const year of sorted.slice(1)) {
+    if (year === end + 1) {
+      end = year;
+      continue;
+    }
+    ranges.push(start === end ? String(start) : `${start}-${end}`);
+    start = year;
+    end = year;
+  }
+  ranges.push(start === end ? String(start) : `${start}-${end}`);
+
+  return ranges.slice(0, 3).join(', ');
 }
 
 function extractVehicleMeta(title) {
@@ -981,17 +1244,17 @@ function extractYearsFromText(text) {
   const rangeRegex = /\b(19\d{2}|20\d{2})\s*[-/]\s*(19\d{2}|20\d{2})\b/g;
   let range;
   while ((range = rangeRegex.exec(source)) !== null) {
-    const fromYear = Number(range[1]);
-    const toYear = Number(range[2]);
-    if (!isReasonableYear(fromYear) || !isReasonableYear(toYear)) continue;
+    addYearRange(years, Number(range[1]), Number(range[2]));
+  }
 
-    const minYear = Math.min(fromYear, toYear);
-    const maxYear = Math.max(fromYear, toYear);
-    if (maxYear - minYear > 35) continue;
+  const shortRangeRegex = /\b(\d{2})\s*[-/]\s*(\d{2})\b/g;
+  while ((range = shortRangeRegex.exec(source)) !== null) {
+    addYearRange(years, expandTwoDigitYear(range[1]), expandTwoDigitYear(range[2]));
+  }
 
-    for (let year = minYear; year <= maxYear; year += 1) {
-      years.add(year);
-    }
+  const openRangeRegex = /\b(19\d{2}|20\d{2})\s*\+/g;
+  while ((range = openRangeRegex.exec(source)) !== null) {
+    addYearRange(years, Number(range[1]), 2030);
   }
 
   const singleRegex = /\b(19\d{2}|20\d{2})\b/g;
@@ -1004,6 +1267,23 @@ function extractYearsFromText(text) {
   }
 
   return Array.from(years).sort((a, b) => a - b);
+}
+
+function addYearRange(years, fromYear, toYear) {
+  if (!isReasonableYear(fromYear) || !isReasonableYear(toYear)) return;
+
+  const minYear = Math.min(fromYear, toYear);
+  const maxYear = Math.max(fromYear, toYear);
+  if (maxYear - minYear > 45) return;
+
+  for (let year = minYear; year <= maxYear; year += 1) {
+    years.add(year);
+  }
+}
+
+function expandTwoDigitYear(value) {
+  const year = Number(value);
+  return year >= 60 ? 1900 + year : 2000 + year;
 }
 
 function isReasonableYear(year) {
@@ -1145,53 +1425,147 @@ function onCheckoutSubmit(event) {
   event.preventDefault();
   const entries = Object.entries(state.cart);
   if (!entries.length) {
-    alert('Dodaj produkty do koszyka przed zlozeniem zamowienia.');
+    setFormStatus(ui.checkoutForm, 'Dodaj produkty do koszyka przed złożeniem zamówienia.', 'error');
     return;
   }
 
-  const formData = new FormData(ui.checkoutForm);
-  const customerName = formData.get('customerName') || '';
-  const customerEmail = formData.get('customerEmail') || '';
-  const customerPhone = formData.get('customerPhone') || '';
-  const customerAddress = formData.get('customerAddress') || '';
-  const customerNote = formData.get('customerNote') || '';
-
-  const lines = entries.map(([id, qty], idx) => {
-    const product = state.products.find((p) => p.id === id);
-    const title = localizeProductTitlePL(product?.title || id);
-    const price = product?.priceFrom || 0;
-    return `${idx + 1}. ${title} | ilosc: ${qty} | cena od: ${price} PLN`;
-  });
-
-  const total = entries.reduce((sum, [id, qty]) => {
-    const product = state.products.find((p) => p.id === id);
-    return sum + ((product?.priceFrom || 0) * qty);
-  }, 0);
-
-  const message = [
-    'Nowe zamowienie ze sklepu FAPO Polska',
-    '',
-    `Klient: ${customerName}`,
-    `Email: ${customerEmail}`,
-    `Telefon: ${customerPhone}`,
-    `Adres: ${customerAddress}`,
-    `Uwagi: ${customerNote}`,
-    '',
-    'Pozycje:',
-    ...lines,
-    '',
-    `Wartosc orientacyjna: ${total} PLN`,
-  ].join('\n');
-
-  const mailto = `mailto:sales@fapomoto.com?subject=${encodeURIComponent('Zamowienie - sklep FAPO Polska')}&body=${encodeURIComponent(message)}`;
-  window.location.href = mailto;
-
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard.writeText(message).catch(() => {});
+  if (!ui.checkoutForm.checkValidity()) {
+    ui.checkoutForm.reportValidity();
+    return;
   }
 
-  alert('Wiadomosc zamowienia zostala przygotowana. Sprawdz otwarty klient poczty.');
-  ui.checkoutForm.reset();
+  const submitButton = ui.checkoutForm.querySelector('button[type="submit"]');
+  const originalLabel = submitButton?.textContent || '';
+  const payload = buildCheckoutPayload(entries);
+
+  setSubmitState(submitButton, true, 'Wysyłanie...');
+  setFormStatus(ui.checkoutForm, 'Wysyłamy zamówienie do obsługi FAPO Polska...', 'info');
+
+  sendCheckoutPayload(payload)
+    .then((result) => {
+      state.cart = {};
+      saveCart();
+      renderCart();
+      ui.checkoutForm.reset();
+      setFormStatus(ui.checkoutForm, `Zamówienie wysłane. Numer zgłoszenia: ${result.orderId || payload.orderId}.`, 'success');
+    })
+    .catch((error) => {
+      console.error('Checkout send failed', error);
+      openCheckoutMailFallback(payload);
+      setFormStatus(ui.checkoutForm, 'Automatyczna wysyłka jest niedostępna. Otworzyliśmy program pocztowy z przygotowanym zamówieniem.', 'warning');
+    })
+    .finally(() => {
+      setSubmitState(submitButton, false, originalLabel);
+    });
+}
+
+function buildCheckoutPayload(entries) {
+  const formData = new FormData(ui.checkoutForm);
+  const items = entries.map(([id, qty]) => {
+    const product = state.products.find((p) => p.id === id);
+    const priceFrom = Number(product?.priceFrom || 0);
+    const quantity = Number(qty || 1);
+
+    return {
+      id,
+      title: localizeProductTitlePL(product?.title || id),
+      sku: product?.sku || '',
+      category: localizeCategoryPL(product?.category || ''),
+      source: product?.source || '',
+      url: getProductPageUrl(product),
+      qty: quantity,
+      priceFrom,
+      lineTotal: priceFrom * quantity,
+    };
+  });
+
+  const total = items.reduce((sum, item) => sum + item.lineTotal, 0);
+
+  return {
+    kind: 'order',
+    orderId: createClientOrderId(),
+    page: window.location.href,
+    customerName: String(formData.get('customerName') || '').trim(),
+    customerEmail: String(formData.get('customerEmail') || '').trim(),
+    customerPhone: String(formData.get('customerPhone') || '').trim(),
+    customerAddress: String(formData.get('customerAddress') || '').trim(),
+    customerNote: String(formData.get('customerNote') || '').trim(),
+    items,
+    total,
+  };
+}
+
+function createClientOrderId() {
+  const stamp = new Date().toISOString()
+    .replace(/[-:]/g, '')
+    .replace(/\..+$/, '')
+    .replace('T', '-');
+  const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `FAPO-${stamp}-${suffix}`;
+}
+
+async function sendCheckoutPayload(payload) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const response = await fetch(contactEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Order endpoint returned ${response.status}`);
+    }
+
+    const result = await response.json().catch(() => ({}));
+    if (result.ok === false) {
+      throw new Error(result.message || 'Order endpoint rejected the message');
+    }
+
+    return result;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function openCheckoutMailFallback(payload) {
+  const itemLines = payload.items.map((item, index) => [
+    `${index + 1}. ${item.title}`,
+    `   ID: ${item.id}`,
+    `   SKU: ${item.sku || '-'}`,
+    `   Ilość: ${item.qty}`,
+    `   Cena od: ${item.priceFrom} PLN`,
+    `   Suma: ${item.lineTotal} PLN`,
+    item.url ? `   URL: ${item.url}` : null,
+  ].filter(Boolean).join('\n')).join('\n\n');
+
+  const body = [
+    'Nowe zamówienie ze sklepu FAPO Polska',
+    `Numer zamówienia: ${payload.orderId}`,
+    '',
+    `Klient: ${payload.customerName}`,
+    `E-mail: ${payload.customerEmail}`,
+    `Telefon: ${payload.customerPhone}`,
+    `Adres: ${payload.customerAddress}`,
+    payload.customerNote ? `Uwagi: ${payload.customerNote}` : null,
+    '',
+    'Pozycje:',
+    itemLines,
+    '',
+    `Wartość orientacyjna: ${payload.total} PLN`,
+  ].filter(Boolean).join('\n');
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(body).catch(() => {});
+  }
+
+  window.location.href = `mailto:${fallbackRecipients.join(',')}?subject=${encodeURIComponent(`Zamówienie FAPO Polska - ${payload.orderId}`)}&body=${encodeURIComponent(body)}`;
 }
 
 function loadCart() {
