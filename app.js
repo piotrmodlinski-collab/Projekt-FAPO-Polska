@@ -1054,10 +1054,6 @@ function getProductPageUrl(product) {
   return `produkty/${slug || product?.id || 'produkt'}.html`;
 }
 
-function getProductSourceUrl(product) {
-  return String(product?.sourceUrl || product?.url || '').trim();
-}
-
 function getProductAvailabilityLabel(product) {
   if (product?.source === 'fapomoto') return 'Oferta FAPO Polska';
   return 'Na zamówienie';
@@ -1106,15 +1102,7 @@ function getVehicleMeta(product) {
 }
 
 function extractVehicleMetaFromProduct(product) {
-  const vehicle = extractVehicleMeta(product?.title || '');
-  const sourceUrl = getProductSourceUrl(product);
-  return {
-    ...vehicle,
-    years: Array.from(new Set([
-      ...vehicle.years,
-      ...extractYearsFromText(sourceUrl),
-    ])).sort((a, b) => a - b),
-  };
+  return extractVehicleMeta(product?.title || '');
 }
 
 function formatFitmentTag(product, vehicle) {

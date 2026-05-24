@@ -1,7 +1,7 @@
 {
   "total_rows": 622,
   "fapomoto_rows": 603,
-  "ridershox_rows": 15,
+  "ridershox_rows": 0,
   "ridershox_images_local": 15,
   "combined_csv": "D:\\Projekty\\Projekt FAPO Polska\\import\\combined\\products_all_sources.csv",
   "ridershox_images_dir": "D:\\Projekty\\Projekt FAPO Polska\\import\\combined\\images_ridershox",
@@ -9,9 +9,10 @@
   "catalogue_rows": 4,
   "source_counts": {
     "fapomoto": 603,
-    "ridershox_alibaba": 15,
+    "special_order": 15,
     "catalogue": 4
   },
   "combined_csv_rows": 622,
-  "products_json": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json"
+  "products_json": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json",
+  "special_order_rows": 15
 }

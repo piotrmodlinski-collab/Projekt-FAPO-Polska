@@ -1,4 +1,10 @@
-﻿.git
+.git
 .gitignore
 node_modules
+dist
+import
+assets/media/shorts
+.tmp-media
+.env
+.env.local
 *.log

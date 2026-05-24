@@ -37,7 +37,7 @@ function countBy(products, keySelector) {
 
 function orderedSourceCounts(sourceCounts) {
   const ordered = {};
-  ['fapomoto', 'ridershox_alibaba', 'catalogue'].forEach((source) => {
+  ['fapomoto', 'special_order', 'catalogue'].forEach((source) => {
     if (sourceCounts[source]) ordered[source] = sourceCounts[source];
   });
   Object.keys(sourceCounts).sort().forEach((source) => {
@@ -214,7 +214,8 @@ function syncSummary(products, sourceCounts, csvRows, changedFiles) {
     total_rows: products.length,
     runtime_products: products.length,
     fapomoto_rows: sourceCounts.fapomoto || 0,
-    ridershox_rows: sourceCounts.ridershox_alibaba || 0,
+    special_order_rows: sourceCounts.special_order || 0,
+    ridershox_rows: 0,
     catalogue_rows: sourceCounts.catalogue || 0,
     source_counts: sourceCounts,
     combined_csv_rows: csvRows,

@@ -119,15 +119,13 @@ function productFileName(product) {
 function normalizeProducts(products) {
   return products.map((product) => {
     const next = { ...product };
-    const currentUrl = String(next.url || '').trim();
-    const isExternal = /^https?:\/\//i.test(currentUrl) && !/^https?:\/\/(?:www\.)?fapomoto\.pl\//i.test(currentUrl);
-    if (isExternal && !next.sourceUrl) {
-      next.sourceUrl = currentUrl;
-    }
-
     const fileName = productFileName(next);
     next.url = `produkty/${fileName}`;
     next.canonicalUrl = `${siteUrl}/produkty/${fileName}`;
+    if (next.source === 'ridershox_alibaba') {
+      next.source = 'special_order';
+    }
+    delete next.sourceUrl;
     return next;
   });
 }
@@ -213,7 +211,7 @@ function renderProductPage(product) {
   const fitment = fitmentLabel(product);
   const description = productDescription(product, title, category, fitment);
   const price = formatPriceRange(product);
-  const image = product.image || '../assets/media/ridershox-recommendations-poster.jpg';
+  const image = product.image || '../assets/media/fapo-recommendations-poster.jpg';
   const makes = (product.vehicle?.makes || []).join(', ') || 'Dobór po kontakcie';
   const models = (product.vehicle?.models || []).join(', ') || 'Dobór po kontakcie';
 

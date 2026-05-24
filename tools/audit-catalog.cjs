@@ -48,10 +48,6 @@ function extractYearsFromText(text) {
   return Array.from(years);
 }
 
-function getSourceUrl(product) {
-  return String(product.sourceUrl || product.url || '');
-}
-
 function isInternalProductUrl(url) {
   const value = String(url || '').trim();
   if (/^produkty\/[a-z0-9-]+\.html$/i.test(value)) return true;
@@ -74,10 +70,12 @@ const noYear = products.filter((product) => {
   const explicitYears = product.vehicle && Array.isArray(product.vehicle.years)
     ? product.vehicle.years
     : [];
-  return !(explicitYears.length || extractYearsFromText(`${product.title || ''} ${getSourceUrl(product)}`).length);
+  return !(explicitYears.length || extractYearsFromText(product.title || '').length);
 });
 const externalVisibleUrl = products.filter((product) => /^https?:\/\//i.test(product.url || '')
   && !/^https:\/\/(?:www\.)?fapomoto\.pl\//i.test(product.url || ''));
+const exposedSourceUrl = products.filter((product) => String(product.sourceUrl || '').trim());
+const externalSourceLabel = products.filter((product) => /alibaba|ridershox|fapomoto\.com/i.test(String(product.source || '')));
 
 const fitment = products.reduce((acc, product) => {
   const key = product.fitmentType || 'vehicle';
@@ -91,6 +89,8 @@ const report = {
   missingSku: missingSku.length,
   badUrl: badUrl.length,
   externalVisibleUrl: externalVisibleUrl.length,
+  exposedSourceUrl: exposedSourceUrl.length,
+  externalSourceLabel: externalSourceLabel.length,
   noYear: noYear.length,
   fitment,
   internalSku: products.filter((product) => product.skuSource === 'internal').map((product) => product.id),
@@ -98,6 +98,14 @@ const report = {
 
 console.log(JSON.stringify(report, null, 2));
 
-if (duplicateIds.length || missingSku.length || badUrl.length || externalVisibleUrl.length || noYear.length) {
+if (
+  duplicateIds.length
+  || missingSku.length
+  || badUrl.length
+  || externalVisibleUrl.length
+  || exposedSourceUrl.length
+  || externalSourceLabel.length
+  || noYear.length
+) {
   process.exit(1);
 }
