@@ -148,6 +148,16 @@ function serveStatic(req, res, pathname) {
 
 const server = http.createServer((req, res) => {
   const requestUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+  const hostname = String(req.headers.host || '').split(':')[0].toLowerCase();
+
+  if (hostname === 'www.fapomoto.pl') {
+    res.writeHead(308, {
+      Location: `https://fapomoto.pl${requestUrl.pathname}${requestUrl.search}`,
+      'Cache-Control': 'public, max-age=3600',
+    });
+    res.end();
+    return;
+  }
 
   if (requestUrl.pathname === '/api/contact') {
     handleApiContact(req, res);
