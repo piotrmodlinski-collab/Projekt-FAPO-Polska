@@ -6,6 +6,7 @@ const productsPath = path.join(root, 'assets', 'data', 'products.json');
 const productsDir = path.join(root, 'produkty');
 const sitemapPath = path.join(root, 'sitemap.xml');
 const siteUrl = 'https://fapomoto.pl';
+const assetVersion = '20260525-gallery-v2';
 const checkOnly = process.argv.includes('--check');
 
 function escapeHtml(value) {
@@ -379,7 +380,7 @@ function renderProductPage(product) {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500;600;700&family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles.css?v=${assetVersion}" />
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -509,7 +510,7 @@ function renderProductPage(product) {
   </footer>
 
 ${renderCartDrawer()}
-  <script src="../app.js"></script>
+  <script src="../app.js?v=${assetVersion}"></script>
 </body>
 </html>
 `;
