@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCTS_PATH = ROOT / "assets" / "data" / "products.json"
 OUT_DIR = ROOT / "oferty"
 OUT_PATH = OUT_DIR / "FAPO_Polska_katalog_kalkulacja_2026-05-25.xlsx"
+DEFAULT_MARGIN_RATE = 0.30
 
 
 COLORS = {
@@ -85,8 +86,8 @@ def build_offer_sheet(wb: Workbook, products: list[dict]) -> None:
         ("Kontakt handlowy", "office@fapomoto.pl | info@fapomoto.pl"),
         (
             "Instrukcja",
-            "W arkuszu Katalog i kalkulacja wpisz rabat oraz ilość. "
-            "Excel policzy cenę po rabacie i wartość pozycji.",
+            "W arkuszu Katalog i kalkulacja możesz zmienić marżę, rabat oraz ilość. "
+            "Excel policzy marżę, cenę z marżą i sumę pozycji.",
         ),
     ]
     for row_index, (label, value) in enumerate(summary_rows, start=4):
@@ -111,14 +112,24 @@ def build_offer_sheet(wb: Workbook, products: list[dict]) -> None:
 
     last_row = len(products) + 1
     calc_rows = [
-        ("Wybrane pozycje", f'=COUNTIF(\'Katalog i kalkulacja\'!$I$2:$I${last_row},">0")', "#,##0"),
-        ("Łączna ilość", f"=SUM('Katalog i kalkulacja'!$I$2:$I${last_row})", "#,##0"),
+        ("Wybrane pozycje", f'=COUNTIF(\'Katalog i kalkulacja\'!$L$2:$L${last_row},">0")', "#,##0"),
+        ("Łączna ilość", f"=SUM('Katalog i kalkulacja'!$L$2:$L${last_row})", "#,##0"),
         (
-            "Suma katalogowa PLN",
-            f"=SUMPRODUCT('Katalog i kalkulacja'!$F$2:$F${last_row},'Katalog i kalkulacja'!$I$2:$I${last_row})",
+            "Suma bazowa PLN",
+            f"=SUMPRODUCT('Katalog i kalkulacja'!$F$2:$F${last_row},'Katalog i kalkulacja'!$L$2:$L${last_row})",
             "#,##0.00 zł",
         ),
-        ("Suma po rabatach PLN", f"=SUM('Katalog i kalkulacja'!$J$2:$J${last_row})", "#,##0.00 zł"),
+        (
+            "Moja marża PLN",
+            f"=SUMPRODUCT('Katalog i kalkulacja'!$H$2:$H${last_row},'Katalog i kalkulacja'!$L$2:$L${last_row})",
+            "#,##0.00 zł",
+        ),
+        (
+            "Suma z marżą PLN",
+            f"=SUMPRODUCT('Katalog i kalkulacja'!$I$2:$I${last_row},'Katalog i kalkulacja'!$L$2:$L${last_row})",
+            "#,##0.00 zł",
+        ),
+        ("Suma po rabatach PLN", f"=SUM('Katalog i kalkulacja'!$M$2:$M${last_row})", "#,##0.00 zł"),
     ]
     for row_index, (label, formula, number_format) in enumerate(calc_rows, start=10):
         ws.cell(row_index, 1, label)
@@ -135,11 +146,12 @@ def build_offer_sheet(wb: Workbook, products: list[dict]) -> None:
         category = product.get("category") or "Brak kategorii"
         category_prices.setdefault(category, []).append(float(product.get("priceFrom") or 0))
 
+    category_header_row = 19
     headers = ["Kategoria", "Liczba produktów", "Cena min PLN", "Cena średnia PLN", "Cena max PLN", "Wartość wybrana PLN"]
     for col, header in enumerate(headers, 1):
-        style_header(ws.cell(16, col, header))
+        style_header(ws.cell(category_header_row, col, header))
 
-    for row_index, category in enumerate(sorted(category_prices), start=17):
+    for row_index, category in enumerate(sorted(category_prices), start=category_header_row + 1):
         prices = category_prices[category]
         values = [
             category,
@@ -147,7 +159,7 @@ def build_offer_sheet(wb: Workbook, products: list[dict]) -> None:
             min(prices),
             round(mean(prices), 2),
             max(prices),
-            f"=SUMIF('Katalog i kalkulacja'!$D:$D,A{row_index},'Katalog i kalkulacja'!$J:$J)",
+            f"=SUMIF('Katalog i kalkulacja'!$D:$D,A{row_index},'Katalog i kalkulacja'!$M:$M)",
         ]
         for col, value in enumerate(values, 1):
             cell = ws.cell(row_index, col, value)
@@ -172,11 +184,14 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         "SKU",
         "Kategoria",
         "Nazwa produktu",
-        "Cena katalogowa PLN",
+        "Cena bazowa PLN",
+        "Moja marża %",
+        "Moja marża PLN",
+        "Cena z marżą PLN",
         "Rabat %",
         "Cena po rabacie PLN",
         "Ilość",
-        "Wartość PLN",
+        "Suma PLN",
         "Link produktu FAPO PL",
         "Link zdjęcia",
         "Liczba zdjęć",
@@ -188,7 +203,8 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
     ws.row_dimensions[1].height = 36
 
     for row_index, product in enumerate(products, start=2):
-        price = float(product.get("priceFrom") or 0)
+        final_price = float(product.get("priceFrom") or 0)
+        base_price = round(final_price / (1 + DEFAULT_MARGIN_RATE), 2)
         product_url = product.get("canonicalUrl") or f"https://fapomoto.pl/{(product.get('url') or '').lstrip('/')}"
         image_url = product.get("image") or (product.get("images") or [""])[0]
         images_count = len(product.get("images") or [])
@@ -198,11 +214,14 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
             (product.get("sku") or "").strip(),
             (product.get("category") or "").strip(),
             (product.get("title") or "").strip(),
-            price,
+            base_price,
+            DEFAULT_MARGIN_RATE,
+            f"=ROUND(I{row_index}-F{row_index},2)",
+            f"=ROUND(F{row_index}*(1+G{row_index}),0)",
             0,
-            f"=ROUND(F{row_index}*(1-G{row_index}),2)",
+            f"=ROUND(I{row_index}*(1-J{row_index}),2)",
             0,
-            f"=ROUND(H{row_index}*I{row_index},2)",
+            f"=ROUND(K{row_index}*L{row_index},2)",
             product_url,
             image_url,
             images_count,
@@ -212,21 +231,24 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         for col, value in enumerate(row_values, 1):
             cell = ws.cell(row_index, col, value)
             style_body(cell, row_index)
-            if col in (5, 11, 12, 15):
+            if col in (5, 14, 15, 18):
                 cell.alignment = Alignment(vertical="top", wrap_text=True)
 
         ws.cell(row_index, 6).number_format = "#,##0.00 zł"
         ws.cell(row_index, 7).number_format = "0.00%"
         ws.cell(row_index, 8).number_format = "#,##0.00 zł"
-        ws.cell(row_index, 9).number_format = "#,##0"
-        ws.cell(row_index, 10).number_format = "#,##0.00 zł"
+        ws.cell(row_index, 9).number_format = "#,##0.00 zł"
+        ws.cell(row_index, 10).number_format = "0.00%"
+        ws.cell(row_index, 11).number_format = "#,##0.00 zł"
+        ws.cell(row_index, 12).number_format = "#,##0"
+        ws.cell(row_index, 13).number_format = "#,##0.00 zł"
 
         if product_url:
-            ws.cell(row_index, 11).hyperlink = product_url
-            ws.cell(row_index, 11).style = "Hyperlink"
+            ws.cell(row_index, 14).hyperlink = product_url
+            ws.cell(row_index, 14).style = "Hyperlink"
         if image_url:
-            ws.cell(row_index, 12).hyperlink = image_url
-            ws.cell(row_index, 12).style = "Hyperlink"
+            ws.cell(row_index, 15).hyperlink = image_url
+            ws.cell(row_index, 15).style = "Hyperlink"
 
     last_row = len(products) + 1
     table_ref = f"A1:{get_column_letter(len(headers))}{last_row}"
@@ -242,12 +264,12 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
     ws.auto_filter.ref = table_ref
 
     ws.conditional_formatting.add(
-        f"I2:I{last_row}",
-        FormulaRule(formula=["I2>0"], fill=PatternFill("solid", fgColor="FFF0E8")),
+        f"L2:L{last_row}",
+        FormulaRule(formula=["L2>0"], fill=PatternFill("solid", fgColor="FFF0E8")),
     )
     ws.conditional_formatting.add(
-        f"J2:J{last_row}",
-        FormulaRule(formula=["J2>0"], fill=PatternFill("solid", fgColor="FFE0D1")),
+        f"M2:M{last_row}",
+        FormulaRule(formula=["M2>0"], fill=PatternFill("solid", fgColor="FFE0D1")),
     )
 
     widths = {
@@ -257,15 +279,18 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         4: 18,
         5: 56,
         6: 18,
-        7: 12,
+        7: 14,
         8: 20,
-        9: 10,
-        10: 16,
-        11: 58,
-        12: 52,
-        13: 12,
-        14: 14,
-        15: 28,
+        9: 20,
+        10: 12,
+        11: 20,
+        12: 10,
+        13: 16,
+        14: 58,
+        15: 52,
+        16: 12,
+        17: 14,
+        18: 28,
     }
     for col, width in widths.items():
         ws.column_dimensions[get_column_letter(col)].width = width
@@ -288,7 +313,7 @@ def build_terms_sheet(wb: Workbook) -> None:
 
     terms = [
         ("Ceny", "Ceny w PLN według aktualnego katalogu FAPO Polska. Arkusz nie rozdziela automatycznie wartości netto/brutto."),
-        ("Kalkulacja", "Wpisz ilość i ewentualny rabat przy wybranych pozycjach. Wartość pozycji i suma oferty liczą się automatycznie."),
+        ("Kalkulacja", "Wpisz ilość oraz ewentualnie zmień marżę lub rabat przy wybranych pozycjach. Cena z marżą i suma oferty liczą się automatycznie."),
         ("Gwarancja", "Standardowa gwarancja: 12 miesięcy. Dla kwalifikujących się produktów możliwe rozszerzenie do 24 miesięcy."),
         ("Zwroty", "Zwrot wymaga wcześniejszej autoryzacji RA. Standardowo do 30 dni od doręczenia, zgodnie z polityką FAPO Polska."),
         ("Realizacja", "Przetwarzanie zamówień zwykle 1-2 dni robocze. Dostawa po nadaniu zwykle 2-7 dni roboczych."),
@@ -325,13 +350,13 @@ def main() -> None:
 
     ws_catalog = wb["Katalog i kalkulacja"]
     assert ws_catalog.max_row == len(products) + 1
-    assert ws_catalog.max_column == 15
+    assert ws_catalog.max_column == 18
 
     wb.save(OUT_PATH)
 
     check = load_workbook(OUT_PATH, data_only=False, read_only=True)
     assert check["Katalog i kalkulacja"].max_row == len(products) + 1
-    assert check["Katalog i kalkulacja"].max_column == 15
+    assert check["Katalog i kalkulacja"].max_column == 18
     check.close()
 
     print(OUT_PATH)
