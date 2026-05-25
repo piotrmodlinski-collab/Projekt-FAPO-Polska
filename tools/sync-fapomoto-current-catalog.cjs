@@ -10,7 +10,9 @@ const checkOnly = process.argv.includes('--check');
 const shopifyProductsUrl = 'https://www.fapomoto.com/products.json?limit=250&page=';
 const sourceProductBase = 'https://www.fapomoto.com/products/';
 const currency = 'PLN';
-const priceMultiplier = 4.66856;
+const fallbackUsdPlnRate = Number(process.env.USD_PLN_RATE || '3.6374');
+const marginMultiplier = 1 + (Number(process.env.PRICE_MARKUP_PERCENT || '30') / 100);
+const priceMultiplier = fallbackUsdPlnRate * marginMultiplier;
 const seriesUsd = {
   PS: 275,
   PSPLUS: 309,
@@ -264,14 +266,16 @@ function remoteUsdPrice(product) {
 }
 
 function priceForProduct(product, sku) {
+  const usd = remoteUsdPrice(product);
+  if (usd) return Math.round(usd * priceMultiplier);
+
   const series = skuSeries(sku, product.title);
   const seriesPrice = seriesUsd[series];
   if (seriesPrice) {
     return Math.round(seriesPrice * priceMultiplier);
   }
 
-  const usd = remoteUsdPrice(product);
-  return usd ? Math.round(usd * priceMultiplier) : 0;
+  return 0;
 }
 
 function categoryForProduct(product, sku) {

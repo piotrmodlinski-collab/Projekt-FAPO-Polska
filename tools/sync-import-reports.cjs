@@ -232,6 +232,24 @@ function syncPricingReport(products, sourceCounts, backup, changedFiles) {
   const previous = readJson(filePath, {});
   if (!Object.keys(previous).length) return;
 
+  if (previous.pricing_strategy === 'fapomoto_usd_to_pln_plus_margin') {
+    const next = {
+      ...previous,
+      source_file: productsPath,
+      total_products: products.length,
+      price_ranges_after: products.filter((product) => (
+        Number(product.priceFrom || 0) !== Number(product.priceTo || 0)
+      )).length,
+      products_without_price: products.filter((product) => (
+        !Number(product.priceFrom || product.priceTo || product.price || 0)
+      )).length,
+      source_counts: sourceCounts,
+    };
+
+    writeJsonIfChanged(filePath, next, changedFiles);
+    return;
+  }
+
   const backupById = new Map(backup.map((product) => [product.id, product]));
   const seriesUsd = previous.series_usd || {};
   const multiplier = previous.multiplier || Number(previous.usd_pln_rate || 0) * (1 + Number(previous.markup_percent || 0) / 100);

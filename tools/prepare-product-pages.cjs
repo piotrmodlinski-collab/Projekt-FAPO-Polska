@@ -121,9 +121,7 @@ function formatMoney(value) {
 function formatPriceRange(product) {
   const from = Number(product.priceFrom || product.price || 0);
   const to = Number(product.priceTo || product.oldPrice || 0);
-  if (!from && !to) return 'Cena na zapytanie';
-  if (!to || from === to) return formatMoney(from);
-  return `${formatMoney(from)} - ${formatMoney(to)}`;
+  return formatMoney(from || to);
 }
 
 function fitmentLabel(product) {

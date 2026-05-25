@@ -1659,7 +1659,7 @@ function openCheckoutMailFallback(payload) {
     `   ID: ${item.id}`,
     `   SKU: ${item.sku || '-'}`,
     `   Ilość: ${item.qty}`,
-    `   Cena od: ${item.priceFrom} PLN`,
+    `   Cena: ${item.priceFrom} PLN`,
     `   Suma: ${item.lineTotal} PLN`,
     item.url ? `   URL: ${item.url}` : null,
   ].filter(Boolean).join('\n')).join('\n\n');
@@ -1733,9 +1733,8 @@ function formatMoney(value) {
 }
 
 function formatPriceRange(min, max) {
-  const a = formatMoney(min);
-  const b = formatMoney(max);
-  return min === max ? a : `${a} - ${b}`;
+  const price = Number(min || max || 0);
+  return price ? formatMoney(price) : 'Cena na zapytanie';
 }
 
 function escapeRegExp(value) {

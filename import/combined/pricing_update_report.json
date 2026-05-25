@@ -1,163 +1,269 @@
 {
-  "timestamp": "2026-04-18T09:00:52",
+  "timestamp": "2026-05-25T17:34:18.280Z",
+  "pricing_strategy": "fapomoto_usd_to_pln_plus_margin",
   "source_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json",
-  "backup_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.backup.before-pricing.json",
-  "usd_pln_rate": 3.5912,
+  "remote_source": "https://www.fapomoto.com/products.json",
+  "exchange_rate_source": "https://api.nbp.pl/api/exchangerates/rates/a/usd/?format=json",
+  "nbp_table": "099/A/NBP/2026",
+  "nbp_effective_date": "2026-05-25",
+  "usd_pln_rate": 3.6374,
   "markup_percent": 30,
-  "multiplier": 4.66856,
-  "series_usd": {
-    "PS": 275,
-    "PS+": 309,
-    "PF": 400,
-    "P1": 320,
-    "P3": 420,
-    "P5": 650,
-    "P7": 700,
-    "JEEP_P3": 350,
-    "JEEP_P5": 650
-  },
+  "multiplier": 4.72862,
+  "rounding": "nearest PLN",
   "total_products": 629,
-  "updated_products": 350,
-  "unchanged_products": 279,
-  "updated_by_series": {
-    "PS": 169,
-    "PS+": 1,
-    "PF": 145,
-    "P1": 24,
-    "P3": 7,
-    "P5": 1,
-    "P7": 1,
-    "JEEP_P3": 2
+  "remote_products": 602,
+  "price_ranges_before": 275,
+  "price_ranges_after": 0,
+  "products_without_price": 0,
+  "changed_products": 629,
+  "unchanged_products": 0,
+  "method_counts": {
+    "live-sku": 553,
+    "live-title": 58,
+    "import-sku": 2,
+    "series-fallback": 9,
+    "live-token": 4,
+    "preserve-local-min-fallback": 1,
+    "special-usd-min-fallback": 2
   },
-  "examples": {
-    "PS": {
-      "title": "Coilover for Honda Accord 1998-2002 Acura TL 2001-2003 CL PS012110",
-      "sku": "PS012110",
-      "oldPriceFrom": 1299,
-      "oldPriceTo": 2399,
-      "newPricePLN": 1284
-    },
-    "PF": {
-      "title": "32-Level Damping Coilover for 2006-2011 Honda Civic Si EX LX Sedan PF002030",
-      "sku": "PF002030",
-      "oldPriceFrom": 1299,
-      "oldPriceTo": 2399,
-      "newPricePLN": 1867
-    },
-    "P3": {
-      "title": "P3 Off-road Rear Shock For Toyota Tundar 2007-2021, 4-8 in Lift PA095731",
-      "sku": "PA095731",
-      "oldPriceFrom": 899,
-      "oldPriceTo": 2299,
-      "newPricePLN": 1961
-    },
-    "P1": {
-      "title": "P1 Off-road Front Shock for JEEP WRANGLER JK two doors 2007-2018  3-4.5 in lift PA360610",
-      "sku": "PA360610",
-      "oldPriceFrom": 899,
-      "oldPriceTo": 2299,
-      "newPricePLN": 1494
-    },
-    "JEEP_P3": {
-      "title": "FAPO P3 2.0 Steering Stabilizer For Jeep Wrangler TJ 1997-2006 PJ064410",
-      "sku": "PJ064410",
-      "oldPriceFrom": 899,
-      "oldPriceTo": 2299,
-      "newPricePLN": 1634
-    },
-    "PS+": {
-      "title": "PS+ Series Coilover Offer (Catalogue)",
-      "sku": "PSPLUS-CATALOG",
-      "oldPriceFrom": null,
-      "oldPriceTo": null,
-      "newPricePLN": 1443
-    },
-    "P5": {
-      "title": "P5 Series Off-Road Suspension Offer (Catalogue)",
-      "sku": "P5-CATALOG",
-      "oldPriceFrom": null,
-      "oldPriceTo": null,
-      "newPricePLN": 3035
-    },
-    "P7": {
-      "title": "P7 Series Off-Road Suspension Offer (Catalogue)",
-      "sku": "P7-CATALOG",
-      "oldPriceFrom": null,
-      "oldPriceTo": null,
-      "newPricePLN": 3268
+  "unresolved_without_com_price_count": 1,
+  "unresolved_without_com_price": [
+    {
+      "id": "p0551",
+      "source": "fapomoto",
+      "sku": "FAPO-P0551",
+      "title": "M53x2.0 High-Strength Nut Precision Machined, Durable and Reliable",
+      "previousPriceFrom": 499,
+      "previousPriceTo": 1999,
+      "newPrice": 499,
+      "reason": "No matching live/imported fapomoto.com price."
     }
-  },
-  "runtime_source_counts": {
+  ],
+  "source_counts": {
     "fapomoto": 610,
     "special_order": 15,
     "catalogue": 4
   },
-  "new_products_since_backup": [
+  "examples": [
     {
-      "id": "p0619",
-      "source": "catalogue",
-      "sku": "PS035810",
-      "title": "Coilover for Toyota Camry/Avalon XV40 2006-2012 PS035810"
+      "id": "p0001",
+      "sku": "PS012110",
+      "title": "Coilover for Honda Accord 1998-2002 Acura TL 2001-2003 CL PS012110",
+      "oldPriceFrom": 1284,
+      "oldPriceTo": 1284,
+      "newPricePLN": 941,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 199,
+      "sourceUrl": "https://www.fapomoto.com/products/ps012110-ps-coilover-for-honda-accord-98-02-acura-tl-01-03-cl"
     },
     {
-      "id": "p0620",
-      "source": "catalogue",
-      "sku": "PSPLUS-CATALOG",
-      "title": "PS+ Series Coilover Offer (Catalogue)"
+      "id": "p0002",
+      "sku": "PS069210",
+      "title": "Coilover for Dodge Charger 2006-2010 SRT-8 PS069210",
+      "oldPriceFrom": 1284,
+      "oldPriceTo": 1284,
+      "newPricePLN": 1570,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 332,
+      "sourceUrl": "https://www.fapomoto.com/products/ps069210-ps-coilover-for-dodge-charger-2006-2010-srt-8"
     },
     {
-      "id": "p0621",
-      "source": "catalogue",
-      "sku": "P5-CATALOG",
-      "title": "P5 Series Off-Road Suspension Offer (Catalogue)"
+      "id": "p0003",
+      "sku": "PF002030",
+      "title": "32-Level Damping Coilover for 2006-2011 Honda Civic Si EX LX Sedan PF002030",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2341,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 495,
+      "sourceUrl": "https://www.fapomoto.com/products/32-level-damping-coilover-for-2006-2011-honda-civic-si-ex-lx-sedan-pf002030"
     },
     {
-      "id": "p0622",
-      "source": "catalogue",
-      "sku": "P7-CATALOG",
-      "title": "P7 Series Off-Road Suspension Offer (Catalogue)"
+      "id": "p0004",
+      "sku": "PA095731",
+      "title": "P3 Off-road Rear Shock For Toyota Tundar 2007-2021, 4-8 in Lift PA095731",
+      "oldPriceFrom": 1961,
+      "oldPriceTo": 1961,
+      "newPricePLN": 752,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 159,
+      "sourceUrl": "https://www.fapomoto.com/products/pa095731-p3-off-road-rear-shock-for-toyota-tundar-2007-2021-4-8-lift"
     },
     {
-      "id": "p0623",
-      "source": "fapomoto",
-      "sku": "PF035530",
-      "title": "32-Level Adjustable Coilovers for 1996-2002 Toyota Camry 4th Gen SXV20 MCV20 PF035530"
+      "id": "p0005",
+      "sku": "PA094630",
+      "title": "P3 Off-road Rear Shock For Ford F-150 2009-2022 4-7.5 in Lift PA094630",
+      "oldPriceFrom": 1961,
+      "oldPriceTo": 1961,
+      "newPricePLN": 752,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 159,
+      "sourceUrl": "https://www.fapomoto.com/products/pa094630-p3-off-road-rear-shock-for-ford-f-150-2009-2022-4-7-5-lift"
     },
     {
-      "id": "p0624",
-      "source": "fapomoto",
-      "sku": "62 180008G + 62 220 010",
-      "title": "Coilovers Spring  x 4 PF086530"
+      "id": "p0006",
+      "sku": "PA067830",
+      "title": "P3 Off-road  Front Shock for  Ford F-250 Super Duty 4WD 2005-2022, 2-4.5 in Lift PA067830",
+      "oldPriceFrom": 1961,
+      "oldPriceTo": 1961,
+      "newPricePLN": 705,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 149,
+      "sourceUrl": "https://www.fapomoto.com/products/pa067830-p3-off-road-front-shock-for-ford-f-250-super-duty-4wd-2005-2022-2-4-5-lift"
     },
     {
-      "id": "p0625",
-      "source": "fapomoto",
-      "sku": "PZ111610",
-      "title": "FAPO Tie Rod End+ Inner Tie Rod for 89-94 95-02 Nissan S13 S14 S15 240SX R32 R33 PZ111610"
+      "id": "p0007",
+      "sku": "PA067730",
+      "title": "P3 Off-road Rear Shock  For Ford F-250 Super Duty 4WD 1999-2016, 2WD 2005-2006, with Ford F-350 Super Duty 2WD 1999-2016 2-4.5 in Lift PA067730",
+      "oldPriceFrom": 1961,
+      "oldPriceTo": 1961,
+      "newPricePLN": 705,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 149,
+      "sourceUrl": "https://www.fapomoto.com/products/pa067730-p3-off-road-rear-shock-for-ford-f-250-super-duty-4wd-1999-2016-2wd-2005-2006-with-ford-f-350-super-duty-2wd-1999-2016-2-4-5-lift"
     },
     {
-      "id": "p0626",
-      "source": "fapomoto",
-      "sku": "PF091930",
-      "title": "32-Level Damping Coilover For Volkswagen Touareg 1st Gen 7L 2002-2010 PF091930"
+      "id": "p0008",
+      "sku": "PF012320",
+      "title": "32-Level Damping Coilover for HONDA ACCORD 2003-2007 ACURA TSX 2004-2008 PF012320",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2076,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 439,
+      "sourceUrl": "https://www.fapomoto.com/products/pf012320-pf-coilover-for-honda-accord-03-07-acura-tsx-04-08"
     },
     {
-      "id": "p0627",
-      "source": "fapomoto",
-      "sku": "420071149261290374810320042920",
-      "title": "Open Box Special:32-Level Damping Coilover for Pontiac G8 2008-2009 sedan & Holden Caprice 3rd Gen VM 2006-2013 PF008030"
+      "id": "p0009",
+      "sku": "PF006530",
+      "title": "32-Level Damping Coilover for BMW 3-Series F30 328i 335i 2013-2019/BMW 4 Series 2013-2020 PF006530",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2516,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 532,
+      "sourceUrl": "https://www.fapomoto.com/products/pf006520-pf-coilover-for-bmw-3-series-f30-328i-335i-13-19-3-bolts-version"
     },
     {
-      "id": "p0628",
-      "source": "fapomoto",
-      "sku": "PT022710",
-      "title": "2-way Piggyback Reservoir Coilover forHonda Civic 10th Gen 2016-2021  PT022710"
+      "id": "p0010",
+      "sku": "PF002120",
+      "title": "32-Level Damping Coilover for Honda Civic & SI 2001 -2005 EM2 EP3 PF002120",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2341,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 495,
+      "sourceUrl": "https://www.fapomoto.com/products/pf002120-pf-coilover-for-honda-civic-si-2001-2005-em2-ep3"
     },
     {
-      "id": "p0631",
-      "source": "fapomoto",
-      "sku": "PF025730",
-      "title": "32-Level Damping Coilover for 2006-2019 Toyota Corolla E140/E150/E160 / Matrix / Pontiac Vibe PF025730"
+      "id": "p0011",
+      "sku": "PF004120",
+      "title": "32-Level Damping Coilover for Volkswagen Jetta MK5 MK6 FWD 2006-2017 PF004120",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2516,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 532,
+      "sourceUrl": "https://www.fapomoto.com/products/pf004120-pf-coilover-for-volkswagen-jetta-mk5-mk6-fwd-2006-2017"
+    },
+    {
+      "id": "p0012",
+      "sku": "PF002420",
+      "title": "32-Level Damping Coilover for HONDA CIVIC 1988-2000 INTEGRA 1990-2001 PF002420",
+      "oldPriceFrom": 1867,
+      "oldPriceTo": 1867,
+      "newPricePLN": 2076,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 439,
+      "sourceUrl": "https://www.fapomoto.com/products/pf002420-pf-coilover-for-integra-1990-2001-honda-civic-1988-2000"
+    },
+    {
+      "id": "p0013",
+      "sku": "FE615310",
+      "title": "FAPO Turbo Manifold for 08-15 Mitsubishi Lancer Evolution X EVO 10 4B11T MR GSR",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1745,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 369,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-turbo-manifold-for-08-15-mitsubishi-lancer-evolution-x-evo-10-4b11t-mr-gsr"
+    },
+    {
+      "id": "p0014",
+      "sku": "FE696240",
+      "title": "FAPO Long Tube Header 1-7/8  for 07-13 Chevy GMC Silverado Sierra 1500 2500 HD FE696240",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1414,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 299,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-long-tube-header-1-7-8-for-07-13-chevy-gmc-silverado-sierra-1500-2500-hd"
+    },
+    {
+      "id": "p0015",
+      "sku": "FE687440",
+      "title": "FAPO LS Swap Headers Cast Manifolds for C10 C1500 Silverado Sierra Yukon Tahoe",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1036,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 219,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-ls-swap-headers-cast-manifolds-for-c10-c1500-silverado-sierra-yukon-tahoe"
+    },
+    {
+      "id": "p0016",
+      "sku": "FE655410",
+      "title": "FAPO Shorty Headers for 07-16 Toyota Tundra Sequoia 5.7L 345 V8 304 SS Limited SR5 TRD",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1036,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 219,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-shorty-headers-for-07-16-toyota-tundra-sequoia-5-7l-345-v8-304-ss-limited-sr5-trd"
+    },
+    {
+      "id": "p0017",
+      "sku": "FE635220",
+      "title": "FAPO Turbo Manifold T3 for 83-89 Ford Mustang SVO Thunderbird Mercury Cougar XR-7 Merkur XR4Ti 2.3L Side Mount",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 894,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 189,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-turbo-manifold-t3-for-83-89-ford-mustang-svo-thunderbird-mercury-cougar-xr-7-merkur-xr4ti-2-3l-side-mount"
+    },
+    {
+      "id": "p0018",
+      "sku": "FE685310",
+      "title": "FAPO Shorty Headers for 97-03 Ford F150 5.4L 330 V8 XL XLT FX4 King Ranch Lariat",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1036,
+      "sourceMethod": "live-sku",
+      "sourceUsd": 219,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-shorty-headers-for-97-03-ford-f150-5-4l-330-v8-xl-xlt-fx4-king-ranch-lariat"
+    },
+    {
+      "id": "p0019",
+      "sku": "JZA80",
+      "title": "FAPO Single Turbo Manifold for Toyota Supra JZA80 Mk4 Lexus GS300 SC300 IS300 2JZGE T4",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 1887,
+      "sourceMethod": "live-title",
+      "sourceUsd": 399,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-single-turbo-manifold-for-toyota-supra-jza80-mk4-lexus-gs300-sc300-is300-2jzge-t4"
+    },
+    {
+      "id": "p0020",
+      "sku": "RB20DET",
+      "title": "FAPO Equal Length T3 Turbo Manifold for RB20DET RB25DET Skyline R31 R32 R33 R34 GTS GTR 44mm WG Top Mount",
+      "oldPriceFrom": 499,
+      "oldPriceTo": 1699,
+      "newPricePLN": 2170,
+      "sourceMethod": "live-title",
+      "sourceUsd": 459,
+      "sourceUrl": "https://www.fapomoto.com/products/fapo-equal-length-t3-turbo-manifold-for-rb20det-rb25det-skyline-r31-r32-r33-r34-gts-gtr-44mm-wg-top-mount"
     }
   ]
 }
