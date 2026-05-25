@@ -1967,6 +1967,11 @@ body.shorts-modal-open {
   transition: opacity 0.75s ease, transform 0.75s ease;
 }
 
+.product-detail-page.reveal {
+  opacity: 1;
+  transform: none;
+}
+
 .reveal.show {
   opacity: 1;
   transform: translateY(0);

@@ -1,15 +1,37 @@
 ﻿const reveals = document.querySelectorAll('.reveal');
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
+const revealItems = Array.from(reveals);
+const revealImmediately = (element) => {
+  if (element.id === 'product-detail' || element.classList.contains('product-detail-page')) {
+    return true;
+  }
+  const rect = element.getBoundingClientRect();
+  return rect.top < window.innerHeight * 0.95 && rect.bottom > 0;
+};
+const pendingReveals = [];
 
-reveals.forEach((el) => observer.observe(el));
+revealItems.forEach((element) => {
+  if (revealImmediately(element)) {
+    element.classList.add('show');
+  } else {
+    pendingReveals.push(element);
+  }
+});
+
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  pendingReveals.forEach((el) => observer.observe(el));
+} else {
+  pendingReveals.forEach((el) => el.classList.add('show'));
+}
 
 initHeroStats();
 
