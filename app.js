@@ -98,10 +98,71 @@ function animateStatCounter(element, instant = false) {
 const contactForm = document.querySelector('.contact-form');
 const contactEndpoint = '/api/contact';
 const fallbackRecipients = ['office@fapomoto.pl', 'piotr.modlinski@gmail.com'];
-const assetBase = window.FAPO_ASSET_BASE || '';
+const currentScriptSrc = document.currentScript?.getAttribute('src') || '';
+const assetBase = window.FAPO_ASSET_BASE || (currentScriptSrc.startsWith('../') ? '../' : '');
+
+initProductLanguage();
+initProductGallery();
 
 if (contactForm) {
   contactForm.addEventListener('submit', handleContactSubmit);
+}
+
+function initProductLanguage() {
+  const root = document.querySelector('[data-product-lang-root]');
+  if (!root) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const language = params.get('lang') === 'en' ? 'en' : 'pl';
+  document.documentElement.lang = language;
+
+  const title = root.getAttribute(`data-product-title-${language}`);
+  if (title) document.title = title;
+
+  const description = root.getAttribute(`data-product-description-${language}`);
+  const descriptionMeta = document.querySelector('meta[name="description"]');
+  if (description && descriptionMeta) {
+    descriptionMeta.setAttribute('content', description);
+  }
+
+  document.querySelectorAll('[data-lang-panel]').forEach((element) => {
+    element.hidden = element.dataset.langPanel !== language;
+  });
+
+  document.querySelectorAll('[data-lang-text]').forEach((element) => {
+    const value = element.getAttribute(`data-lang-${language}`);
+    if (value) element.textContent = value;
+  });
+
+  document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
+    const active = link.dataset.productLangLink === language;
+    link.classList.toggle('active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+}
+
+function initProductGallery() {
+  const media = document.querySelector('.product-detail-media');
+  if (!media) return;
+
+  const mainImage = media.querySelector('.product-main-image');
+  const thumbs = Array.from(media.querySelectorAll('[data-gallery-src]'));
+  if (!mainImage || !thumbs.length) return;
+
+  thumbs.forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextSrc = button.dataset.gallerySrc;
+      if (!nextSrc) return;
+      mainImage.src = nextSrc;
+      const thumbImage = button.querySelector('img');
+      if (thumbImage?.alt) mainImage.alt = thumbImage.alt;
+      thumbs.forEach((thumb) => thumb.classList.toggle('active', thumb === button));
+    });
+  });
 }
 
 async function handleContactSubmit(event) {

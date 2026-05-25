@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0610">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0610" data-product-lang-root data-product-title-pl="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset | FAPO Polska" data-product-title-en="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset | FAPO Poland" data-product-description-pl="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PZ006410." data-product-description-en="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset. Performance, 1990-2006. Product available in the FAPO Poland catalogue with order support through our store. SKU PZ006410.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PZ006410</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/Ha53c4c9ca15e448ab92b7301660eae46U/FAPO-PZ006410-voor-BMW-E36-E46-en.jpg_480x480.jpg?hasNWGrade=1" alt="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/Ha53c4c9ca15e448ab92b7301660eae46U/FAPO-PZ006410-voor-BMW-E36-E46-en.jpg_480x480.jpg?hasNWGrade=1" alt="FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset | FAPO Polska","en":"FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset | FAPO Poland"};
-      const descriptions = {"pl":"FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PZ006410.","en":"FAPO PZ006410 voor BMW E36 E46 en BMW M3 E36 E46 Verstelbare Achterwielophanging Achterwielhoekset Achterste Onderste Draagarmset. Performance, 1990-2006. Product available in the FAPO Poland catalogue with order support through our store. SKU PZ006410."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

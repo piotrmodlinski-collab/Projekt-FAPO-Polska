@@ -17,10 +17,6 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function jsonForInlineScript(value) {
-  return JSON.stringify(value).replace(/</g, '\\u003c');
-}
-
 function stripHtml(value) {
   const text = String(value ?? '')
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -73,6 +69,8 @@ function normalizeCategoryEn(category) {
 function localizeProductTitlePL(title) {
   let text = String(title || '');
   const rules = [
+    [/(\d+)-Level Damping Coilovers?/gi, '$1-stopniowe zawieszenie gwintowane'],
+    [/Coilovers?\s+for/gi, 'Zawieszenie gwintowane do'],
     [/Coilovers?/gi, 'zawieszenie gwintowane'],
     [/Off-?road/gi, 'off-road'],
     [/Front shock/gi, 'przedni amortyzator'],
@@ -103,6 +101,12 @@ function localizeProductTitlePL(title) {
   for (const [pattern, replacement] of rules) {
     text = text.replace(pattern, replacement);
   }
+
+  text = text.replace(
+    /(zawieszenie gwintowane)\s+Do\s+((?:19|20)\d{2}(?:-(?:19|20)\d{2})?)\s+(.+)/i,
+    '$1 do $3 $2',
+  );
+  text = text.replace(/\s+([A-Z]{2}\d{5,})\s+((?:19|20)\d{2}(?:-(?:19|20)\d{2})?)$/i, ' $2 $1');
 
   return text.replace(/^(\s*)([a-ząćęłńóśźż])/i, (match, lead, char) => `${lead}${char.toUpperCase()}`);
 }
@@ -210,7 +214,49 @@ function safeProductDescriptionHtml(product, fallbackDescription, language = 'pl
   return html;
 }
 
-function productJsonLd(product, title, description) {
+function productImages(product, fallbackImage) {
+  const images = [
+    product.image,
+    ...(Array.isArray(product.images) ? product.images : []),
+  ]
+    .map((value) => String(value || '').trim())
+    .filter(Boolean);
+
+  const unique = Array.from(new Set(images));
+  return unique.length ? unique : [fallbackImage];
+}
+
+function productPageAssetUrl(value) {
+  const url = String(value || '').trim();
+  if (!url) return '';
+  if (/^(?:https?:)?\/\//i.test(url) || url.startsWith('/') || url.startsWith('../')) return url;
+  return `../${url.replace(/^\.?\//, '')}`;
+}
+
+function siteAssetUrl(value) {
+  const url = String(value || '').trim();
+  if (!url) return '';
+  if (/^(?:https?:)?\/\//i.test(url)) return url;
+  return `${siteUrl}/${url.replace(/^(?:\.\.\/|\.\/|\/)+/, '')}`;
+}
+
+function renderProductGallery(images, title) {
+  const imageTags = images.map(productPageAssetUrl).filter(Boolean);
+  const firstImage = imageTags[0];
+  const thumbs = imageTags.map((src, index) => `
+            <button class="product-gallery-thumb${index === 0 ? ' active' : ''}" type="button" data-gallery-src="${escapeHtml(src)}" aria-label="Pokaż zdjęcie ${index + 1}">
+              <img src="${escapeHtml(src)}" alt="${escapeHtml(`${title} - zdjęcie ${index + 1}`)}" loading="${index === 0 ? 'eager' : 'lazy'}" />
+            </button>`).join('');
+
+  return `
+        <div class="product-detail-media">
+          <img class="product-main-image" src="${escapeHtml(firstImage)}" alt="${escapeHtml(title)}" />
+          ${imageTags.length > 1 ? `<div class="product-gallery-thumbs" aria-label="Galeria produktu">${thumbs}
+          </div>` : ''}
+        </div>`;
+}
+
+function productJsonLd(product, title, description, images) {
   const price = Number(product.priceFrom || product.price || 0);
   const data = {
     '@context': 'https://schema.org',
@@ -223,7 +269,7 @@ function productJsonLd(product, title, description) {
       '@type': 'Brand',
       name: 'FAPO',
     },
-    image: product.image ? [product.image] : undefined,
+    image: images?.length ? images : undefined,
     description,
     url: product.canonicalUrl,
     offers: {
@@ -292,7 +338,11 @@ function renderProductPage(product) {
   const richDescription = safeProductDescriptionHtml(product, description, 'pl');
   const richDescriptionEn = safeProductDescriptionHtml(product, descriptionEn, 'en');
   const price = formatPriceRange(product);
-  const image = product.image || '../assets/media/fapo-recommendations-poster.jpg';
+  const fallbackImage = '../assets/media/fapo-recommendations-poster.jpg';
+  const images = productImages(product, fallbackImage);
+  const image = productPageAssetUrl(images[0]);
+  const jsonLdImages = images.map(siteAssetUrl);
+  const imageMeta = jsonLdImages[0] || image;
   const makes = (product.vehicle?.makes || []).join(', ') || 'Dobór po kontakcie';
   const models = (product.vehicle?.models || []).join(', ') || 'Dobór po kontakcie';
   const productPageFileName = String(product.url || productFileName(product)).split('/').pop();
@@ -312,13 +362,13 @@ function renderProductPage(product) {
   <meta property="og:title" content="${escapeHtml(title)}" />
   <meta property="og:description" content="${escapeHtml(description)}" />
   <meta property="og:url" content="${escapeHtml(product.canonicalUrl)}" />
-  <meta property="og:image" content="${escapeHtml(image)}" />
+  <meta property="og:image" content="${escapeHtml(imageMeta)}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(title)}" />
   <meta name="twitter:description" content="${escapeHtml(description)}" />
-  <meta name="twitter:image" content="${escapeHtml(image)}" />
+  <meta name="twitter:image" content="${escapeHtml(imageMeta)}" />
   <script type="application/ld+json">
-    ${productJsonLd(product, title, description)}
+    ${productJsonLd(product, title, description, jsonLdImages)}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -347,7 +397,7 @@ function renderProductPage(product) {
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="${escapeHtml(product.id)}">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="${escapeHtml(product.id)}" data-product-lang-root data-product-title-pl="${escapeHtml(`${title} | FAPO Polska`)}" data-product-title-en="${escapeHtml(`${titleEn} | FAPO Poland`)}" data-product-description-pl="${escapeHtml(description)}" data-product-description-en="${escapeHtml(descriptionEn)}">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -356,9 +406,7 @@ function renderProductPage(product) {
         <span>${escapeHtml(product.sku || product.id)}</span>
       </nav>
       <div class="product-detail-layout">
-        <div class="product-detail-media">
-          <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" />
-        </div>
+        ${renderProductGallery(images, title)}
         <div class="product-detail-content">
           <div class="product-meta-line">
             <span class="tag">${escapeHtml(category)}</span>
@@ -426,48 +474,6 @@ function renderProductPage(product) {
   </footer>
 
 ${renderCartDrawer()}
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = ${jsonForInlineScript({
-        pl: `${title} | FAPO Polska`,
-        en: `${titleEn} | FAPO Poland`,
-      })};
-      const descriptions = ${jsonForInlineScript({
-        pl: description,
-        en: descriptionEn,
-      })};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

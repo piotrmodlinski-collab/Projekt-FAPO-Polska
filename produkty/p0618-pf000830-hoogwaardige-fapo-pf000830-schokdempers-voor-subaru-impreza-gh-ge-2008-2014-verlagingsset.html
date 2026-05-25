@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0618">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0618" data-product-lang-root data-product-title-pl="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset | FAPO Polska" data-product-title-en="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset | FAPO Poland" data-product-description-pl="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830." data-product-description-en="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PF000830</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/Hff2d6c63108b4aa99acf81cde4222088P/Hoogwaardige-FAPO-PF000830-schokdempers-voor-Subaru-Impreza.jpg_480x480.jpg?hasNWGrade=1" alt="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/Hff2d6c63108b4aa99acf81cde4222088P/Hoogwaardige-FAPO-PF000830-schokdempers-voor-Subaru-Impreza.jpg_480x480.jpg?hasNWGrade=1" alt="Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset | FAPO Polska","en":"Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset | FAPO Poland"};
-      const descriptions = {"pl":"Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF000830.","en":"Hoogwaardige FAPO PF000830 schokdempers voor Subaru Impreza GH/GE 2008-2014, verlagingsset. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF000830."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

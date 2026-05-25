@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0617">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0617" data-product-lang-root data-product-title-pl="Top prijs FAPO PS000820 zawieszenie gwintowane verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014 | FAPO Polska" data-product-title-en="Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014 | FAPO Poland" data-product-description-pl="Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PS000820." data-product-description-en="Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PS000820.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PS000820</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/H54ce628faad44599b3aa5b5190130a78d/Top-prijs-FAPO-PS000820-Coilover-verlagingssets-schokbrekers.jpg_480x480.jpg?hasNWGrade=1" alt="Top prijs FAPO PS000820 zawieszenie gwintowane verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/H54ce628faad44599b3aa5b5190130a78d/Top-prijs-FAPO-PS000820-Coilover-verlagingssets-schokbrekers.jpg_480x480.jpg?hasNWGrade=1" alt="Top prijs FAPO PS000820 zawieszenie gwintowane verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"Top prijs FAPO PS000820 zawieszenie gwintowane verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014 | FAPO Polska","en":"Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014 | FAPO Poland"};
-      const descriptions = {"pl":"Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PS000820.","en":"Top prijs FAPO PS000820 Coilover verlagingssets schokbrekers voor Subaru Impreza WRX GR/GV 2008-2014. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PS000820."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

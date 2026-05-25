@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0612">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0612" data-product-lang-root data-product-title-pl="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper | FAPO Polska" data-product-title-en="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper | FAPO Poland" data-product-description-pl="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF010230." data-product-description-en="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF010230.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PF010230</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/Hc12be92b2c28455b91762b43a1cf3961z/FAPO-PF010230-voor-Subaru-Legacy-4e-generatie.jpg_480x480.jpg?hasNWGrade=1" alt="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/Hc12be92b2c28455b91762b43a1cf3961z/FAPO-PF010230-voor-Subaru-Legacy-4e-generatie.jpg_480x480.jpg?hasNWGrade=1" alt="FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper | FAPO Polska","en":"FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper | FAPO Poland"};
-      const descriptions = {"pl":"FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF010230.","en":"FAPO PF010230 voor Subaru Legacy 4e generatie BL9/BP 2003-2009 Verstelbare dempings- en verlagingssets schokdemper. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF010230."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

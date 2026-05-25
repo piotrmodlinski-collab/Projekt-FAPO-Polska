@@ -1143,10 +1143,41 @@ body {
   overflow: hidden;
 }
 
-.product-detail-media img {
+.product-main-image {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: #07090d;
+}
+
+.product-gallery-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.45rem;
+  padding: 0.55rem;
+  border-top: 1px solid var(--line);
+  max-height: 220px;
+  overflow: auto;
+}
+
+.product-gallery-thumb {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+}
+
+.product-gallery-thumb.active {
+  border-color: var(--primary);
+}
+
+.product-gallery-thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
   object-fit: cover;
 }
 

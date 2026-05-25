@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0606">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0606" data-product-lang-root data-product-title-pl="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit zawieszenie gwintowane Monotube Schokdemper | FAPO Polska" data-product-title-en="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper | FAPO Poland" data-product-description-pl="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF006520." data-product-description-en="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF006520.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PF006520</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/Hd32b36e4830b48989cd46bbec3ba4567b/Fapo-Pf006520-Voor-Bmw-2-Serie-Coup.jpg_480x480.jpg?hasNWGrade=1" alt="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit zawieszenie gwintowane Monotube Schokdemper" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/Hd32b36e4830b48989cd46bbec3ba4567b/Fapo-Pf006520-Voor-Bmw-2-Serie-Coup.jpg_480x480.jpg?hasNWGrade=1" alt="Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit zawieszenie gwintowane Monotube Schokdemper" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit zawieszenie gwintowane Monotube Schokdemper | FAPO Polska","en":"Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper | FAPO Poland"};
-      const descriptions = {"pl":"Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper. Coilovers. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PF006520.","en":"Fapo Pf006520 Voor Bmw 2 Serie Coupé En Cabriolet 2wd/Awd F22/F23 2014 + Hoge Kwaliteit Coilover Monotube Schokdemper. Coilovers, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PF006520."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

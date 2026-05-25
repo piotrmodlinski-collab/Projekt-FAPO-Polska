@@ -13,11 +13,11 @@
   <meta property="og:title" content="P5 Series off-road Suspension Offer (Catalogue)" />
   <meta property="og:description" content="P5 Series Off-Road Suspension Offer (Catalogue). Off-Road. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU P5-CATALOG." />
   <meta property="og:url" content="https://fapomoto.pl/produkty/p0621-p5-catalog-p5-series-off-road-suspension-offer-catalogue.html" />
-  <meta property="og:image" content="assets/media/banner-e46.jpg" />
+  <meta property="og:image" content="https://fapomoto.pl/assets/media/banner-e46.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="P5 Series off-road Suspension Offer (Catalogue)" />
   <meta name="twitter:description" content="P5 Series Off-Road Suspension Offer (Catalogue). Off-Road. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU P5-CATALOG." />
-  <meta name="twitter:image" content="assets/media/banner-e46.jpg" />
+  <meta name="twitter:image" content="https://fapomoto.pl/assets/media/banner-e46.jpg" />
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -31,7 +31,7 @@
         "name": "FAPO"
       },
       "image": [
-        "assets/media/banner-e46.jpg"
+        "https://fapomoto.pl/assets/media/banner-e46.jpg"
       ],
       "description": "P5 Series Off-Road Suspension Offer (Catalogue). Off-Road. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU P5-CATALOG.",
       "url": "https://fapomoto.pl/produkty/p0621-p5-catalog-p5-series-off-road-suspension-offer-catalogue.html",
@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0621">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0621" data-product-lang-root data-product-title-pl="P5 Series off-road Suspension Offer (Catalogue) | FAPO Polska" data-product-title-en="P5 Series Off-Road Suspension Offer (Catalogue) | FAPO Poland" data-product-description-pl="P5 Series Off-Road Suspension Offer (Catalogue). Off-Road. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU P5-CATALOG." data-product-description-en="P5 Series Off-Road Suspension Offer (Catalogue). Off-Road, Universal. Product available in the FAPO Poland catalogue with order support through our store. SKU P5-CATALOG.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>P5-CATALOG</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="assets/media/banner-e46.jpg" alt="P5 Series off-road Suspension Offer (Catalogue)" />
+          <img class="product-main-image" src="../assets/media/banner-e46.jpg" alt="P5 Series off-road Suspension Offer (Catalogue)" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"P5 Series off-road Suspension Offer (Catalogue) | FAPO Polska","en":"P5 Series Off-Road Suspension Offer (Catalogue) | FAPO Poland"};
-      const descriptions = {"pl":"P5 Series Off-Road Suspension Offer (Catalogue). Off-Road. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU P5-CATALOG.","en":"P5 Series Off-Road Suspension Offer (Catalogue). Off-Road, Universal. Product available in the FAPO Poland catalogue with order support through our store. SKU P5-CATALOG."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>

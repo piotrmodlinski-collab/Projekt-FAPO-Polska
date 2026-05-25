@@ -77,7 +77,7 @@
   </header>
 
   <main>
-    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0611">
+    <section class="section reveal product-detail-page" id="product-detail" data-product-id="p0611" data-product-lang-root data-product-title-pl="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper | FAPO Polska" data-product-title-en="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper | FAPO Poland" data-product-description-pl="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PS027420." data-product-description-en="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PS027420.">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
         <span>/</span>
@@ -86,8 +86,10 @@
         <span>PS027420</span>
       </nav>
       <div class="product-detail-layout">
+        
         <div class="product-detail-media">
-          <img src="http://s.alicdn.com/@sc04/kf/H0979eeed82324c3f925368d441b18561c/Topkwaliteit-PS027420-voor-Ford-Mustang-6e-generatie.jpg_480x480.jpg?hasNWGrade=1" alt="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper" />
+          <img class="product-main-image" src="http://s.alicdn.com/@sc04/kf/H0979eeed82324c3f925368d441b18561c/Topkwaliteit-PS027420-voor-Ford-Mustang-6e-generatie.jpg_480x480.jpg?hasNWGrade=1" alt="Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper" />
+          
         </div>
         <div class="product-detail-content">
           <div class="product-meta-line">
@@ -188,42 +190,6 @@
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script>window.FAPO_ASSET_BASE = '../';</script>
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const language = params.get('lang') === 'en' ? 'en' : 'pl';
-      const titles = {"pl":"Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper | FAPO Polska","en":"Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper | FAPO Poland"};
-      const descriptions = {"pl":"Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper. Performance. Produkt dostępny w katalogu FAPO Polska z obsługą zamówienia przez nasz sklep. SKU PS027420.","en":"Topkwaliteit PS027420 voor Ford Mustang 6e generatie 5.0L (zonder elektronische demping) S550 2015-2023 Verstelbare schokdemper. Performance, Fitment by contact. Product available in the FAPO Poland catalogue with order support through our store. SKU PS027420."};
-
-      document.documentElement.lang = language;
-      document.title = titles[language] || titles.pl;
-
-      const descriptionMeta = document.querySelector('meta[name="description"]');
-      if (descriptionMeta) {
-        descriptionMeta.setAttribute('content', descriptions[language] || descriptions.pl);
-      }
-
-      document.querySelectorAll('[data-lang-panel]').forEach((element) => {
-        element.hidden = element.dataset.langPanel !== language;
-      });
-
-      document.querySelectorAll('[data-lang-text]').forEach((element) => {
-        const value = element.getAttribute('data-lang-' + language);
-        if (value) element.textContent = value;
-      });
-
-      document.querySelectorAll('[data-product-lang-link]').forEach((link) => {
-        const active = link.dataset.productLangLink === language;
-        link.classList.toggle('active', active);
-        if (active) {
-          link.setAttribute('aria-current', 'page');
-        } else {
-          link.removeAttribute('aria-current');
-        }
-      });
-    })();
-  </script>
   <script src="../app.js"></script>
 </body>
 </html>
