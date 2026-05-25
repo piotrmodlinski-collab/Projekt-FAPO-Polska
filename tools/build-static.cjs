@@ -8,6 +8,8 @@ const entries = [
   'index.html',
   'en.html',
   'sklep.html',
+  'polityki.html',
+  'policies.html',
   'produkty',
   'app.js',
   'styles.css',

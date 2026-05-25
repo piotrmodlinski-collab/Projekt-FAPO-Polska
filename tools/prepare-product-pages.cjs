@@ -392,7 +392,7 @@ function renderProductPage(product) {
       <a href="../sklep.html">Sklep</a>
       <a href="../index.html#o-nas">O nas</a>
       <a href="../index.html#b2b">B2B</a>
-      <a href="../index.html#zasady">Warunki</a>
+      <a href="../polityki.html">Warunki</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
     <div class="lang-switch product-lang-switch" aria-label="Wybór języka opisu produktu">
@@ -499,7 +499,7 @@ function renderProductPage(product) {
     <nav class="footer-links" aria-label="Linki w stopce">
       <a href="../index.html">Strona główna</a>
       <a href="../sklep.html">Sklep</a>
-      <a href="../index.html#zasady">Warunki</a>
+      <a href="../polityki.html">Warunki</a>
       <a href="../index.html#kontakt">Kontakt</a>
     </nav>
     <div class="footer-company">
@@ -539,6 +539,22 @@ function renderSitemap(products) {
       alternates: [
         { hreflang: 'pl', href: `${siteUrl}/sklep.html` },
         { hreflang: 'x-default', href: `${siteUrl}/sklep.html` },
+      ],
+    },
+    {
+      loc: `${siteUrl}/polityki.html`,
+      alternates: [
+        { hreflang: 'pl', href: `${siteUrl}/polityki.html` },
+        { hreflang: 'en', href: `${siteUrl}/policies.html` },
+        { hreflang: 'x-default', href: `${siteUrl}/polityki.html` },
+      ],
+    },
+    {
+      loc: `${siteUrl}/policies.html`,
+      alternates: [
+        { hreflang: 'pl', href: `${siteUrl}/polityki.html` },
+        { hreflang: 'en', href: `${siteUrl}/policies.html` },
+        { hreflang: 'x-default', href: `${siteUrl}/polityki.html` },
       ],
     },
   ];

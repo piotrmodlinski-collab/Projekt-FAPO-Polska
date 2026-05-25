@@ -18,6 +18,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fapomoto.pl/sklep.html" />
   </url>
   <url>
+    <loc>https://fapomoto.pl/polityki.html</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://fapomoto.pl/polityki.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fapomoto.pl/policies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fapomoto.pl/polityki.html" />
+  </url>
+  <url>
+    <loc>https://fapomoto.pl/policies.html</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://fapomoto.pl/polityki.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fapomoto.pl/policies.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fapomoto.pl/polityki.html" />
+  </url>
+  <url>
     <loc>https://fapomoto.pl/produkty/p0001-ps012110-coilover-for-honda-accord-1998-2002-acura-tl-2001-2003-cl-ps012110.html</loc>
     <lastmod>2026-05-24</lastmod>
   </url>
