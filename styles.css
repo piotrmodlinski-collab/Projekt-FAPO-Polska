@@ -572,6 +572,44 @@ body {
   color: #ced9e8;
 }
 
+.warranty-policy[id],
+.policy-grid article[id] {
+  scroll-margin-top: 96px;
+}
+
+.compliance-links {
+  margin-top: 0.6rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.compliance-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(8, 13, 20, 0.36);
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.compliance-links a::after {
+  content: ">";
+  color: #ff7a2b;
+  font-weight: 700;
+}
+
+.compliance-links a:hover,
+.compliance-links a:focus-visible {
+  border-color: rgba(var(--glow), 0.72);
+  background: rgba(var(--glow), 0.1);
+  transform: translateY(-1px);
+}
+
 .card h3,
 .policy-grid h3,
 .split h3,
