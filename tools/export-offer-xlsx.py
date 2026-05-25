@@ -19,6 +19,7 @@ SITEMAP_IMAGE_CSV_PATH = ROOT / "import" / "fapomoto" / "products_with_images_fr
 OUT_DIR = ROOT / "oferty"
 OUT_PATH = OUT_DIR / "FAPO_Polska_katalog_kalkulacja_2026-05-25.xlsx"
 DEFAULT_MARGIN_RATE = 0.30
+MAX_COMPARISON_SOURCES = 5
 
 
 COLORS = {
@@ -119,6 +120,123 @@ def market_research_entry(product: dict) -> str:
         return "Hardrace suspension arms; SuperPro control arms/bushings; Whiteline arms/links; MOOG; Mevotech TTX/Supreme - wahacze, drążki i elementy geometrii."
 
     return "Benchmark ogólny: BC Racing/TEIN/Ksport dla zawieszeń; Bilstein/Rough Country dla off-road; MagnaFlow/Borla dla wydechu; Garrett/BorgWarner/Turbosmart dla turbo."
+
+
+def market_source_links(product: dict) -> list[tuple[str, str]]:
+    title = (product.get("title") or "").lower()
+    category = (product.get("category") or "").lower()
+    sku = (product.get("sku") or "").upper()
+
+    coilover_adjustable = [
+        ("BC Racing RM Series", "https://shop.bcracing-na.com/pages/rm-series"),
+        ("Ksport coilovers", "https://ksportusa.com/ksport-coilovers/"),
+        ("D2 Racing coilovers", "https://d2racing.com/"),
+        ("Fortune Auto coilovers", "https://fortune-auto.com/coilovers/"),
+        ("TEIN products", "https://www.tein.com/products/"),
+    ]
+    coilover_basic = [
+        ("TEIN products", "https://www.tein.com/products/"),
+        ("BC Racing series", "https://bcracing-na.com/series/"),
+        ("Ksport coilovers", "https://ksportusa.com/ksport-coilovers/"),
+        ("Eibach Pro-Street-S", "https://www.eibach.de/en/pro-street-s-en"),
+        ("Fortune Auto coilovers", "https://fortune-auto.com/coilovers/"),
+    ]
+    lowering_springs = [
+        ("Eibach Pro-Kit", "https://www.eibach.de/en/pro-kit-en"),
+        ("Eibach Sportline", "https://www.eibach.de/en/sportline-en"),
+        ("H&R lowering springs", "https://www.h-r.com/en/lowering-springs/"),
+        ("TEIN S.Tech", "https://www.tein.com/products/s_tech.html"),
+        ("Vogtland springs", "https://www.vogtland.com/en/shop/sport-lowering-springs/"),
+    ]
+    offroad = [
+        ("Bilstein off-road", "https://offroad.bilstein.com/en-us/trucks/"),
+        ("Rough Country lift kits", "https://www.roughcountry.com/lift-kits"),
+        ("Rancho shocks", "https://www.gorancho.com/"),
+        ("Skyjacker lift kits", "https://skyjacker.com/shop/category/suspension-lift-kit/"),
+        ("TeraFlex", "https://teraflex.com/"),
+    ]
+    offroad_links = [
+        ("TeraFlex", "https://teraflex.com/"),
+        ("Skyjacker lift kits", "https://skyjacker.com/shop/category/suspension-lift-kit/"),
+        ("Rough Country lift kits", "https://www.roughcountry.com/lift-kits"),
+        ("Rancho shocks", "https://www.gorancho.com/"),
+        ("Bilstein off-road", "https://offroad.bilstein.com/en-us/trucks/"),
+    ]
+    exhaust_systems = [
+        ("MagnaFlow cat-back", "https://www.magnaflow.com/collections/cat-back-exhaust-systems"),
+        ("Borla cat-back", "https://www.borla.com/products/cat-back-exhaust-systems/"),
+        ("Flowmaster cat-back", "https://www.flowmastermufflers.com/products/exhaust/exhaust_systems/cat-back/"),
+        ("MBRP exhaust", "https://www.mbrp.com/us-en/"),
+        ("CORSA Performance", "https://www.corsaperformance.com/"),
+    ]
+    exhaust_headers = [
+        ("Kooks headers", "https://kooksheaders.com/"),
+        ("Borla exhaust", "https://www.borla.com/products/cat-back-exhaust-systems/"),
+        ("MagnaFlow exhaust", "https://www.magnaflow.com/collections/exhaust-system"),
+        ("Flowmaster exhaust", "https://www.flowmastermufflers.com/"),
+        ("MBRP exhaust", "https://www.mbrp.com/us-en/"),
+    ]
+    turbo_manifolds = [
+        ("GReddy turbo catalog", "https://www.greddy.com/pages/greddy-catalog-turbocharger"),
+        ("SpeedFactory turbo manifolds", "https://www.speedfactoryracing.net/collections/turbo-manifolds"),
+        ("K-Tuned", "https://k-tuned.com/"),
+        ("Garrett performance catalog", "https://www.garrettmotion.com/tr/racing-and-performance/performance-catalog/"),
+        ("BorgWarner performance turbos", "https://www.borgwarner.com/aftermarket/boosting-technologies/performance-turbochargers"),
+    ]
+    heat_wrap = [
+        ("Design Engineering exhaust wrap", "https://www.designengineering.com/heat-control/exhaust-wrap/"),
+        ("Thermo-Tec exhaust wrap", "https://thermotec.com/exhaust-insulation/exhaust-wrap/"),
+        ("Mishimoto heat wrap", "https://www.mishimoto.com/titanium-heat-wrap-stainless-locking-tie-set.html"),
+        ("Heatshield Products exhaust wrap", "https://heatshieldproducts.com/exhaust-wrap-kits"),
+    ]
+    turbo_parts = [
+        ("Turbosmart products", "https://www.turbosmart.com/products-categories/"),
+        ("GReddy turbo catalog", "https://www.greddy.com/pages/greddy-catalog-turbocharger"),
+        ("Garrett performance catalog", "https://www.garrettmotion.com/tr/racing-and-performance/performance-catalog/"),
+        ("BorgWarner performance turbos", "https://www.borgwarner.com/aftermarket/boosting-technologies/performance-turbochargers"),
+        ("Precision Turbo", "https://www.precisionturbo.net/"),
+    ]
+    chassis = [
+        ("Hardrace suspension arms", "https://hardraceshop.com/collections/hardrace-suspension-arms"),
+        ("SuperPro control arms", "https://superpro-suspension.com/us/search/control-arms"),
+        ("MOOG control arms", "https://www.moogparts.com/parts/suspension/moog-control-arms.html"),
+        ("Mevotech control arms", "https://www.mevotech.com/product/control-arms/"),
+        ("Whiteline", "https://whitelineperformance.com/"),
+    ]
+    shocks = [
+        ("Bilstein off-road / B8", "https://offroad.bilstein.com/en-us/trucks/"),
+        ("TEIN products", "https://www.tein.com/products/"),
+        ("Koni shocks", "https://www.koni.com/en-US/Cars/Products/"),
+        ("KYB", "https://www.kyb.com/"),
+    ]
+
+    if "t-shirt" in title or "shirt" in title:
+        return []
+    if "lowering spring" in title or "lowering springs" in title:
+        return lowering_springs
+    if category == "coilovers" or "coilover" in title:
+        return coilover_adjustable if sku.startswith("PF") or "32-level" in title or "damping" in title else coilover_basic
+    if category == "off-road":
+        return offroad_links if ("brake line" in title or "control arm" in title or "arms" in title) else offroad
+    if category == "exhaust":
+        if "turbo manifold" in title or "manifold" in title:
+            return turbo_manifolds
+        if "header" in title or "headers" in title:
+            return exhaust_headers
+        if "wrap" in title:
+            return heat_wrap
+        return exhaust_systems
+    if category == "turbo":
+        return turbo_parts
+    if category in {"chassis", "performance"}:
+        if "spring" in title:
+            return lowering_springs
+        if "dump pipe" in title or "wastegate" in title or "bov" in title:
+            return turbo_parts
+        if "shock" in title or "damper" in title:
+            return shocks
+        return chassis
+    return coilover_basic[:2] + offroad[:1] + exhaust_systems[:1] + turbo_parts[:1]
 
 
 def fill(cell, color: str) -> None:
@@ -273,6 +391,16 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
         "Ilość",
         "Suma PLN",
         "Podobne części innych marek",
+        "Źródło porównania 1",
+        "Link porównania 1",
+        "Źródło porównania 2",
+        "Link porównania 2",
+        "Źródło porównania 3",
+        "Link porównania 3",
+        "Źródło porównania 4",
+        "Link porównania 4",
+        "Źródło porównania 5",
+        "Link porównania 5",
         "Link produktu FAPO PL",
         "Link zdjęcia",
         "Liczba zdjęć",
@@ -291,6 +419,13 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
         if not image_url:
             image_url = image_fallbacks.get(normalize_key(product.get("title")), "")
         images_count = len(product.get("images") or []) or (1 if image_url else 0)
+        comparison_sources = market_source_links(product)[:MAX_COMPARISON_SOURCES]
+        comparison_values: list[str] = []
+        for source_name, source_url in comparison_sources:
+            comparison_values.extend([source_name, source_url])
+        while len(comparison_values) < MAX_COMPARISON_SOURCES * 2:
+            comparison_values.extend(["", ""])
+
         row_values = [
             row_index - 1,
             product.get("id") or "",
@@ -306,6 +441,7 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
             0,
             f"=ROUND(K{row_index}*L{row_index},2)",
             market_research_entry(product),
+            *comparison_values,
             product_url,
             image_url,
             images_count,
@@ -315,7 +451,7 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
         for col, value in enumerate(row_values, 1):
             cell = ws.cell(row_index, col, value)
             style_body(cell, row_index)
-            if col in (5, 14, 15, 16, 19):
+            if col in (5, 14, 16, 18, 20, 22, 24, 25, 26, 29):
                 cell.alignment = Alignment(vertical="top", wrap_text=True)
 
         ws.cell(row_index, 6).number_format = "#,##0.00 zł"
@@ -327,12 +463,16 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
         ws.cell(row_index, 12).number_format = "#,##0"
         ws.cell(row_index, 13).number_format = "#,##0.00 zł"
 
+        for link_col in (16, 18, 20, 22, 24):
+            if ws.cell(row_index, link_col).value:
+                ws.cell(row_index, link_col).hyperlink = ws.cell(row_index, link_col).value
+                ws.cell(row_index, link_col).style = "Hyperlink"
         if product_url:
-            ws.cell(row_index, 15).hyperlink = product_url
-            ws.cell(row_index, 15).style = "Hyperlink"
+            ws.cell(row_index, 25).hyperlink = product_url
+            ws.cell(row_index, 25).style = "Hyperlink"
         if image_url:
-            ws.cell(row_index, 16).hyperlink = image_url
-            ws.cell(row_index, 16).style = "Hyperlink"
+            ws.cell(row_index, 26).hyperlink = image_url
+            ws.cell(row_index, 26).style = "Hyperlink"
 
     last_row = len(products) + 1
     table_ref = f"A1:{get_column_letter(len(headers))}{last_row}"
@@ -371,11 +511,21 @@ def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dic
         12: 10,
         13: 16,
         14: 72,
-        15: 58,
-        16: 52,
-        17: 12,
-        18: 14,
-        19: 28,
+        15: 24,
+        16: 56,
+        17: 24,
+        18: 56,
+        19: 24,
+        20: 56,
+        21: 24,
+        22: 56,
+        23: 24,
+        24: 56,
+        25: 58,
+        26: 52,
+        27: 12,
+        28: 14,
+        29: 28,
     }
     for col, width in widths.items():
         ws.column_dimensions[get_column_letter(col)].width = width
@@ -467,13 +617,13 @@ def main() -> None:
 
     ws_catalog = wb["Katalog i kalkulacja"]
     assert ws_catalog.max_row == len(products) + 1
-    assert ws_catalog.max_column == 19
+    assert ws_catalog.max_column == 29
 
     wb.save(OUT_PATH)
 
     check = load_workbook(OUT_PATH, data_only=False, read_only=True)
     assert check["Katalog i kalkulacja"].max_row == len(products) + 1
-    assert check["Katalog i kalkulacja"].max_column == 19
+    assert check["Katalog i kalkulacja"].max_column == 29
     check.close()
 
     print(OUT_PATH)
