@@ -1362,6 +1362,21 @@ body {
   font-size: 0.95rem;
 }
 
+.product-home-context {
+  border-top: 1px solid var(--line);
+}
+
+.product-context-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.product-context-actions {
+  margin-top: 1.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 @media (max-width: 720px) {
   .product-detail-media {
     grid-template-columns: 1fr;
