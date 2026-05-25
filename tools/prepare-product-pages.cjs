@@ -243,15 +243,21 @@ function siteAssetUrl(value) {
 function renderProductGallery(images, title) {
   const imageTags = images.map(productPageAssetUrl).filter(Boolean);
   const firstImage = imageTags[0];
+  const imageCount = imageTags.length;
   const thumbs = imageTags.map((src, index) => `
-            <button class="product-gallery-thumb${index === 0 ? ' active' : ''}" type="button" data-gallery-src="${escapeHtml(src)}" aria-label="Pokaż zdjęcie ${index + 1}">
+            <button class="product-gallery-thumb${index === 0 ? ' active' : ''}" type="button" data-gallery-src="${escapeHtml(src)}" data-gallery-index="${index}" aria-label="Pokaż zdjęcie ${index + 1} z ${imageCount}" aria-pressed="${index === 0 ? 'true' : 'false'}">
               <img src="${escapeHtml(src)}" alt="${escapeHtml(`${title} - zdjęcie ${index + 1}`)}" loading="${index === 0 ? 'eager' : 'lazy'}" />
             </button>`).join('');
 
   return `
-        <div class="product-detail-media">
-          <img class="product-main-image" src="${escapeHtml(firstImage)}" alt="${escapeHtml(title)}" />
-          ${imageTags.length > 1 ? `<div class="product-gallery-thumbs" aria-label="Galeria produktu">${thumbs}
+        <div class="product-detail-media" data-product-gallery data-gallery-count="${imageCount}">
+          <div class="product-gallery-stage">
+            <img class="product-main-image" src="${escapeHtml(firstImage)}" alt="${escapeHtml(title)}" decoding="async" fetchpriority="high" />
+            ${imageCount > 1 ? `<button class="product-gallery-control product-gallery-prev" type="button" data-gallery-prev aria-label="Poprzednie zdjęcie">‹</button>
+            <button class="product-gallery-control product-gallery-next" type="button" data-gallery-next aria-label="Następne zdjęcie">›</button>
+            <span class="product-gallery-counter" data-gallery-counter>1 / ${imageCount}</span>` : ''}
+          </div>
+          ${imageCount > 1 ? `<div class="product-gallery-thumbs" aria-label="Miniatury produktu">${thumbs}
           </div>` : ''}
         </div>`;
 }

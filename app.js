@@ -146,23 +146,62 @@ function initProductLanguage() {
 }
 
 function initProductGallery() {
-  const media = document.querySelector('.product-detail-media');
+  const media = document.querySelector('[data-product-gallery]');
   if (!media) return;
 
   const mainImage = media.querySelector('.product-main-image');
   const thumbs = Array.from(media.querySelectorAll('[data-gallery-src]'));
   if (!mainImage || !thumbs.length) return;
 
+  const counter = media.querySelector('[data-gallery-counter]');
+  const prevButton = media.querySelector('[data-gallery-prev]');
+  const nextButton = media.querySelector('[data-gallery-next]');
+  let activeIndex = Math.max(0, thumbs.findIndex((thumb) => thumb.classList.contains('active')));
+
+  const setActiveImage = (index, shouldScroll = true) => {
+    const nextIndex = (index + thumbs.length) % thumbs.length;
+    const button = thumbs[nextIndex];
+    const nextSrc = button.dataset.gallerySrc;
+    if (!nextSrc) return;
+
+    mainImage.src = nextSrc;
+    const thumbImage = button.querySelector('img');
+    if (thumbImage?.alt) mainImage.alt = thumbImage.alt;
+
+    thumbs.forEach((thumb, thumbIndex) => {
+      const isActive = thumbIndex === nextIndex;
+      thumb.classList.toggle('active', isActive);
+      thumb.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    if (counter) {
+      counter.textContent = `${nextIndex + 1} / ${thumbs.length}`;
+    }
+
+    if (shouldScroll) {
+      button.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
+
+    activeIndex = nextIndex;
+  };
+
   thumbs.forEach((button) => {
     button.addEventListener('click', () => {
-      const nextSrc = button.dataset.gallerySrc;
-      if (!nextSrc) return;
-      mainImage.src = nextSrc;
-      const thumbImage = button.querySelector('img');
-      if (thumbImage?.alt) mainImage.alt = thumbImage.alt;
-      thumbs.forEach((thumb) => thumb.classList.toggle('active', thumb === button));
+      const nextIndex = Number(button.dataset.galleryIndex || thumbs.indexOf(button));
+      setActiveImage(Number.isFinite(nextIndex) ? nextIndex : thumbs.indexOf(button));
     });
   });
+
+  prevButton?.addEventListener('click', () => setActiveImage(activeIndex - 1));
+  nextButton?.addEventListener('click', () => setActiveImage(activeIndex + 1));
+
+  media.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    setActiveImage(activeIndex + (event.key === 'ArrowRight' ? 1 : -1));
+  });
+
+  setActiveImage(activeIndex, false);
 }
 
 async function handleContactSubmit(event) {

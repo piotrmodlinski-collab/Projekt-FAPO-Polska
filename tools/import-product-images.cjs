@@ -77,6 +77,30 @@ function normalizeToken(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
 }
 
+function imageFileName(url) {
+  try {
+    const parsed = new URL(url);
+    return decodeURIComponent(parsed.pathname.split('/').pop() || '').toUpperCase();
+  } catch (error) {
+    return String(url || '').toUpperCase();
+  }
+}
+
+function imageSkuTokens(url) {
+  const fileName = imageFileName(url);
+  const matches = fileName.match(/(?:PF|PS|PA|FE|FT|FZ|PZ|PP|PJ|FR|FI|FL|FJ|PT|MX|TY)\d{3,6}/g) || [];
+  return Array.from(new Set(matches));
+}
+
+function keepProductImage(product, url) {
+  const sku = String(product?.sku || '').trim().toUpperCase();
+  if (!sku) return true;
+
+  const tokens = imageSkuTokens(url);
+  if (!tokens.length) return true;
+  return tokens.includes(sku);
+}
+
 function fetchTextWithCurl(url) {
   const args = ['-k', '-g', '-L', '-sS', '--fail', url];
   for (const command of ['curl.exe', 'curl']) {
@@ -133,7 +157,7 @@ function fetchProductJson(product, sourceUrl) {
   }
 }
 
-function extractImages(remote) {
+function extractRemoteImages(remote) {
   const images = [];
   for (const value of remote?.images || []) {
     const url = normalizeImageUrl(value);
@@ -147,7 +171,8 @@ function extractImages(remote) {
     const url = normalizeImageUrl(remote.featured_image);
     if (url) images.unshift(url);
   }
-  return Array.from(new Set(images)).filter((url) => /^https:\/\/cdn\.shopify\.com\//i.test(url));
+  return Array.from(new Set(images))
+    .filter((url) => /^https:\/\/cdn\.shopify\.com\//i.test(url));
 }
 
 async function runLimited(items, limit, worker) {
@@ -176,10 +201,11 @@ async function main() {
   await runLimited(targets, concurrency, async (product, index) => {
     try {
       const remote = fetchProductJson(product, sourceMap.get(product.id));
-      const images = extractImages(remote);
-      if (images.length) {
+      const remoteImages = extractRemoteImages(remote);
+      if (remoteImages.length) {
+        const images = remoteImages.filter((url) => keepProductImage(product, url));
         product.images = images;
-        product.image = images[0];
+        product.image = images[0] || '';
         changedIds.push(product.id);
       }
     } catch (error) {
