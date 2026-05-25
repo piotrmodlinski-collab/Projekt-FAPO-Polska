@@ -29,6 +29,15 @@ COLORS = {
 }
 
 
+MARKET_RESEARCH_SOURCES = [
+    ("Coilovers", "BC Racing, TEIN, Ksport, Eibach, Fortune Auto", "https://shop.bcracing-na.com/pages/rm-series | https://www.tein.com/products/ | https://ksportusa.com/ksport-coilovers/ | https://www.eibach.de/en/pro-street-s-en | https://fortune-auto.com/coilovers/"),
+    ("Off-road / lift", "Rough Country, Bilstein, Skyjacker, Rancho, TeraFlex", "https://www.roughcountry.com/lift-kits | https://offroad.bilstein.com/en-us/trucks/ | https://skyjacker.com/shop/category/suspension-lift-kit/ | https://www.gorancho.com/ | https://teraflex.com/"),
+    ("Exhaust", "MagnaFlow, Borla, Flowmaster, MBRP, CORSA", "https://www.magnaflow.com/collections/cat-back-exhaust-systems | https://www.borla.com/cat-back-exhaust | https://www.flowmastermufflers.com/products/exhaust/exhaust_systems/cat-back/ | https://www.mbrp.com/us-en/ | https://www.corsaperformance.com/"),
+    ("Turbo / forced induction", "Garrett, BorgWarner, Turbosmart, GReddy", "https://www.garrettmotion.com/tr/racing-and-performance/performance-catalog/ | https://www.borgwarner.com/aftermarket/boosting-technologies/performance-turbochargers | https://www.turbosmart.com/products-categories/ | https://www.greddy.com/pages/greddy-catalog-turbocharger"),
+    ("Chassis / arms", "MOOG, Mevotech, SuperPro, Hardrace, Whiteline", "https://www.moogparts.com/parts/suspension/moog-control-arms.html | https://www.mevotech.com/product/control-arms/ | https://superpro-suspension.com/us/search/control-arms | https://hardraceshop.com/collections/hardrace-suspension-arms"),
+]
+
+
 def load_products() -> list[dict]:
     products = json.loads(PRODUCTS_PATH.read_text(encoding="utf-8"))
     return sorted(
@@ -39,6 +48,57 @@ def load_products() -> list[dict]:
             product.get("title") or "",
         ),
     )
+
+
+def market_research_entry(product: dict) -> str:
+    title = (product.get("title") or "").lower()
+    category = (product.get("category") or "").lower()
+    sku = (product.get("sku") or "").upper()
+
+    if "t-shirt" in title or "shirt" in title:
+        return "Merch FAPO - brak bezpośredniego odpowiednika części technicznej w benchmarku."
+
+    if "lowering spring" in title or "lowering springs" in title:
+        return "Eibach Pro-Kit/Sportline; H&R Sport Springs; TEIN S.Tech; Vogtland - sprężyny obniżające dla podobnej aplikacji."
+
+    if category == "coilovers" or "coilover" in title:
+        if sku.startswith("PF") or "32-level" in title or "damping" in title:
+            return "BC Racing BR/RM/ER; Ksport Kontrol Pro; D2 Racing RS; Fortune Auto 500; TEIN Flex Z - regulowane coilovers z dampingiem dla podobnej aplikacji."
+        return "TEIN Street Basis/Flex Z; BC Racing BR; Ksport Kontrol Pro; Eibach Pro-Street-S; Fortune Auto 500 - zestawy coilover/lowering dla podobnej aplikacji."
+
+    if category == "off-road":
+        if "brake line" in title:
+            return "TeraFlex brake line kits/relocation; Skyjacker brake line brackets; Rough Country lift support components - przewody hamulcowe do aut z liftem."
+        if "control arm" in title or "arms" in title:
+            return "TeraFlex control arms; Rancho control arm kits; Rough Country/Skyjacker lift components; SuperPro control arms - wahacze i geometria do lifta."
+        return "Bilstein B8 5100/5160/6112; Rough Country N3/V2; Rancho RS5000X/RS7MT; Skyjacker ADX/Hydro; TeraFlex/Falcon - amortyzatory i lift off-road."
+
+    if category == "exhaust":
+        if "turbo manifold" in title or "manifold" in title:
+            return "GReddy turbo manifolds/kits; Full-Race/K-Tuned/SpeedFactory style turbo manifolds; Garrett/BorgWarner turbo hardware - kolektory/turbo dla podobnej platformy."
+        if "header" in title or "headers" in title:
+            return "Borla, MagnaFlow, Flowmaster, MBRP, CORSA oraz marki headerów platformowych - headers/exhaust dla podobnej aplikacji."
+        if "wrap" in title:
+            return "DEI, Thermo-Tec, Mishimoto, Heatshield Products - taśmy i osłony termiczne układu wydechowego."
+        return "MagnaFlow Street/Cat-Back; Borla Cat-Back; Flowmaster; MBRP; CORSA - układy wydechowe dla podobnej platformy."
+
+    if category == "turbo":
+        if "bov" in title or "blow off" in title or "wastegate" in title or "charge pipe" in title:
+            return "Turbosmart BOV/wastegate/charge-air; GReddy BOV; HKS SSQV; Garrett/BorgWarner supporting hardware - osprzęt turbo."
+        if "intercooler" in title or "pipe" in title or "inlet" in title:
+            return "Turbosmart charge-air; Mishimoto intercooler/piping; GReddy intercooler kits; Garrett/BorgWarner supporting hardware - dolot i chłodzenie powietrza."
+        return "Garrett PowerMax/GTX/G-Series; BorgWarner EFR/AirWerks; Precision Turbo; GReddy turbo kits - turbosprężarki i zestawy turbo."
+
+    if category in {"chassis", "performance"}:
+        if "spring" in title:
+            return "Eibach Pro-Kit/Sportline; H&R Sport Springs; TEIN S.Tech; Vogtland - sprężyny obniżające dla podobnej aplikacji."
+        if "dump pipe" in title or "wastegate" in title or "bov" in title:
+            return "Turbosmart wastegates/BOV; GReddy turbo accessories; Garrett/BorgWarner supporting hardware - osprzęt turbo i wydechu."
+        if "shock" in title or "damper" in title:
+            return "Bilstein B6/B8; Koni Sport; TEIN EnduraPro; KYB AGX/Excel-G - amortyzatory sportowe lub OE+ dla podobnej aplikacji."
+        return "Hardrace suspension arms; SuperPro control arms/bushings; Whiteline arms/links; MOOG; Mevotech TTX/Supreme - wahacze, drążki i elementy geometrii."
+
+    return "Benchmark ogólny: BC Racing/TEIN/Ksport dla zawieszeń; Bilstein/Rough Country dla off-road; MagnaFlow/Borla dla wydechu; Garrett/BorgWarner/Turbosmart dla turbo."
 
 
 def fill(cell, color: str) -> None:
@@ -192,6 +252,7 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         "Cena po rabacie PLN",
         "Ilość",
         "Suma PLN",
+        "Podobne części innych marek",
         "Link produktu FAPO PL",
         "Link zdjęcia",
         "Liczba zdjęć",
@@ -222,6 +283,7 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
             f"=ROUND(I{row_index}*(1-J{row_index}),2)",
             0,
             f"=ROUND(K{row_index}*L{row_index},2)",
+            market_research_entry(product),
             product_url,
             image_url,
             images_count,
@@ -231,7 +293,7 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         for col, value in enumerate(row_values, 1):
             cell = ws.cell(row_index, col, value)
             style_body(cell, row_index)
-            if col in (5, 14, 15, 18):
+            if col in (5, 14, 15, 16, 19):
                 cell.alignment = Alignment(vertical="top", wrap_text=True)
 
         ws.cell(row_index, 6).number_format = "#,##0.00 zł"
@@ -244,11 +306,11 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         ws.cell(row_index, 13).number_format = "#,##0.00 zł"
 
         if product_url:
-            ws.cell(row_index, 14).hyperlink = product_url
-            ws.cell(row_index, 14).style = "Hyperlink"
-        if image_url:
-            ws.cell(row_index, 15).hyperlink = image_url
+            ws.cell(row_index, 15).hyperlink = product_url
             ws.cell(row_index, 15).style = "Hyperlink"
+        if image_url:
+            ws.cell(row_index, 16).hyperlink = image_url
+            ws.cell(row_index, 16).style = "Hyperlink"
 
     last_row = len(products) + 1
     table_ref = f"A1:{get_column_letter(len(headers))}{last_row}"
@@ -286,11 +348,12 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         11: 20,
         12: 10,
         13: 16,
-        14: 58,
-        15: 52,
-        16: 12,
-        17: 14,
-        18: 28,
+        14: 72,
+        15: 58,
+        16: 52,
+        17: 12,
+        18: 14,
+        19: 28,
     }
     for col, width in widths.items():
         ws.column_dimensions[get_column_letter(col)].width = width
@@ -334,6 +397,36 @@ def build_terms_sheet(wb: Workbook) -> None:
         ws.column_dimensions[get_column_letter(col)].width = width
 
 
+def build_market_research_sheet(wb: Workbook) -> None:
+    ws = wb.create_sheet("Badanie rynku")
+    ws.sheet_view.showGridLines = False
+    ws.merge_cells("A1:D1")
+    ws["A1"] = "Badanie rynku - źródła benchmarku"
+    ws["A1"].font = Font(size=20, bold=True, color=COLORS["white"])
+    fill(ws["A1"], COLORS["brand_dark"])
+    ws["A1"].alignment = Alignment(vertical="center")
+    ws.row_dimensions[1].height = 36
+
+    headers = ["Kategoria FAPO", "Marki porównawcze", "Źródła oficjalne", "Uwagi metodologiczne"]
+    for col, header in enumerate(headers, 1):
+        style_header(ws.cell(3, col, header))
+
+    note = (
+        "Kolumna w katalogu jest benchmarkiem rynkowym po typie części i aplikacji pojazdu. "
+        "Nie oznacza potwierdzonej zgodności 1:1 numeru części. Przed ofertą dla klienta należy potwierdzić fitment."
+    )
+    for row_index, (category, brands, sources) in enumerate(MARKET_RESEARCH_SOURCES, start=4):
+        values = [category, brands, sources, note]
+        for col, value in enumerate(values, 1):
+            cell = ws.cell(row_index, col, value)
+            style_body(cell, row_index)
+            cell.alignment = Alignment(vertical="top", wrap_text=True)
+
+    widths = [24, 48, 110, 70]
+    for col, width in enumerate(widths, start=1):
+        ws.column_dimensions[get_column_letter(col)].width = width
+
+
 def main() -> None:
     OUT_DIR.mkdir(exist_ok=True)
     products = load_products()
@@ -347,16 +440,17 @@ def main() -> None:
     build_offer_sheet(wb, products)
     build_catalog_sheet(wb, products)
     build_terms_sheet(wb)
+    build_market_research_sheet(wb)
 
     ws_catalog = wb["Katalog i kalkulacja"]
     assert ws_catalog.max_row == len(products) + 1
-    assert ws_catalog.max_column == 18
+    assert ws_catalog.max_column == 19
 
     wb.save(OUT_PATH)
 
     check = load_workbook(OUT_PATH, data_only=False, read_only=True)
     assert check["Katalog i kalkulacja"].max_row == len(products) + 1
-    assert check["Katalog i kalkulacja"].max_column == 18
+    assert check["Katalog i kalkulacja"].max_column == 19
     check.close()
 
     print(OUT_PATH)
