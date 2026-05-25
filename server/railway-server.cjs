@@ -75,12 +75,42 @@ function resolveStaticPath(pathname) {
   if (requestedPath === '/pl') requestedPath = '/index.html';
   if (requestedPath === '/en') requestedPath = '/en.html';
 
-  const decodedPath = decodeURIComponent(requestedPath);
-  const safePath = decodedPath.replace(/^\/+/, '');
-  const filePath = path.resolve(publicRoot, safePath);
-  if (!filePath.startsWith(publicRoot + path.sep) && filePath !== publicRoot) {
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(requestedPath);
+  } catch {
     return null;
   }
+
+  const resolveInsidePublic = (candidatePath) => {
+    const safePath = candidatePath.replace(/^\/+/, '');
+    const filePath = path.resolve(publicRoot, safePath);
+    if (!filePath.startsWith(publicRoot + path.sep) && filePath !== publicRoot) {
+      return null;
+    }
+    return filePath;
+  };
+
+  const filePath = resolveInsidePublic(decodedPath);
+  if (!filePath) return null;
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    return filePath;
+  }
+
+  const hasExtension = Boolean(path.extname(decodedPath));
+  if (!hasExtension) {
+    const cleanPath = decodedPath.replace(/\/+$/, '');
+    const htmlPath = resolveInsidePublic(`${cleanPath}.html`);
+    if (htmlPath && fs.existsSync(htmlPath) && fs.statSync(htmlPath).isFile()) {
+      return htmlPath;
+    }
+
+    const indexPath = resolveInsidePublic(`${cleanPath}/index.html`);
+    if (indexPath && fs.existsSync(indexPath) && fs.statSync(indexPath).isFile()) {
+      return indexPath;
+    }
+  }
+
   return filePath;
 }
 
