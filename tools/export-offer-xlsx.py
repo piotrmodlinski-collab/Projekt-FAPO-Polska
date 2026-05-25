@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 from datetime import date
 from pathlib import Path
@@ -14,6 +15,7 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 PRODUCTS_PATH = ROOT / "assets" / "data" / "products.json"
+SITEMAP_IMAGE_CSV_PATH = ROOT / "import" / "fapomoto" / "products_with_images_from_sitemap.csv"
 OUT_DIR = ROOT / "oferty"
 OUT_PATH = OUT_DIR / "FAPO_Polska_katalog_kalkulacja_2026-05-25.xlsx"
 DEFAULT_MARGIN_RATE = 0.30
@@ -48,6 +50,24 @@ def load_products() -> list[dict]:
             product.get("title") or "",
         ),
     )
+
+
+def normalize_key(value: str | None) -> str:
+    return " ".join((value or "").strip().lower().split())
+
+
+def load_image_fallbacks() -> dict[str, str]:
+    if not SITEMAP_IMAGE_CSV_PATH.exists():
+        return {}
+
+    fallbacks: dict[str, str] = {}
+    with SITEMAP_IMAGE_CSV_PATH.open("r", encoding="utf-8-sig", newline="") as handle:
+        for row in csv.DictReader(handle):
+            image_url = (row.get("image_url") or "").strip()
+            title = normalize_key(row.get("title"))
+            if image_url and title:
+                fallbacks.setdefault(title, image_url)
+    return fallbacks
 
 
 def market_research_entry(product: dict) -> str:
@@ -233,7 +253,7 @@ def build_offer_sheet(wb: Workbook, products: list[dict]) -> None:
         ws.column_dimensions[get_column_letter(col)].width = width
 
 
-def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
+def build_catalog_sheet(wb: Workbook, products: list[dict], image_fallbacks: dict[str, str]) -> None:
     ws = wb.create_sheet("Katalog i kalkulacja")
     ws.sheet_view.showGridLines = False
     ws.freeze_panes = "A2"
@@ -268,7 +288,9 @@ def build_catalog_sheet(wb: Workbook, products: list[dict]) -> None:
         base_price = round(final_price / (1 + DEFAULT_MARGIN_RATE), 2)
         product_url = product.get("canonicalUrl") or f"https://fapomoto.pl/{(product.get('url') or '').lstrip('/')}"
         image_url = product.get("image") or (product.get("images") or [""])[0]
-        images_count = len(product.get("images") or [])
+        if not image_url:
+            image_url = image_fallbacks.get(normalize_key(product.get("title")), "")
+        images_count = len(product.get("images") or []) or (1 if image_url else 0)
         row_values = [
             row_index - 1,
             product.get("id") or "",
@@ -430,6 +452,7 @@ def build_market_research_sheet(wb: Workbook) -> None:
 def main() -> None:
     OUT_DIR.mkdir(exist_ok=True)
     products = load_products()
+    image_fallbacks = load_image_fallbacks()
 
     wb = Workbook()
     wb.properties.creator = "FAPO Polska"
@@ -438,7 +461,7 @@ def main() -> None:
     wb.properties.keywords = "FAPO, katalog, kalkulacja, automotive, performance parts"
 
     build_offer_sheet(wb, products)
-    build_catalog_sheet(wb, products)
+    build_catalog_sheet(wb, products, image_fallbacks)
     build_terms_sheet(wb)
     build_market_research_sheet(wb)
 
