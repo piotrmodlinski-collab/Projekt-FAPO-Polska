@@ -760,7 +760,7 @@ body {
 .shop-tabs {
   margin-top: 1.3rem;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: 0.65rem;
 }
 
@@ -868,6 +868,18 @@ body {
 
 .category-card[data-cat-tab="shock"]::before {
   background-image: url("assets/media/tabs/shock.avif");
+}
+
+.category-card[data-cat-tab="exhaust"]::before {
+  background-image: url("assets/media/tabs/exhaust-system.jpg");
+}
+
+.category-card[data-cat-tab="turbo"]::before {
+  background-image: url("assets/media/tabs/turbo.jpg");
+}
+
+.category-card[data-cat-tab="performance"]::before {
+  background-image: url("assets/media/tabs/performance.jpg");
 }
 
 .category-card:hover {

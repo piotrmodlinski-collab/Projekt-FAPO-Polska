@@ -1,6 +1,6 @@
 {
-  "shop_total": 622,
-  "shop_unique_urls": 622,
+  "shop_total": 629,
+  "shop_unique_urls": 629,
   "catalogue_nonempty_rows": 51,
   "catalogue_price_rows": [
     {
@@ -264,7 +264,7 @@
     "1601417508841"
   ],
   "source_counts": {
-    "fapomoto": 603,
+    "fapomoto": 610,
     "special_order": 15,
     "catalogue": 4
   }

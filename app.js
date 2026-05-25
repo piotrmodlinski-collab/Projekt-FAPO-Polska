@@ -934,6 +934,15 @@ function matchesTabCategory(product, tab) {
   if (tab === 'shock') {
     return title.includes('shock') || title.includes('amortyzator');
   }
+  if (tab === 'exhaust') {
+    return category === 'exhaust' || title.includes('exhaust') || title.includes('wydech') || title.includes('header') || title.includes('manifold') || title.includes('downpipe') || title.includes('muffler');
+  }
+  if (tab === 'turbo') {
+    return category === 'turbo' || title.includes('turbo') || title.includes('intercooler') || title.includes('charge pipe') || title.includes('bov') || title.includes('blow off');
+  }
+  if (tab === 'performance') {
+    return category === 'performance' || title.includes('spring') || title.includes('sprężyn') || title.includes('open box') || title.includes('replacement');
+  }
   return true;
 }
 
@@ -947,7 +956,7 @@ function readTabFromLocation() {
 }
 
 function normalizeTab(tab) {
-  const allowed = new Set(['all', 'coilover', 'offroad', 'arm', 'shock']);
+  const allowed = new Set(['all', 'coilover', 'offroad', 'arm', 'shock', 'exhaust', 'turbo', 'performance']);
   const value = String(tab || 'all').toLowerCase().trim();
   return allowed.has(value) ? value : 'all';
 }

@@ -1,6 +1,6 @@
 {
   "ps_skus_total": 6,
-  "shop_skus_total": 564,
+  "shop_skus_total": 571,
   "matched_skus_total": 6,
   "missing_skus_total": 0,
   "matched_skus": [
@@ -13,5 +13,5 @@
   ],
   "missing_skus": [],
   "missing_map": {},
-  "shop_sku_rows": 622
+  "shop_sku_rows": 629
 }

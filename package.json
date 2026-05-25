@@ -10,9 +10,10 @@
     "descriptions:import": "node tools/import-product-descriptions.cjs",
     "descriptions:translate": "node tools/translate-product-descriptions.cjs",
     "images:import": "node tools/import-product-images.cjs",
+    "catalog:sync-fapomoto": "node tools/sync-fapomoto-current-catalog.cjs",
     "import:sync-reports": "node tools/sync-import-reports.cjs",
     "start": "node server/railway-server.cjs",
-    "check": "node --check app.js && node --check api/contact.js && node --check netlify/functions/contact.js && node --check server/mail-handler.cjs && node --check server/railway-server.cjs && node --check tools/build-static.cjs && node --check tools/enrich-catalog.cjs && node --check tools/import-product-descriptions.cjs && node --check tools/import-product-images.cjs && node --check tools/translate-product-descriptions.cjs && node --check tools/audit-catalog.cjs && node --check tools/sync-import-reports.cjs && node --check tools/prepare-product-pages.cjs && node tools/prepare-product-pages.cjs --check && node tools/sync-import-reports.cjs --check"
+    "check": "node --check app.js && node --check api/contact.js && node --check netlify/functions/contact.js && node --check server/mail-handler.cjs && node --check server/railway-server.cjs && node --check tools/build-static.cjs && node --check tools/enrich-catalog.cjs && node --check tools/import-product-descriptions.cjs && node --check tools/import-product-images.cjs && node --check tools/translate-product-descriptions.cjs && node --check tools/audit-catalog.cjs && node --check tools/sync-import-reports.cjs && node --check tools/sync-fapomoto-current-catalog.cjs && node --check tools/prepare-product-pages.cjs && node tools/prepare-product-pages.cjs --check && node tools/sync-import-reports.cjs --check"
   },
   "dependencies": {
     "nodemailer": "^8.0.8"

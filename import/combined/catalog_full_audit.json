@@ -1,5 +1,5 @@
 {
-  "shop_total": 622,
+  "shop_total": 629,
   "catalogue_price_rows": [
     {
       "row": 4,
@@ -131,13 +131,13 @@
     "P3": 7,
     "P5": 1,
     "P7": 1,
-    "PF": 170,
+    "PF": 175,
     "PS": 185,
     "PS+": 1
   },
-  "shop_unique_urls": 622,
+  "shop_unique_urls": 629,
   "source_counts": {
-    "fapomoto": 603,
+    "fapomoto": 610,
     "special_order": 15,
     "catalogue": 4
   }
