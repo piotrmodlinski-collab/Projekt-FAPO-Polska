@@ -2048,6 +2048,318 @@ body.shorts-modal-open {
   text-align: right;
 }
 
+.offer-page {
+  background:
+    linear-gradient(145deg, rgba(10, 14, 20, 0.95), rgba(18, 23, 29, 0.92)),
+    var(--bg);
+}
+
+.offer-main {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.offer-sheet {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+  background:
+    linear-gradient(140deg, rgba(245, 78, 26, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+    #111821;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.32);
+}
+
+.offer-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(300px, 0.86fr);
+  gap: 1.15rem;
+  padding: 2rem;
+  align-items: stretch;
+}
+
+.offer-hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.offer-hero h1 {
+  margin: 1rem 0 0;
+  max-width: 9.2ch;
+  font-family: "Teko", sans-serif;
+  font-size: 6.2rem;
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+}
+
+.offer-lead {
+  max-width: 66ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+
+.offer-actions,
+.offer-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.25rem;
+}
+
+.offer-visual {
+  position: relative;
+  min-height: 330px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: #0b1017;
+}
+
+.offer-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.offer-visual::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 52%;
+  background: linear-gradient(0deg, rgba(7, 10, 15, 0.88), transparent);
+}
+
+.offer-visual figcaption {
+  position: absolute;
+  z-index: 1;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.15rem;
+  color: #fff;
+}
+
+.offer-visual figcaption strong {
+  font-family: "Teko", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.offer-visual figcaption span {
+  color: #c8d3df;
+  line-height: 1.4;
+}
+
+.offer-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0 2rem 1.25rem;
+}
+
+.offer-metrics article,
+.offer-panel {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.offer-metrics article {
+  padding: 0.9rem 1rem;
+  min-height: 100px;
+}
+
+.offer-metrics strong {
+  display: block;
+  font-family: "Teko", sans-serif;
+  font-size: 2.9rem;
+  line-height: 0.95;
+  color: #fff;
+}
+
+.offer-metrics span {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.offer-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: 0.9rem;
+  padding: 0 2rem 1.25rem;
+}
+
+.offer-panel {
+  min-width: 0;
+  padding: 1.1rem;
+}
+
+.offer-panel-wide,
+.offer-panel-flow {
+  grid-column: 1 / -1;
+}
+
+.offer-kicker {
+  margin: 0 0 0.45rem;
+  color: #ffbca3;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.offer-panel h2,
+.offer-contact-band h2 {
+  margin: 0;
+  font-family: "Teko", sans-serif;
+  font-size: 2.55rem;
+  line-height: 0.98;
+}
+
+.offer-product-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.offer-tile {
+  position: relative;
+  min-height: 152px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: #0d131a;
+}
+
+.offer-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.72;
+  transform: scale(1.02);
+}
+
+.offer-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 10, 15, 0.18), rgba(7, 10, 15, 0.86));
+}
+
+.offer-tile span {
+  position: absolute;
+  z-index: 1;
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: 0.75rem;
+  color: #fff;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.offer-checklist,
+.offer-flow {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+}
+
+.offer-checklist li,
+.offer-flow li {
+  position: relative;
+  padding-left: 1.55rem;
+  line-height: 1.5;
+}
+
+.offer-checklist li + li,
+.offer-flow li + li {
+  margin-top: 0.55rem;
+}
+
+.offer-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.58rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(120deg, var(--primary), var(--primary-2));
+  box-shadow: 0 0 16px rgba(var(--glow), 0.3);
+}
+
+.offer-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  counter-reset: offer-step;
+}
+
+.offer-flow li {
+  min-height: 118px;
+  padding: 3rem 1rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.offer-flow li::before {
+  counter-increment: offer-step;
+  content: "0" counter(offer-step);
+  position: absolute;
+  left: 1rem;
+  top: 0.85rem;
+  font-family: "Teko", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--primary-2);
+}
+
+.offer-contact-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  margin: 0 2rem 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(var(--glow), 0.35);
+  border-radius: 12px;
+  background:
+    linear-gradient(120deg, rgba(var(--glow), 0.2), rgba(255, 255, 255, 0.055)),
+    rgba(255, 255, 255, 0.04);
+}
+
+.offer-contact-band p:last-child {
+  margin: 0.55rem 0 0;
+  color: #d7e0ea;
+  line-height: 1.55;
+}
+
+.offer-contact-links {
+  justify-content: flex-end;
+  margin-top: 0;
+}
+
+.offer-disclaimer {
+  margin: 0;
+  padding: 0 2rem 1.5rem;
+  color: #8593a3;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -2127,6 +2439,22 @@ body.shorts-modal-open {
 
 @media (max-width: 1024px) {
   .main-nav { display: none; }
+  .offer-hero,
+  .offer-content,
+  .offer-contact-band {
+    grid-template-columns: 1fr;
+  }
+  .offer-hero h1 {
+    max-width: 11ch;
+    font-size: 4.8rem;
+  }
+  .offer-metrics,
+  .offer-product-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .offer-contact-links {
+    justify-content: flex-start;
+  }
   .media-banners {
     grid-template-columns: 1fr;
   }
@@ -2193,6 +2521,62 @@ body.shorts-modal-open {
 
   .cta-small {
     display: none;
+  }
+
+  .offer-main {
+    width: min(100% - 1.4rem, 1180px);
+    padding: 1rem 0 2rem;
+  }
+
+  .offer-sheet {
+    border-radius: 12px;
+  }
+
+  .offer-hero,
+  .offer-content {
+    padding: 1rem;
+  }
+
+  .offer-hero h1 {
+    font-size: 3.35rem;
+  }
+
+  .offer-lead {
+    font-size: 0.98rem;
+  }
+
+  .offer-visual {
+    min-height: 240px;
+  }
+
+  .offer-metrics,
+  .offer-product-strip,
+  .offer-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .offer-metrics {
+    padding: 0 1rem 1rem;
+  }
+
+  .offer-contact-band {
+    margin: 0 1rem 1rem;
+    padding: 1rem;
+  }
+
+  .offer-panel h2,
+  .offer-contact-band h2 {
+    font-size: 2.05rem;
+  }
+
+  .offer-actions .btn,
+  .offer-contact-links .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .offer-disclaimer {
+    padding: 0 1rem 1.1rem;
   }
 
   .shop-toolbar,
@@ -2270,6 +2654,189 @@ body.shorts-modal-open {
   .hero-stats,
   .timeline {
     grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 9mm;
+  }
+
+  html,
+  body.offer-page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff !important;
+    color: #111827;
+  }
+
+  .offer-page .bg-grid,
+  .offer-page .site-header,
+  .offer-page .site-footer,
+  .offer-actions,
+  .offer-contact-links {
+    display: none !important;
+  }
+
+  .offer-main {
+    width: 100%;
+    padding: 0;
+  }
+
+  .offer-sheet {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: #fff !important;
+  }
+
+  .offer-hero {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 6mm;
+    padding: 0;
+  }
+
+  .offer-hero h1 {
+    max-width: 11ch;
+    margin-top: 4mm;
+    font-size: 34pt;
+    color: #111827;
+  }
+
+  .pill,
+  .offer-kicker {
+    color: #c2410c !important;
+    border-color: #f97316 !important;
+  }
+
+  .offer-lead {
+    max-width: none;
+    margin-top: 3mm;
+    color: #374151;
+    font-size: 9.5pt;
+    line-height: 1.35;
+  }
+
+  .offer-visual {
+    min-height: 48mm;
+    border-color: #d1d5db;
+    border-radius: 4mm;
+  }
+
+  .offer-visual figcaption strong {
+    font-size: 17pt;
+  }
+
+  .offer-visual figcaption span {
+    font-size: 8.5pt;
+  }
+
+  .offer-metrics {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5mm;
+    padding: 4mm 0;
+  }
+
+  .offer-metrics article,
+  .offer-panel,
+  .offer-contact-band {
+    border-color: #d1d5db;
+    border-radius: 3mm;
+    background: #fff !important;
+    break-inside: avoid;
+  }
+
+  .offer-metrics article {
+    min-height: auto;
+    padding: 3mm;
+  }
+
+  .offer-metrics strong {
+    color: #111827;
+    font-size: 20pt;
+  }
+
+  .offer-metrics span,
+  .offer-checklist,
+  .offer-flow,
+  .offer-contact-band p:last-child,
+  .offer-disclaimer {
+    color: #374151;
+    font-size: 8.4pt;
+    line-height: 1.3;
+  }
+
+  .offer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 3mm;
+    padding: 0;
+  }
+
+  .offer-panel {
+    padding: 3.2mm;
+  }
+
+  .offer-panel-wide,
+  .offer-panel-flow {
+    grid-column: 1 / -1;
+  }
+
+  .offer-panel h2,
+  .offer-contact-band h2 {
+    color: #111827;
+    font-size: 16pt;
+  }
+
+  .offer-product-strip {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5mm;
+    margin-top: 3mm;
+  }
+
+  .offer-tile {
+    min-height: 26mm;
+    border-color: #d1d5db;
+    border-radius: 3mm;
+  }
+
+  .offer-tile span {
+    font-size: 8.6pt;
+  }
+
+  .offer-checklist li + li,
+  .offer-flow li + li {
+    margin-top: 1.6mm;
+  }
+
+  .offer-flow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5mm;
+  }
+
+  .offer-flow li {
+    min-height: 28mm;
+    padding: 10mm 3mm 3mm;
+    border-color: #d1d5db;
+    background: #fff !important;
+  }
+
+  .offer-flow li::before {
+    top: 2.5mm;
+    left: 3mm;
+    color: #ea580c;
+    font-size: 16pt;
+  }
+
+  .offer-contact-band {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 4mm 0 3mm;
+    padding: 3.2mm;
+  }
+
+  .offer-disclaimer {
+    padding: 0;
   }
 }
 

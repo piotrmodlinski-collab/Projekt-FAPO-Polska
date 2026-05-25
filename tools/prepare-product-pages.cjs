@@ -540,6 +540,13 @@ function renderSitemap(products) {
       ],
     },
     {
+      loc: `${siteUrl}/oferta.html`,
+      alternates: [
+        { hreflang: 'pl', href: `${siteUrl}/oferta.html` },
+        { hreflang: 'x-default', href: `${siteUrl}/oferta.html` },
+      ],
+    },
+    {
       loc: `${siteUrl}/polityki.html`,
       alternates: [
         { hreflang: 'pl', href: `${siteUrl}/polityki.html` },

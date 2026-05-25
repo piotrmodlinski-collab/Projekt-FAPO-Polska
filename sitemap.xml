@@ -18,6 +18,11 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fapomoto.pl/sklep.html" />
   </url>
   <url>
+    <loc>https://fapomoto.pl/oferta.html</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://fapomoto.pl/oferta.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fapomoto.pl/oferta.html" />
+  </url>
+  <url>
     <loc>https://fapomoto.pl/polityki.html</loc>
     <xhtml:link rel="alternate" hreflang="pl" href="https://fapomoto.pl/polityki.html" />
     <xhtml:link rel="alternate" hreflang="en" href="https://fapomoto.pl/policies.html" />
