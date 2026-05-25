@@ -103,7 +103,9 @@ function serveStatic(req, res, pathname) {
     const headers = {
       'Content-Type': mimeTypes[extension] || 'application/octet-stream',
     };
-    if (/\.(?:css|js|jpg|jpeg|png|webp|svg|mp4|webm|woff2)$/i.test(filePath)) {
+    if (/\.(?:css|js)$/i.test(filePath)) {
+      headers['Cache-Control'] = 'public, max-age=300, must-revalidate';
+    } else if (/\.(?:jpg|jpeg|png|webp|svg|mp4|webm|woff2)$/i.test(filePath)) {
       headers['Cache-Control'] = 'public, max-age=31536000, immutable';
     } else {
       headers['Cache-Control'] = 'public, max-age=300';
