@@ -55,9 +55,11 @@ function collectBody(req) {
 async function handleApiContact(req, res) {
   try {
     const body = await collectBody(req);
+    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress;
     const result = await handleMailRequest({
       method: req.method,
       body,
+      ip,
     });
     const payload = typeof result.body === 'string'
       ? JSON.parse(result.body || '{}')

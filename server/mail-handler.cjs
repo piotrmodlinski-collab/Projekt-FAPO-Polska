@@ -3,7 +3,24 @@ const nodemailer = require('nodemailer');
 
 const DEFAULT_SMTP_HOST = 'poczta2651521.home.pl';
 const DEFAULT_SMTP_USER = 'info@fapomoto.pl';
-const DEFAULT_TO = 'office@fapomoto.pl,piotr.modlinski@gmail.com';
+const DEFAULT_TO = 'office@fapomoto.pl';
+
+const _rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX = 5;
+
+function checkRateLimit(ip) {
+  if (!ip) return false;
+  const now = Date.now();
+  const entry = _rateLimitMap.get(ip);
+  if (!entry || now - entry.resetAt >= RATE_LIMIT_WINDOW_MS) {
+    _rateLimitMap.set(ip, { count: 1, resetAt: now });
+    return false;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return true;
+  entry.count += 1;
+  return false;
+}
 
 function jsonResponse(status, body) {
   return {
@@ -315,8 +332,16 @@ async function sendMail(mail) {
   });
 }
 
-async function handleMailRequest({ method, body }) {
+async function handleMailRequest({ method, body, ip }) {
   if (method === 'OPTIONS') return emptyResponse(204);
+
+  if (checkRateLimit(ip)) {
+    return jsonResponse(429, {
+      ok: false,
+      code: 'RATE_LIMITED',
+      message: 'Too many requests. Please try again later.',
+    });
+  }
 
   if (method !== 'POST') {
     return jsonResponse(405, {
@@ -350,7 +375,7 @@ async function handleMailRequest({ method, body }) {
     console.error(isOrder ? 'Order mail failed' : 'Contact mail failed', error);
     return jsonResponse(500, {
       ok: false,
-      code: error.code || 'MAIL_SEND_FAILED',
+      code: 'MAIL_SEND_FAILED',
       message: 'Could not send message.',
     });
   }

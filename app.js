@@ -119,7 +119,7 @@ function animateStatCounter(element, instant = false) {
 
 const contactForm = document.querySelector('.contact-form');
 const contactEndpoint = '/api/contact';
-const fallbackRecipients = ['office@fapomoto.pl', 'piotr.modlinski@gmail.com'];
+const fallbackRecipients = ['office@fapomoto.pl'];
 const currentScriptSrc = document.currentScript?.getAttribute('src') || '';
 const assetBase = window.FAPO_ASSET_BASE || (currentScriptSrc.startsWith('../') ? '../' : '');
 
@@ -1619,7 +1619,9 @@ function createClientOrderId() {
     .replace(/[-:]/g, '')
     .replace(/\..+$/, '')
     .replace('T', '-');
-  const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
+  const bytes = new Uint8Array(3);
+  crypto.getRandomValues(bytes);
+  const suffix = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('').toUpperCase();
   return `FAPO-${stamp}-${suffix}`;
 }
 
