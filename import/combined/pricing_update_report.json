@@ -2,8 +2,8 @@
   "timestamp": "2026-05-25T17:34:18.280Z",
   "pricing_strategy": "fapomoto_usd_to_pln_plus_margin",
   "source_file": "D:\\Projekty\\Projekt FAPO Polska\\assets\\data\\products.json",
-  "remote_source": "https://www.fapomoto.com/products.json",
-  "exchange_rate_source": "https://api.nbp.pl/api/exchangerates/rates/a/usd/?format=json",
+  "remote_source": "fapomoto live products JSON",
+  "exchange_rate_source": "NBP USD rate API",
   "nbp_table": "099/A/NBP/2026",
   "nbp_effective_date": "2026-05-25",
   "usd_pln_rate": 3.6374,
@@ -36,7 +36,7 @@
       "previousPriceFrom": 499,
       "previousPriceTo": 1999,
       "newPrice": 499,
-      "reason": "No matching live/imported fapomoto.com price."
+      "reason": "No matching live/imported source price."
     }
   ],
   "source_counts": {
@@ -54,7 +54,7 @@
       "newPricePLN": 941,
       "sourceMethod": "live-sku",
       "sourceUsd": 199,
-      "sourceUrl": "https://www.fapomoto.com/products/ps012110-ps-coilover-for-honda-accord-98-02-acura-tl-01-03-cl"
+      "sourceUrl": "produkty/p0001-ps012110-coilover-for-honda-accord-1998-2002-acura-tl-2001-2003-cl-ps012110.html"
     },
     {
       "id": "p0002",
@@ -65,7 +65,7 @@
       "newPricePLN": 1570,
       "sourceMethod": "live-sku",
       "sourceUsd": 332,
-      "sourceUrl": "https://www.fapomoto.com/products/ps069210-ps-coilover-for-dodge-charger-2006-2010-srt-8"
+      "sourceUrl": "produkty/p0002-ps069210-coilover-for-dodge-charger-2006-2010-srt-8-ps069210.html"
     },
     {
       "id": "p0003",
@@ -76,7 +76,7 @@
       "newPricePLN": 2341,
       "sourceMethod": "live-sku",
       "sourceUsd": 495,
-      "sourceUrl": "https://www.fapomoto.com/products/32-level-damping-coilover-for-2006-2011-honda-civic-si-ex-lx-sedan-pf002030"
+      "sourceUrl": "produkty/p0003-pf002030-32-level-damping-coilover-for-2006-2011-honda-civic-si-ex-lx-sedan-pf002030.html"
     },
     {
       "id": "p0004",
@@ -87,7 +87,7 @@
       "newPricePLN": 752,
       "sourceMethod": "live-sku",
       "sourceUsd": 159,
-      "sourceUrl": "https://www.fapomoto.com/products/pa095731-p3-off-road-rear-shock-for-toyota-tundar-2007-2021-4-8-lift"
+      "sourceUrl": "produkty/p0004-pa095731-p3-off-road-rear-shock-for-toyota-tundar-2007-2021-4-8-in-lift-pa095731.html"
     },
     {
       "id": "p0005",
@@ -98,7 +98,7 @@
       "newPricePLN": 752,
       "sourceMethod": "live-sku",
       "sourceUsd": 159,
-      "sourceUrl": "https://www.fapomoto.com/products/pa094630-p3-off-road-rear-shock-for-ford-f-150-2009-2022-4-7-5-lift"
+      "sourceUrl": "produkty/p0005-pa094630-p3-off-road-rear-shock-for-ford-f-150-2009-2022-4-7-5-in-lift-pa094630.html"
     },
     {
       "id": "p0006",
@@ -109,7 +109,7 @@
       "newPricePLN": 705,
       "sourceMethod": "live-sku",
       "sourceUsd": 149,
-      "sourceUrl": "https://www.fapomoto.com/products/pa067830-p3-off-road-front-shock-for-ford-f-250-super-duty-4wd-2005-2022-2-4-5-lift"
+      "sourceUrl": "produkty/p0006-pa067830-p3-off-road-front-shock-for-ford-f-250-super-duty-4wd-2005-2022-2-4-5-in-lift-pa067830.html"
     },
     {
       "id": "p0007",
@@ -120,7 +120,7 @@
       "newPricePLN": 705,
       "sourceMethod": "live-sku",
       "sourceUsd": 149,
-      "sourceUrl": "https://www.fapomoto.com/products/pa067730-p3-off-road-rear-shock-for-ford-f-250-super-duty-4wd-1999-2016-2wd-2005-2006-with-ford-f-350-super-duty-2wd-1999-2016-2-4-5-lift"
+      "sourceUrl": "produkty/p0007-pa067730-p3-off-road-rear-shock-for-ford-f-250-super-duty-4wd-1999-2016-2wd-2005-2006-with-ford-f-350-sup.html"
     },
     {
       "id": "p0008",
@@ -131,7 +131,7 @@
       "newPricePLN": 2076,
       "sourceMethod": "live-sku",
       "sourceUsd": 439,
-      "sourceUrl": "https://www.fapomoto.com/products/pf012320-pf-coilover-for-honda-accord-03-07-acura-tsx-04-08"
+      "sourceUrl": "produkty/p0008-pf012320-32-level-damping-coilover-for-honda-accord-2003-2007-acura-tsx-2004-2008-pf012320.html"
     },
     {
       "id": "p0009",
@@ -142,7 +142,7 @@
       "newPricePLN": 2516,
       "sourceMethod": "live-sku",
       "sourceUsd": 532,
-      "sourceUrl": "https://www.fapomoto.com/products/pf006520-pf-coilover-for-bmw-3-series-f30-328i-335i-13-19-3-bolts-version"
+      "sourceUrl": "produkty/p0009-pf006530-32-level-damping-coilover-for-bmw-3-series-f30-328i-335i-2013-2019-bmw-4-series-2013-2020-pf0065.html"
     },
     {
       "id": "p0010",
@@ -153,7 +153,7 @@
       "newPricePLN": 2341,
       "sourceMethod": "live-sku",
       "sourceUsd": 495,
-      "sourceUrl": "https://www.fapomoto.com/products/pf002120-pf-coilover-for-honda-civic-si-2001-2005-em2-ep3"
+      "sourceUrl": "produkty/p0010-pf002120-32-level-damping-coilover-for-honda-civic-si-2001-2005-em2-ep3-pf002120.html"
     },
     {
       "id": "p0011",
@@ -164,7 +164,7 @@
       "newPricePLN": 2516,
       "sourceMethod": "live-sku",
       "sourceUsd": 532,
-      "sourceUrl": "https://www.fapomoto.com/products/pf004120-pf-coilover-for-volkswagen-jetta-mk5-mk6-fwd-2006-2017"
+      "sourceUrl": "produkty/p0011-pf004120-32-level-damping-coilover-for-volkswagen-jetta-mk5-mk6-fwd-2006-2017-pf004120.html"
     },
     {
       "id": "p0012",
@@ -175,7 +175,7 @@
       "newPricePLN": 2076,
       "sourceMethod": "live-sku",
       "sourceUsd": 439,
-      "sourceUrl": "https://www.fapomoto.com/products/pf002420-pf-coilover-for-integra-1990-2001-honda-civic-1988-2000"
+      "sourceUrl": "produkty/p0012-pf002420-32-level-damping-coilover-for-honda-civic-1988-2000-integra-1990-2001-pf002420.html"
     },
     {
       "id": "p0013",
@@ -186,7 +186,7 @@
       "newPricePLN": 1745,
       "sourceMethod": "live-sku",
       "sourceUsd": 369,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-turbo-manifold-for-08-15-mitsubishi-lancer-evolution-x-evo-10-4b11t-mr-gsr"
+      "sourceUrl": "produkty/p0013-fe615310-fapo-turbo-manifold-for-08-15-mitsubishi-lancer-evolution-x-evo-10-4b11t-mr-gsr.html"
     },
     {
       "id": "p0014",
@@ -197,7 +197,7 @@
       "newPricePLN": 1414,
       "sourceMethod": "live-sku",
       "sourceUsd": 299,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-long-tube-header-1-7-8-for-07-13-chevy-gmc-silverado-sierra-1500-2500-hd"
+      "sourceUrl": "produkty/p0014-fe696240-fapo-long-tube-header-1-7-8-for-07-13-chevy-gmc-silverado-sierra-1500-2500-hd-fe696240.html"
     },
     {
       "id": "p0015",
@@ -208,7 +208,7 @@
       "newPricePLN": 1036,
       "sourceMethod": "live-sku",
       "sourceUsd": 219,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-ls-swap-headers-cast-manifolds-for-c10-c1500-silverado-sierra-yukon-tahoe"
+      "sourceUrl": "produkty/p0015-fe687440-fapo-ls-swap-headers-cast-manifolds-for-c10-c1500-silverado-sierra-yukon-tahoe.html"
     },
     {
       "id": "p0016",
@@ -219,7 +219,7 @@
       "newPricePLN": 1036,
       "sourceMethod": "live-sku",
       "sourceUsd": 219,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-shorty-headers-for-07-16-toyota-tundra-sequoia-5-7l-345-v8-304-ss-limited-sr5-trd"
+      "sourceUrl": "produkty/p0016-fe655410-fapo-shorty-headers-for-07-16-toyota-tundra-sequoia-5-7l-345-v8-304-ss-limited-sr5-trd.html"
     },
     {
       "id": "p0017",
@@ -230,7 +230,7 @@
       "newPricePLN": 894,
       "sourceMethod": "live-sku",
       "sourceUsd": 189,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-turbo-manifold-t3-for-83-89-ford-mustang-svo-thunderbird-mercury-cougar-xr-7-merkur-xr4ti-2-3l-side-mount"
+      "sourceUrl": "produkty/p0017-fe635220-fapo-turbo-manifold-t3-for-83-89-ford-mustang-svo-thunderbird-mercury-cougar-xr-7-merkur-xr4ti-2.html"
     },
     {
       "id": "p0018",
@@ -241,7 +241,7 @@
       "newPricePLN": 1036,
       "sourceMethod": "live-sku",
       "sourceUsd": 219,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-shorty-headers-for-97-03-ford-f150-5-4l-330-v8-xl-xlt-fx4-king-ranch-lariat"
+      "sourceUrl": "produkty/p0018-fe685310-fapo-shorty-headers-for-97-03-ford-f150-5-4l-330-v8-xl-xlt-fx4-king-ranch-lariat.html"
     },
     {
       "id": "p0019",
@@ -252,7 +252,7 @@
       "newPricePLN": 1887,
       "sourceMethod": "live-title",
       "sourceUsd": 399,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-single-turbo-manifold-for-toyota-supra-jza80-mk4-lexus-gs300-sc300-is300-2jzge-t4"
+      "sourceUrl": "produkty/p0019-jza80-fapo-single-turbo-manifold-for-toyota-supra-jza80-mk4-lexus-gs300-sc300-is300-2jzge-t4.html"
     },
     {
       "id": "p0020",
@@ -263,7 +263,7 @@
       "newPricePLN": 2170,
       "sourceMethod": "live-title",
       "sourceUsd": 459,
-      "sourceUrl": "https://www.fapomoto.com/products/fapo-equal-length-t3-turbo-manifold-for-rb20det-rb25det-skyline-r31-r32-r33-r34-gts-gtr-44mm-wg-top-mount"
+      "sourceUrl": "produkty/p0020-rb20det-fapo-equal-length-t3-turbo-manifold-for-rb20det-rb25det-skyline-r31-r32-r33-r34-gts-gtr-44mm-wg-.html"
     }
   ]
 }

@@ -144,12 +144,34 @@ function serveStatic(req, res, pathname) {
     }
 
     res.writeHead(200, headers);
-    fs.createReadStream(filePath).pipe(res);
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
+
+    const stream = fs.createReadStream(filePath);
+    stream.on('error', (error) => {
+      console.error('Static file stream failed', error);
+      if (!res.headersSent) {
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      }
+      res.end('Server error');
+    });
+    stream.pipe(res);
   });
 }
 
 const server = http.createServer((req, res) => {
-  const requestUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+  let requestUrl;
+  try {
+    requestUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
+  } catch (error) {
+    console.error('Invalid request URL', error);
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Bad request');
+    return;
+  }
+
   const hostname = String(req.headers.host || '').split(':')[0].toLowerCase();
 
   if (hostname === 'fapomoto.pl') {
@@ -158,6 +180,11 @@ const server = http.createServer((req, res) => {
       'Cache-Control': 'public, max-age=3600',
     });
     res.end();
+    return;
+  }
+
+  if (requestUrl.pathname === '/healthz') {
+    sendJson(res, 200, { ok: true });
     return;
   }
 
@@ -173,6 +200,13 @@ const server = http.createServer((req, res) => {
   }
 
   serveStatic(req, res, requestUrl.pathname);
+});
+
+server.on('clientError', (error, socket) => {
+  console.error('HTTP client error', error.message);
+  if (socket.writable) {
+    socket.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n');
+  }
 });
 
 server.listen(port, () => {

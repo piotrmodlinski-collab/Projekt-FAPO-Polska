@@ -44,7 +44,6 @@ function writeJsonIfChanged(filePath, data, changedFiles) {
 function fetchText(url) {
   return new Promise((resolve, reject) => {
     const request = https.get(url, {
-      rejectUnauthorized: false,
       timeout: 30000,
       headers: {
         accept: 'application/json',
@@ -445,7 +444,7 @@ async function main() {
 
   const report = {
     timestamp: new Date().toISOString(),
-    source: 'https://www.fapomoto.com/products.json',
+    source: 'fapomoto live products JSON',
     remote_products: remoteProducts.length,
     local_products_after_sync: products.length,
     source_counts_after_sync: sourceCounts,

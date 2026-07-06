@@ -364,7 +364,6 @@ function fetchTextWithCurl(url) {
 function fetchTextWithNodeHttps(jsonUrl) {
   return new Promise((resolve, reject) => {
     const request = https.get(jsonUrl, {
-      rejectUnauthorized: false,
       timeout: 20000,
       headers: {
         accept: 'application/json',

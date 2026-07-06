@@ -45,7 +45,6 @@ function writeJsonIfChanged(filePath, data, changedFiles) {
 function fetchText(url) {
   return new Promise((resolve, reject) => {
     const request = https.get(url, {
-      rejectUnauthorized: false,
       timeout: 30000,
       headers: {
         accept: 'application/json',
@@ -437,7 +436,7 @@ async function main() {
         previousPriceFrom: backupProduct.priceFrom || product.priceFrom || 0,
         previousPriceTo: backupProduct.priceTo || product.priceTo || 0,
         newPrice: priceSource.price,
-        reason: 'No matching live/imported fapomoto.com price.',
+        reason: 'No matching live/imported source price.',
       });
     }
 
@@ -456,7 +455,7 @@ async function main() {
         newPricePLN: product.priceFrom,
         sourceMethod: priceSource.method,
         sourceUsd: priceSource.usd || undefined,
-        sourceUrl: priceSource.sourceUrl || undefined,
+        sourceUrl: product.url || undefined,
       });
     }
   }
@@ -469,8 +468,8 @@ async function main() {
     timestamp: new Date().toISOString(),
     pricing_strategy: 'fapomoto_usd_to_pln_plus_margin',
     source_file: productsPath,
-    remote_source: 'https://www.fapomoto.com/products.json',
-    exchange_rate_source: nbpUsdUrl,
+    remote_source: 'fapomoto live products JSON',
+    exchange_rate_source: 'NBP USD rate API',
     nbp_table: nbp.tableNo,
     nbp_effective_date: nbp.effectiveDate,
     usd_pln_rate: nbp.usdPln,

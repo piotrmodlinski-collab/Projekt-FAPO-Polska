@@ -160,7 +160,6 @@ function translateRequest(text) {
 
   return new Promise((resolve, reject) => {
     https.get(url, {
-      rejectUnauthorized: false,
       timeout: 20000,
       headers: {
         accept: 'application/json',

@@ -421,9 +421,9 @@ const ui = {
   shortsModal: document.getElementById('shorts-modal'),
   shortsModalBackdrop: document.getElementById('shorts-modal-backdrop'),
   shortsModalClose: document.getElementById('shorts-modal-close'),
-  shortsModalFrame: document.getElementById('shorts-modal-frame'),
+  shortsModalVideo: document.getElementById('shorts-modal-video'),
+  shortsModalSource: document.getElementById('shorts-modal-source'),
   shortsModalTitle: document.getElementById('shorts-modal-title'),
-  shortsModalLink: document.getElementById('shorts-modal-link'),
 };
 
 const VEHICLE_MAKE_ALIASES = [
@@ -999,7 +999,7 @@ function renderShortCard(video) {
   const title = escapeHtml(video.title || 'Short FAPO');
   const poster = escapeHtml(video.thumbnail || '');
   const duration = formatDuration(video.duration || 0);
-  const hasPlayableSource = Boolean(video.embed_url || video.youtube_short_url || rawId);
+  const hasPlayableSource = Boolean(video.local_file);
   if (!hasPlayableSource) return '';
 
   return `
@@ -1056,39 +1056,43 @@ function updateShortsNavState() {
 
 function openShortModalById(shortId) {
   const id = String(shortId || '').trim();
-  if (!id || !ui.shortsModal || !ui.shortsModalFrame) return;
+  if (!id || !ui.shortsModal || !ui.shortsModalVideo || !ui.shortsModalSource) return;
 
   const short = state.shorts.find((video) => String(video.id) === id);
-  if (!short) return;
+  if (!short || !short.local_file) return;
 
   const title = short.title || 'Short FAPO';
-  const link = short.youtube_short_url || short.webpage_url || `https://www.youtube.com/shorts/${id}`;
-  const baseEmbedUrl = short.embed_url || `https://www.youtube.com/embed/${id}`;
-  const separator = baseEmbedUrl.includes('?') ? '&' : '?';
-  const embedUrl = `${baseEmbedUrl}${separator}autoplay=1&rel=0&modestbranding=1`;
 
-  ui.shortsModalFrame.removeAttribute('src');
-  ui.shortsModalFrame.src = embedUrl;
-  ui.shortsModalFrame.title = title;
+  ui.shortsModalSource.src = short.local_file;
+  ui.shortsModalVideo.poster = short.thumbnail || '';
+  ui.shortsModalVideo.title = title;
+  ui.shortsModalVideo.load();
 
   if (ui.shortsModalTitle) {
     ui.shortsModalTitle.textContent = title;
-  }
-  if (ui.shortsModalLink) {
-    ui.shortsModalLink.href = link;
   }
 
   ui.shortsModal.hidden = false;
   ui.shortsModal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('shorts-modal-open');
+  const playPromise = ui.shortsModalVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(() => {});
+  }
 }
 
 function closeShortModal() {
   if (!ui.shortsModal || ui.shortsModal.hidden) return;
 
-  if (ui.shortsModalFrame) {
-    ui.shortsModalFrame.removeAttribute('src');
-    ui.shortsModalFrame.src = 'about:blank';
+  if (ui.shortsModalVideo) {
+    ui.shortsModalVideo.pause();
+    ui.shortsModalVideo.removeAttribute('poster');
+  }
+  if (ui.shortsModalSource) {
+    ui.shortsModalSource.removeAttribute('src');
+    if (ui.shortsModalVideo) {
+      ui.shortsModalVideo.load();
+    }
   }
 
   ui.shortsModal.hidden = true;
@@ -1144,10 +1148,8 @@ function renderProductCard(product) {
   const videos = getProductVideos(product.id);
   const firstVideo = videos[0];
   const videoTag = videos.length ? `<span class="tag tag-video">Filmy: ${videos.length}</span>` : '';
-  const firstVideoUrl = firstVideo
-    ? (firstVideo.youtube_short_url || firstVideo.webpage_url || firstVideo.embed_url || firstVideo.local_file || '#')
-    : '#';
-  const videoButton = firstVideo
+  const firstVideoUrl = firstVideo?.local_file || '';
+  const videoButton = firstVideoUrl
     ? `<a class="btn btn-ghost" href="${escapeHtml(firstVideoUrl)}" target="_blank" rel="noopener noreferrer">Film</a>`
     : '';
 

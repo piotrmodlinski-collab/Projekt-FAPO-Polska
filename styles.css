@@ -1,4 +1,6 @@
-﻿:root {
+﻿@import url("assets/fonts/fapo-fonts.css");
+
+:root {
   --bg: #12171d;
   --surface: #182029;
   --surface-2: #1d2833;
@@ -1901,12 +1903,14 @@ body {
   cursor: pointer;
 }
 
-.shorts-modal iframe {
+.shorts-modal video {
   width: 100%;
   aspect-ratio: 9 / 16;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: #0a0d12;
+  display: block;
+  object-fit: contain;
 }
 
 .shorts-modal-title {
@@ -1914,11 +1918,6 @@ body {
   font-size: 0.88rem;
   line-height: 1.35;
   color: #dbe7f5;
-}
-
-.shorts-modal-link {
-  margin-top: 0.52rem;
-  width: 100%;
 }
 
 body.shorts-modal-open {

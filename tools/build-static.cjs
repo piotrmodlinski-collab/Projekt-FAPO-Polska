@@ -22,7 +22,6 @@ const entries = [
 ];
 
 const excluded = [
-  'assets/media/shorts',
   'assets/data/products.backup.before-pricing.json',
   'assets/data/youtube-shorts-mapped.json',
   '.tmp-media',
