@@ -1182,6 +1182,34 @@ body {
   text-decoration: underline;
 }
 
+.product-return-bar {
+  width: min(1200px, 92vw);
+  margin: 1rem auto 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.product-return-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.35rem;
+  padding: 0.58rem 0.86rem;
+  border: 1px solid rgba(var(--glow), 0.42);
+  border-radius: 10px;
+  background: rgba(245, 78, 26, 0.10);
+  color: #ffd0bd;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.86rem;
+}
+
+.product-return-link:hover {
+  border-color: rgba(var(--glow), 0.72);
+  color: #fff3ed;
+  background: rgba(245, 78, 26, 0.16);
+}
+
 .product-detail-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(360px, 0.96fr);
@@ -2582,6 +2610,12 @@ body.shorts-modal-open {
   .shop-grid,
   .product-detail-specs {
     grid-template-columns: 1fr;
+  }
+  .product-return-bar {
+    width: min(100% - 2rem, 1200px);
+  }
+  .product-return-link {
+    width: 100%;
   }
   .vehicle-finder-row {
     grid-template-columns: 1fr;

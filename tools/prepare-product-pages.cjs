@@ -6,7 +6,7 @@ const productsPath = path.join(root, 'assets', 'data', 'products.json');
 const productsDir = path.join(root, 'produkty');
 const sitemapPath = path.join(root, 'sitemap.xml');
 const siteUrl = 'https://fapomoto.pl';
-const assetVersion = '20260525-gallery-v2';
+const assetVersion = '20260707-product-return';
 const checkOnly = process.argv.includes('--check');
 
 function escapeHtml(value) {
@@ -404,6 +404,9 @@ function renderProductPage(product) {
   </header>
 
   <main>
+    <div class="product-return-bar" aria-label="Nawigacja produktu">
+      <a class="product-return-link" href="../sklep.html">&larr; Wr&oacute;&cacute; do sklepu</a>
+    </div>
     <section class="section reveal product-detail-page" id="product-detail" data-product-id="${escapeHtml(product.id)}" data-product-lang-root data-product-title-pl="${escapeHtml(`${title} | FAPO Polska`)}" data-product-title-en="${escapeHtml(`${titleEn} | FAPO Poland`)}" data-product-description-pl="${escapeHtml(description)}" data-product-description-en="${escapeHtml(descriptionEn)}">
       <nav class="breadcrumbs" aria-label="Ścieżka">
         <a href="../index.html">FAPO Polska</a>
@@ -427,7 +430,7 @@ function renderProductPage(product) {
           <p class="price">${escapeHtml(price)}</p>
           <div class="product-actions">
             <button class="btn btn-primary" type="button" data-add-id="${escapeHtml(product.id)}">Dodaj do koszyka</button>
-            <a class="btn btn-ghost" href="../sklep.html">Zobacz katalog</a>
+            <a class="btn btn-ghost" href="../sklep.html">Wr&oacute;&cacute; do sklepu</a>
           </div>
         </div>
       </div>
