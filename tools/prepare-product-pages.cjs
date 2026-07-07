@@ -6,7 +6,7 @@ const productsPath = path.join(root, 'assets', 'data', 'products.json');
 const productsDir = path.join(root, 'produkty');
 const sitemapPath = path.join(root, 'sitemap.xml');
 const siteUrl = 'https://fapomoto.pl';
-const assetVersion = '20260707-product-return';
+const assetVersion = '20260707-cart-remove';
 const checkOnly = process.argv.includes('--check');
 
 function escapeHtml(value) {

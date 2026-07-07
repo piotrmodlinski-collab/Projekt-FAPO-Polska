@@ -1508,11 +1508,11 @@ function renderCart() {
           <h4>${title}</h4>
           <p>${formatMoney(unit)} / szt.</p>
           <div class="qty-row">
-            <button type="button" data-qty-minus="${id}">-</button>
+            <button class="cart-qty-button" type="button" data-qty-minus="${id}">-</button>
             <span>${qty}</span>
-            <button type="button" data-qty-plus="${id}">+</button>
-            <strong>${formatMoney(lineTotal)}</strong>
-            <button type="button" data-remove-id="${id}">Usun</button>
+            <button class="cart-qty-button" type="button" data-qty-plus="${id}">+</button>
+            <strong class="cart-line-total">${formatMoney(lineTotal)}</strong>
+            <button class="cart-remove-button" type="button" data-remove-id="${id}" aria-label="Usuń z koszyka">Usuń</button>
           </div>
         </article>
       `;
