@@ -11,8 +11,9 @@ const checkOnly = process.argv.includes('--check');
 
 const shopifyProductsUrl = 'https://www.fapomoto.com/products.json?limit=250&page=';
 const nbpUsdUrl = 'https://api.nbp.pl/api/exchangerates/rates/a/usd/?format=json';
-const markupPercent = Number(process.env.PRICE_MARKUP_PERCENT || 30);
-const marginMultiplier = 1 + (markupPercent / 100);
+const fixedCostPln = Number(process.env.PRICE_FIXED_COST_PLN || 375);
+const marginPercent = Number(process.env.PRICE_MARGIN_PERCENT || 20);
+const marginMultiplier = 1 + (marginPercent / 100);
 
 const fallbackSeriesUsd = {
   PS: 275,
@@ -183,8 +184,31 @@ function remoteProductPrice(remote) {
   return prices.length ? Math.min(...prices) : usdPrice(remote.price_min || remote.price);
 }
 
-function plnPrice(usd, multiplier) {
-  return Math.max(1, Math.round(Number(usd || 0) * multiplier));
+function roundMoney(value) {
+  return Math.round((Number(value || 0) + Number.EPSILON) * 100) / 100;
+}
+
+function roundUpToHundredMinusCent(value) {
+  const amount = Number(value || 0);
+  if (!Number.isFinite(amount) || amount <= 0) return 0;
+
+  let rounded = (Math.ceil(amount / 100) * 100) - 0.01;
+  if (rounded + 1e-9 < amount) rounded += 100;
+  return roundMoney(rounded);
+}
+
+function retailPriceFromBasePln(basePln) {
+  const base = Number(basePln || 0);
+  if (!Number.isFinite(base) || base <= 0) return 0;
+  return roundUpToHundredMinusCent((base + fixedCostPln) * marginMultiplier);
+}
+
+function plnPrice(usd, usdPlnRate) {
+  const basePln = Number(usd || 0) * usdPlnRate;
+  return {
+    basePln: roundMoney(basePln),
+    price: retailPriceFromBasePln(basePln),
+  };
 }
 
 function sourceCounts(products) {
@@ -337,42 +361,52 @@ function skuSeries(product) {
   return '';
 }
 
-function fallbackPrice(product, multiplier) {
+function fallbackPrice(product, usdPlnRate) {
   const series = skuSeries(product);
   if (series && fallbackSeriesUsd[series]) {
+    const pricing = plnPrice(fallbackSeriesUsd[series], usdPlnRate);
     return {
       method: 'series-fallback',
       usd: fallbackSeriesUsd[series],
       series,
-      price: plnPrice(fallbackSeriesUsd[series], multiplier),
+      basePln: pricing.basePln,
+      price: pricing.price,
     };
   }
 
   const from = Number(product.priceFrom || product.price || 0);
   const to = Number(product.priceTo || product.oldPrice || 0);
   if (product.source === 'special_order' && from > 0) {
+    const pricing = from < 1000
+      ? plnPrice(from, usdPlnRate)
+      : { basePln: Math.round(from), price: retailPriceFromBasePln(from) };
     return {
       method: 'special-usd-min-fallback',
       usd: from < 1000 ? from : 0,
-      price: from < 1000 ? plnPrice(from, multiplier) : Math.round(from),
+      basePln: pricing.basePln,
+      price: pricing.price,
     };
   }
 
+  const fallbackBase = Math.max(0, Math.round(from || to || 0));
   return {
     method: from ? 'preserve-local-min-fallback' : 'no-price-fallback',
     usd: 0,
-    price: Math.max(0, Math.round(from || to || 0)),
+    basePln: fallbackBase,
+    price: retailPriceFromBasePln(fallbackBase),
   };
 }
 
-function priceSourceForProduct(product, liveIndex, importIndex, multiplier) {
+function priceSourceForProduct(product, liveIndex, importIndex, usdPlnRate) {
   const live = matchFromIndex(product, liveIndex);
   if (live) {
+    const pricing = plnPrice(live.usd, usdPlnRate);
     return {
       method: `live-${live.method}`,
       source: live.source,
       usd: live.usd,
-      price: plnPrice(live.usd, multiplier),
+      basePln: pricing.basePln,
+      price: pricing.price,
       sourceUrl: live.url,
       remoteTitle: live.title,
       remoteSku: live.variantSku,
@@ -381,18 +415,20 @@ function priceSourceForProduct(product, liveIndex, importIndex, multiplier) {
 
   const imported = matchFromIndex(product, importIndex);
   if (imported) {
+    const pricing = plnPrice(imported.usd, usdPlnRate);
     return {
       method: `import-${imported.method}`,
       source: imported.source,
       usd: imported.usd,
-      price: plnPrice(imported.usd, multiplier),
+      basePln: pricing.basePln,
+      price: pricing.price,
       sourceUrl: imported.url,
       remoteTitle: imported.title,
       remoteSku: imported.variantSku,
     };
   }
 
-  const fallback = fallbackPrice(product, multiplier);
+  const fallback = fallbackPrice(product, usdPlnRate);
   return {
     ...fallback,
     source: fallback.method,
@@ -406,8 +442,6 @@ async function main() {
   const products = readJson(productsPath, []);
   const prePricingBackup = readJson(prePricingBackupPath, []);
   const prePricingBackupById = new Map(prePricingBackup.map((product) => [product.id, product]));
-  const previousReport = readJson(reportPath, {});
-  const hasPreviousPricingReport = previousReport.pricing_strategy === 'fapomoto_usd_to_pln_plus_margin';
   const beforeRanges = products.filter((product) => Number(product.priceFrom || 0) !== Number(product.priceTo || 0)).length;
   const beforeById = new Map(products.map((product) => [product.id, {
     priceFrom: Number(product.priceFrom || 0),
@@ -415,7 +449,6 @@ async function main() {
   }]));
 
   const [nbp, remoteProducts] = await Promise.all([fetchNbpRate(), fetchRemoteProducts()]);
-  const multiplier = nbp.usdPln * marginMultiplier;
   const liveIndex = buildRemoteIndex(remoteProducts);
   const importIndex = loadImportedPriceIndex();
   const changes = [];
@@ -423,7 +456,7 @@ async function main() {
   const unresolved = [];
 
   for (const product of products) {
-    const priceSource = priceSourceForProduct(product, liveIndex, importIndex, multiplier);
+    const priceSource = priceSourceForProduct(product, liveIndex, importIndex, nbp.usdPln);
     methodCounts[priceSource.method] = (methodCounts[priceSource.method] || 0) + 1;
 
     if (['preserve-local-min-fallback', 'no-price-fallback'].includes(priceSource.method)) {
@@ -435,6 +468,7 @@ async function main() {
         title: product.title || '',
         previousPriceFrom: backupProduct.priceFrom || product.priceFrom || 0,
         previousPriceTo: backupProduct.priceTo || product.priceTo || 0,
+        basePricePln: priceSource.basePln || 0,
         newPrice: priceSource.price,
         reason: 'No matching live/imported source price.',
       });
@@ -455,6 +489,10 @@ async function main() {
         newPricePLN: product.priceFrom,
         sourceMethod: priceSource.method,
         sourceUsd: priceSource.usd || undefined,
+        basePricePLN: priceSource.basePln || undefined,
+        formulaPriceBeforeRoundingPLN: priceSource.basePln
+          ? roundMoney((priceSource.basePln + fixedCostPln) * marginMultiplier)
+          : undefined,
         sourceUrl: product.url || undefined,
       });
     }
@@ -466,32 +504,33 @@ async function main() {
 
   const report = {
     timestamp: new Date().toISOString(),
-    pricing_strategy: 'fapomoto_usd_to_pln_plus_margin',
+    pricing_strategy: 'base_pln_plus_fixed_cost_margin_99_99',
     source_file: productsPath,
     remote_source: 'fapomoto live products JSON',
     exchange_rate_source: 'NBP USD rate API',
     nbp_table: nbp.tableNo,
     nbp_effective_date: nbp.effectiveDate,
     usd_pln_rate: nbp.usdPln,
-    markup_percent: markupPercent,
-    multiplier,
-    rounding: 'nearest PLN',
+    base_currency: 'PLN',
+    fixed_cost_pln: fixedCostPln,
+    margin_percent: marginPercent,
+    margin_multiplier: marginMultiplier,
+    formula: '(base_pln + fixed_cost_pln) * margin_multiplier',
+    rounding: 'round up to 0.01 PLN below the next full 100 PLN',
     total_products: products.length,
     remote_products: remoteProducts.length,
-    price_ranges_before: hasPreviousPricingReport ? previousReport.price_ranges_before : beforeRanges,
+    price_ranges_before: beforeRanges,
     price_ranges_after: afterRanges,
     products_without_price: products.filter((product) => (
       !Number(product.priceFrom || product.priceTo || product.price || 0)
     )).length,
-    changed_products: hasPreviousPricingReport ? previousReport.changed_products : changes.length,
-    unchanged_products: hasPreviousPricingReport ? previousReport.unchanged_products : products.length - changes.length,
+    changed_products: changes.length,
+    unchanged_products: products.length - changes.length,
     method_counts: methodCounts,
     unresolved_without_com_price_count: unresolved.length,
     unresolved_without_com_price: unresolved,
     source_counts: sourceCounts(products),
-    examples: hasPreviousPricingReport && Array.isArray(previousReport.examples)
-      ? previousReport.examples
-      : changes.slice(0, 20),
+    examples: changes.slice(0, 20),
   };
   writeJsonIfChanged(reportPath, report, changedFiles);
 
@@ -505,7 +544,8 @@ async function main() {
     remote_products: remoteProducts.length,
     usd_pln_rate: nbp.usdPln,
     nbp_effective_date: nbp.effectiveDate,
-    multiplier,
+    fixed_cost_pln: fixedCostPln,
+    margin_percent: marginPercent,
     price_ranges_before: beforeRanges,
     price_ranges_after: afterRanges,
     changed_products: changes.length,

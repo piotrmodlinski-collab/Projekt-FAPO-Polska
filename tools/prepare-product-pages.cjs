@@ -115,7 +115,10 @@ function localizeProductTitlePL(title) {
 function formatMoney(value) {
   const number = Number(value || 0);
   if (!number) return 'Cena na zapytanie';
-  return `${number.toLocaleString('pl-PL')} PLN`;
+  return `${number.toLocaleString('pl-PL', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} PLN`;
 }
 
 function formatPriceRange(product) {

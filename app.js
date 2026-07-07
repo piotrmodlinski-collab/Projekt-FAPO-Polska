@@ -1663,8 +1663,8 @@ function openCheckoutMailFallback(payload) {
     `   ID: ${item.id}`,
     `   SKU: ${item.sku || '-'}`,
     `   Ilość: ${item.qty}`,
-    `   Cena: ${item.priceFrom} PLN`,
-    `   Suma: ${item.lineTotal} PLN`,
+    `   Cena: ${formatMoney(item.priceFrom)}`,
+    `   Suma: ${formatMoney(item.lineTotal)}`,
     item.url ? `   URL: ${item.url}` : null,
   ].filter(Boolean).join('\n')).join('\n\n');
 
@@ -1681,7 +1681,7 @@ function openCheckoutMailFallback(payload) {
     'Pozycje:',
     itemLines,
     '',
-    `Wartość orientacyjna: ${payload.total} PLN`,
+    `Wartość orientacyjna: ${formatMoney(payload.total)}`,
   ].filter(Boolean).join('\n');
 
   if (navigator.clipboard?.writeText) {
