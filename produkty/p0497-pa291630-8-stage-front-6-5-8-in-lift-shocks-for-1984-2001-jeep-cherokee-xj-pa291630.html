@@ -63,7 +63,7 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="../styles.css?v=20260707-cart-remove" />
+  <link rel="stylesheet" href="../styles.css?v=20260707-policy-compliance" />
 </head>
 <body>
   <div class="bg-grid"></div>
@@ -333,11 +333,15 @@
       <label>Uwagi
         <textarea name="customerNote" rows="2"></textarea>
       </label>
-      <button type="submit" class="btn btn-primary">Wyślij zamówienie</button>
+      <label class="checkout-consent">
+        <input type="checkbox" name="termsAccepted" value="yes" required />
+        <span>Akceptuję <a href="../polityki.html#regulamin" target="_blank" rel="noopener">Regulamin</a> i <a href="../polityki.html#reklamacje" target="_blank" rel="noopener">politykę zwrotów i reklamacji</a>. Rozumiem, że kliknięcie przycisku oznacza złożenie zamówienia z obowiązkiem zapłaty.</span>
+      </label>
+      <button type="submit" class="btn btn-primary">Zamawiam i płacę</button>
       <p class="checkout-note">Po kliknięciu wyślemy zamówienie bezpośrednio do obsługi FAPO Polska.</p>
     </form>
   </aside>
   <div class="cart-backdrop" id="cart-backdrop" hidden></div>
-  <script src="../app.js?v=20260707-cart-remove"></script>
+  <script src="../app.js?v=20260707-policy-compliance"></script>
 </body>
 </html>

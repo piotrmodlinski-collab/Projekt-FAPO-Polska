@@ -182,6 +182,8 @@ function buildOrderMessage(data) {
   const customerAddress = clean(data.customerAddress, 1200);
   const customerNote = clean(data.customerNote, 2500);
   const page = clean(data.page || data.source, 300);
+  const termsAccepted = data.termsAccepted === true || data.termsAccepted === 'true' || data.termsAccepted === 'yes';
+  const policiesVersion = clean(data.policiesVersion, 80);
   const items = Array.isArray(data.items) ? data.items.slice(0, 80) : [];
 
   if (!customerName || !customerEmail || !customerPhone || !customerAddress || !items.length) {
@@ -266,6 +268,8 @@ function buildOrderMessage(data) {
     `Telefon: ${customerPhone}`,
     `Adres dostawy: ${customerAddress}`,
     customerNote ? `Uwagi: ${customerNote}` : null,
+    `Akceptacja warunkow: ${termsAccepted ? 'tak' : 'nie'}`,
+    policiesVersion ? `Wersja polityk: ${policiesVersion}` : null,
     page ? `Strona: ${page}` : null,
     '',
     'Pozycje:',
@@ -282,6 +286,8 @@ function buildOrderMessage(data) {
     <p><strong>Telefon:</strong> ${escapeHtml(customerPhone)}</p>
     <p><strong>Adres dostawy:</strong><br />${escapeHtml(customerAddress).replace(/\n/g, '<br />')}</p>
     ${customerNote ? `<p><strong>Uwagi:</strong><br />${escapeHtml(customerNote).replace(/\n/g, '<br />')}</p>` : ''}
+    <p><strong>Akceptacja warunkow:</strong> ${termsAccepted ? 'tak' : 'nie'}</p>
+    ${policiesVersion ? `<p><strong>Wersja polityk:</strong> ${escapeHtml(policiesVersion)}</p>` : ''}
     ${page ? `<p><strong>Strona:</strong> ${escapeHtml(page)}</p>` : ''}
     <table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;">
       <thead>

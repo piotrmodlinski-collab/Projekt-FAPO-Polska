@@ -1686,6 +1686,25 @@ body {
   font-size: 0.88rem;
 }
 
+.checkout-form .checkout-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  line-height: 1.35;
+}
+
+.checkout-form .checkout-consent input {
+  width: auto;
+  min-width: 1rem;
+  margin-top: 0.18rem;
+}
+
+.checkout-form .checkout-consent a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
 .checkout-note {
   margin: 0.35rem 0 0;
   color: var(--muted);

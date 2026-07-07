@@ -6,7 +6,7 @@ const productsPath = path.join(root, 'assets', 'data', 'products.json');
 const productsDir = path.join(root, 'produkty');
 const sitemapPath = path.join(root, 'sitemap.xml');
 const siteUrl = 'https://fapomoto.pl';
-const assetVersion = '20260707-cart-remove';
+const assetVersion = '20260707-policy-compliance';
 const checkOnly = process.argv.includes('--check');
 
 function escapeHtml(value) {
@@ -327,7 +327,11 @@ function renderCartDrawer() {
       <label>Uwagi
         <textarea name="customerNote" rows="2"></textarea>
       </label>
-      <button type="submit" class="btn btn-primary">Wyślij zamówienie</button>
+      <label class="checkout-consent">
+        <input type="checkbox" name="termsAccepted" value="yes" required />
+        <span>Akceptuję <a href="../polityki.html#regulamin" target="_blank" rel="noopener">Regulamin</a> i <a href="../polityki.html#reklamacje" target="_blank" rel="noopener">politykę zwrotów i reklamacji</a>. Rozumiem, że kliknięcie przycisku oznacza złożenie zamówienia z obowiązkiem zapłaty.</span>
+      </label>
+      <button type="submit" class="btn btn-primary">Zamawiam i płacę</button>
       <p class="checkout-note">Po kliknięciu wyślemy zamówienie bezpośrednio do obsługi FAPO Polska.</p>
     </form>
   </aside>

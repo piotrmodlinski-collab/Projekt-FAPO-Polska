@@ -1611,6 +1611,8 @@ function buildCheckoutPayload(entries) {
     customerPhone: String(formData.get('customerPhone') || '').trim(),
     customerAddress: String(formData.get('customerAddress') || '').trim(),
     customerNote: String(formData.get('customerNote') || '').trim(),
+    termsAccepted: formData.get('termsAccepted') === 'yes',
+    policiesVersion: '20260707-policy-compliance',
     items,
     total,
   };
@@ -1677,6 +1679,8 @@ function openCheckoutMailFallback(payload) {
     `Telefon: ${payload.customerPhone}`,
     `Adres: ${payload.customerAddress}`,
     payload.customerNote ? `Uwagi: ${payload.customerNote}` : null,
+    `Akceptacja warunków: ${payload.termsAccepted ? 'tak' : 'nie'}`,
+    payload.policiesVersion ? `Wersja polityk: ${payload.policiesVersion}` : null,
     '',
     'Pozycje:',
     itemLines,
