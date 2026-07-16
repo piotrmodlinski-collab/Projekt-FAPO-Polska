@@ -11,6 +11,7 @@ const entries = [
   'oferta.html',
   'polityki.html',
   'policies.html',
+  'allegro-api-info.html',
   'produkty',
   'app.js',
   'styles.css',
