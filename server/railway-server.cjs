@@ -84,6 +84,13 @@ function resolveStaticPath(pathname) {
     return null;
   }
 
+  // Reject encoded NUL/control characters before passing a path to fs/path.
+  // Node's fs methods validate these arguments synchronously, so an unhandled
+  // value such as "/.env%00" would otherwise terminate the whole process.
+  if (/[\x00-\x1f\x7f]/.test(decodedPath)) {
+    return null;
+  }
+
   const resolveInsidePublic = (candidatePath) => {
     const safePath = candidatePath.replace(/^\/+/, '');
     const filePath = path.resolve(publicRoot, safePath);
@@ -117,48 +124,63 @@ function resolveStaticPath(pathname) {
 }
 
 function serveStatic(req, res, pathname) {
-  const filePath = resolveStaticPath(pathname);
+  let filePath;
+  try {
+    filePath = resolveStaticPath(pathname);
+  } catch (error) {
+    console.warn('Rejected invalid request path', error.code || error.message);
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Bad request');
+    return;
+  }
+
   if (!filePath) {
     res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
     res.end('Forbidden');
     return;
   }
 
-  fs.stat(filePath, (statError, stat) => {
-    if (statError || !stat.isFile()) {
-      res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-      res.end('Not found');
-      return;
-    }
-
-    const extension = path.extname(filePath).toLowerCase();
-    const headers = {
-      'Content-Type': mimeTypes[extension] || 'application/octet-stream',
-    };
-    if (/\.(?:css|js)$/i.test(filePath)) {
-      headers['Cache-Control'] = 'public, max-age=300, must-revalidate';
-    } else if (/\.(?:jpg|jpeg|png|webp|svg|mp4|webm|woff2)$/i.test(filePath)) {
-      headers['Cache-Control'] = 'public, max-age=31536000, immutable';
-    } else {
-      headers['Cache-Control'] = 'public, max-age=300';
-    }
-
-    res.writeHead(200, headers);
-    if (req.method === 'HEAD') {
-      res.end();
-      return;
-    }
-
-    const stream = fs.createReadStream(filePath);
-    stream.on('error', (error) => {
-      console.error('Static file stream failed', error);
-      if (!res.headersSent) {
-        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+  try {
+    fs.stat(filePath, (statError, stat) => {
+      if (statError || !stat.isFile()) {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('Not found');
+        return;
       }
-      res.end('Server error');
+
+      const extension = path.extname(filePath).toLowerCase();
+      const headers = {
+        'Content-Type': mimeTypes[extension] || 'application/octet-stream',
+      };
+      if (/\.(?:css|js)$/i.test(filePath)) {
+        headers['Cache-Control'] = 'public, max-age=300, must-revalidate';
+      } else if (/\.(?:jpg|jpeg|png|webp|svg|mp4|webm|woff2)$/i.test(filePath)) {
+        headers['Cache-Control'] = 'public, max-age=31536000, immutable';
+      } else {
+        headers['Cache-Control'] = 'public, max-age=300';
+      }
+
+      res.writeHead(200, headers);
+      if (req.method === 'HEAD') {
+        res.end();
+        return;
+      }
+
+      const stream = fs.createReadStream(filePath);
+      stream.on('error', (error) => {
+        console.error('Static file stream failed', error);
+        if (!res.headersSent) {
+          res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        }
+        res.end('Server error');
+      });
+      stream.pipe(res);
     });
-    stream.pipe(res);
-  });
+  } catch (error) {
+    console.warn('Rejected invalid static path', error.code || error.message);
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('Bad request');
+  }
 }
 
 const server = http.createServer((req, res) => {
